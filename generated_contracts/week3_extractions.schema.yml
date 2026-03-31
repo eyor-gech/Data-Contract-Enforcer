@@ -1,0 +1,97 @@
+version: 2
+models:
+- name: week3_extractions
+  description: Auto-generated dbt schema.yml for week3_extractions
+  columns:
+  - name: extraction_id
+    description: ''
+    tests:
+    - not_null
+    - regex_match:
+        regex: ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+  - name: trace_id
+    description: ''
+    tests:
+    - not_null
+    - regex_match:
+        regex: ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+  - name: created_at
+    description: ''
+    tests:
+    - not_null
+    - regex_match:
+        regex: ^\d{4}-\d{2}-\d{2}T
+  - name: doc_id
+    description: ''
+    tests:
+    - not_null
+    - regex_match:
+        regex: ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+  - name: doc_key
+    description: ''
+    tests:
+    - not_null
+  - name: page_number
+    description: ''
+    tests:
+    - not_null
+    - dbt_utils.accepted_range:
+        min_value: 1
+        max_value: null
+        inclusive: true
+  - name: strategy__name
+    description: ''
+    tests:
+    - not_null
+    - accepted_values:
+        values:
+        - vision
+        - ocr
+        - hybrid
+  - name: confidence
+    description: ''
+    tests:
+    - not_null
+    - dbt_utils.accepted_range:
+        min_value: 0.0
+        max_value: 1.0
+        inclusive: true
+  - name: threshold
+    description: ''
+    tests:
+    - not_null
+    - dbt_utils.accepted_range:
+        min_value: 0.0
+        max_value: 1.0
+        inclusive: true
+  - name: processing_time_ms
+    description: ''
+    tests:
+    - not_null
+    - dbt_utils.accepted_range:
+        min_value: 0.0
+        max_value: null
+        inclusive: true
+  - name: cost_usd
+    description: ''
+    tests:
+    - not_null
+    - dbt_utils.accepted_range:
+        min_value: 0.0
+        max_value: null
+        inclusive: true
+  - name: flags__escalated
+    description: ''
+    tests:
+    - not_null
+  - name: flags__flagged_for_review
+    description: ''
+    tests:
+    - not_null
+  - name: text
+    description: ''
+    tests: []
+  - name: labels
+    description: ''
+    tests:
+    - not_null
