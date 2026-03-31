@@ -1,0 +1,143 @@
+apiVersion: 3.0.0
+kind: DataContract
+id: cbcbfea8-1b9c-4859-bb8e-b29801af93db
+name: week5_events_contract
+version: 1.0.0
+status: production
+domain: tenx
+dataProduct: week7_data_contract_enforcer
+description:
+  purpose: Week7 contract for week5_events
+  limitations: null
+  usage: null
+schema:
+- name: week5_events
+  logicalType: object
+  properties:
+  - name: event_id
+    logicalType: string
+    required: true
+  - name: trace_id
+    logicalType: string
+    required: true
+  - name: global_position
+    logicalType: integer
+    required: true
+    min: 1
+  - name: stream_id
+    logicalType: string
+    required: true
+  - name: event_type
+    logicalType: string
+    required: true
+  - name: event_version
+    logicalType: integer
+    required: true
+    min: 1
+  - name: payload
+    logicalType: object
+    required: true
+  - name: metadata.correlation_id
+    logicalType: string
+    required: true
+  - name: metadata.causation_id
+    logicalType: string
+    required: false
+  - name: metadata.generated_by
+    logicalType: string
+    required: true
+  - name: recorded_at
+    logicalType: string
+    required: true
+quality:
+- type: custom
+  engine: week7_enforcer
+  implementation:
+    dataset: week5_events
+    rules:
+    - type: row_count_min
+      min: 50
+    - type: type
+      field: event_id
+      expected: uuid
+    - type: type
+      field: trace_id
+      expected: uuid
+    - type: type
+      field: global_position
+      expected: integer
+    - type: type
+      field: stream_id
+      expected: string
+    - type: type
+      field: event_type
+      expected: string
+    - type: type
+      field: event_version
+      expected: integer
+    - type: type
+      field: payload
+      expected: object
+    - type: type
+      field: metadata.correlation_id
+      expected: string
+    - type: type
+      field: metadata.causation_id
+      expected: string
+    - type: type
+      field: metadata.generated_by
+      expected: string
+    - type: type
+      field: recorded_at
+      expected: datetime
+    - type: not_null
+      field: event_id
+    - type: uuid_v4
+      field: event_id
+    - type: not_null
+      field: trace_id
+    - type: uuid_v4
+      field: trace_id
+    - type: not_null
+      field: global_position
+    - type: range
+      field: global_position
+      min: 1
+      max: null
+    - type: not_null
+      field: stream_id
+    - type: not_null
+      field: event_type
+    - type: not_null
+      field: event_version
+    - type: range
+      field: event_version
+      min: 1
+      max: null
+    - type: not_null
+      field: payload
+    - type: not_null
+      field: metadata.correlation_id
+    - type: not_null
+      field: metadata.generated_by
+    - type: not_null
+      field: recorded_at
+    - type: datetime_iso8601
+      field: recorded_at
+    - type: zscore_drift
+      field: global_position
+      mean: 100.455
+      stdev: 57.814513532503234
+      max_z: 3.5
+    - type: zscore_drift
+      field: event_version
+      mean: 1.0
+      stdev: 0.0
+      max_z: 3.5
+customProperties:
+  lineage:
+    upstream: []
+    downstream: []
+    blast_radius:
+      downstream_count: 0
+      impact_hint: derived from outputs/week4/lineage_snapshots.jsonl
