@@ -1,0 +1,62 @@
+version: 2
+models:
+- name: week5_events
+  description: Auto-generated dbt schema.yml for week5_events
+  columns:
+  - name: event_id
+    description: ''
+    tests:
+    - not_null
+    - regex_match:
+        regex: ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+  - name: trace_id
+    description: ''
+    tests:
+    - not_null
+    - regex_match:
+        regex: ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+  - name: global_position
+    description: ''
+    tests:
+    - not_null
+    - dbt_utils.accepted_range:
+        min_value: 1
+        max_value: null
+        inclusive: true
+  - name: stream_id
+    description: ''
+    tests:
+    - not_null
+  - name: event_type
+    description: ''
+    tests:
+    - not_null
+  - name: event_version
+    description: ''
+    tests:
+    - not_null
+    - dbt_utils.accepted_range:
+        min_value: 1
+        max_value: null
+        inclusive: true
+  - name: payload
+    description: ''
+    tests:
+    - not_null
+  - name: metadata__correlation_id
+    description: ''
+    tests:
+    - not_null
+  - name: metadata__causation_id
+    description: ''
+    tests: []
+  - name: metadata__generated_by
+    description: ''
+    tests:
+    - not_null
+  - name: recorded_at
+    description: ''
+    tests:
+    - not_null
+    - regex_match:
+        regex: ^\d{4}-\d{2}-\d{2}T
