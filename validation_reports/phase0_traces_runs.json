@@ -1,0 +1,20 @@
+{
+  "status": "FAIL",
+  "violations": [
+    {
+      "type": "SEMANTIC",
+      "field": "total_tokens",
+      "severity": "CRITICAL",
+      "count": 1,
+      "root_cause": "traces_runs",
+      "lineage_path": [
+        "traces_runs"
+      ]
+    }
+  ],
+  "summary": {
+    "total_records": 120,
+    "failed_records": 1,
+    "pass_rate": 0.9916666666666667
+  }
+}

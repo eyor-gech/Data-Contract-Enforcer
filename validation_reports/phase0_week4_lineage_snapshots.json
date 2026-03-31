@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "violations": [],
+  "summary": {
+    "total_records": 60,
+    "failed_records": 0,
+    "pass_rate": 1.0
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "status": "FAIL",
+  "violations": [
+    {
+      "type": "SEMANTIC",
+      "field": "doc_id",
+      "severity": "HIGH",
+      "count": 2,
+      "root_cause": "week4_lineage_snapshots",
+      "lineage_path": [
+        "week3_extractions",
+        "week4_lineage_snapshots"
+      ]
+    }
+  ],
+  "summary": {
+    "total_records": 200,
+    "failed_records": 2,
+    "pass_rate": 0.99
+  }
+}

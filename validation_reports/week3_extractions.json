@@ -1,0 +1,50 @@
+{
+  "status": "FAIL",
+  "violations": [
+    {
+      "type": "SCHEMA",
+      "field": "confidence",
+      "severity": "CRITICAL",
+      "count": 2,
+      "root_cause": "week3_extractions",
+      "lineage_path": [
+        "week3_extractions"
+      ]
+    },
+    {
+      "type": "SCHEMA",
+      "field": "processing_time_ms",
+      "severity": "MEDIUM",
+      "count": 2,
+      "root_cause": "week3_extractions",
+      "lineage_path": [
+        "week3_extractions"
+      ]
+    },
+    {
+      "type": "SCHEMA",
+      "field": "page_number",
+      "severity": "CRITICAL",
+      "count": 1,
+      "root_cause": "week3_extractions",
+      "lineage_path": [
+        "week3_extractions"
+      ]
+    },
+    {
+      "type": "SEMANTIC",
+      "field": "doc_id",
+      "severity": "HIGH",
+      "count": 2,
+      "root_cause": "week4_lineage_snapshots",
+      "lineage_path": [
+        "week3_extractions"
+      ]
+    }
+  ],
+  "summary": {
+    "total_records": 200,
+    "failed_records": 2,
+    "pass_rate": 0.99
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "status": "FAIL",
+  "violations": [
+    {
+      "type": "SEMANTIC",
+      "field": "target_ref.file",
+      "severity": "CRITICAL",
+      "count": 1,
+      "root_cause": "week1_intent_records",
+      "lineage_path": [
+        "week1_intent_records",
+        "week2_verdicts"
+      ]
+    }
+  ],
+  "summary": {
+    "total_records": 80,
+    "failed_records": 1,
+    "pass_rate": 0.9875
+  }
+}

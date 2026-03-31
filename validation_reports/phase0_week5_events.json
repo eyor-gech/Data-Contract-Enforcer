@@ -1,0 +1,20 @@
+{
+  "status": "FAIL",
+  "violations": [
+    {
+      "type": "SEMANTIC",
+      "field": "payload",
+      "severity": "CRITICAL",
+      "count": 1,
+      "root_cause": "week5_events",
+      "lineage_path": [
+        "week5_events"
+      ]
+    }
+  ],
+  "summary": {
+    "total_records": 200,
+    "failed_records": 1,
+    "pass_rate": 0.995
+  }
+}
