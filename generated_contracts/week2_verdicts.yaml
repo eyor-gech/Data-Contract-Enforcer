@@ -1,0 +1,274 @@
+apiVersion: 3.0.0
+kind: DataContract
+id: 6633b9ad-fdee-4e3c-a406-b5e479b029e9
+name: week2_verdicts_contract
+version: 1.0.0
+status: production
+domain: tenx
+dataProduct: week7_data_contract_enforcer
+description:
+  purpose: Week7 contract for week2_verdicts
+  limitations: null
+  usage: null
+schema:
+- name: week2_verdicts
+  logicalType: object
+  properties:
+  - name: verdict_id
+    logicalType: string
+    required: true
+  - name: trace_id
+    logicalType: string
+    required: true
+  - name: intent_id
+    logicalType: string
+    required: true
+  - name: created_at
+    logicalType: string
+    required: true
+  - name: target_ref.file
+    logicalType: string
+    required: true
+  - name: target_ref.span.start_line
+    logicalType: integer
+    required: true
+    min: 1
+  - name: target_ref.span.end_line
+    logicalType: integer
+    required: true
+    min: 1
+  - name: model.provider
+    logicalType: string
+    required: true
+    validValues:
+    - openai
+    - anthropic
+  - name: model.name
+    logicalType: string
+    required: true
+  - name: scores.correctness
+    logicalType: integer
+    required: true
+    min: 1
+    max: 5
+  - name: scores.safety
+    logicalType: integer
+    required: true
+    min: 1
+    max: 5
+  - name: scores.style
+    logicalType: integer
+    required: true
+    min: 1
+    max: 5
+  - name: scores.weighted_score
+    logicalType: number
+    required: true
+    min: 1.0
+    max: 5.0
+  - name: scores.weights
+    logicalType: object
+    required: true
+  - name: verdict.label
+    logicalType: string
+    required: true
+    validValues:
+    - APPROVE
+    - REJECT
+    - NEEDS_WORK
+  - name: verdict.rationale
+    logicalType: string
+    required: true
+  - name: verdict.confidence
+    logicalType: number
+    required: true
+    min: 0.0
+    max: 1.0
+quality:
+- type: custom
+  engine: week7_enforcer
+  implementation:
+    dataset: week2_verdicts
+    rules:
+    - type: row_count_min
+      min: 50
+    - type: type
+      field: verdict_id
+      expected: uuid
+    - type: type
+      field: trace_id
+      expected: uuid
+    - type: type
+      field: intent_id
+      expected: uuid
+    - type: type
+      field: created_at
+      expected: datetime
+    - type: type
+      field: target_ref.file
+      expected: string
+    - type: type
+      field: target_ref.span.start_line
+      expected: integer
+    - type: type
+      field: target_ref.span.end_line
+      expected: integer
+    - type: type
+      field: model.provider
+      expected: string
+    - type: type
+      field: model.name
+      expected: string
+    - type: type
+      field: scores.correctness
+      expected: integer
+    - type: type
+      field: scores.safety
+      expected: integer
+    - type: type
+      field: scores.style
+      expected: integer
+    - type: type
+      field: scores.weighted_score
+      expected: number
+    - type: type
+      field: scores.weights
+      expected: object
+    - type: type
+      field: verdict.label
+      expected: string
+    - type: type
+      field: verdict.rationale
+      expected: string
+    - type: type
+      field: verdict.confidence
+      expected: number
+    - type: not_null
+      field: verdict_id
+    - type: uuid_v4
+      field: verdict_id
+    - type: not_null
+      field: trace_id
+    - type: uuid_v4
+      field: trace_id
+    - type: not_null
+      field: intent_id
+    - type: uuid_v4
+      field: intent_id
+    - type: not_null
+      field: created_at
+    - type: datetime_iso8601
+      field: created_at
+    - type: not_null
+      field: target_ref.file
+    - type: not_null
+      field: target_ref.span.start_line
+    - type: range
+      field: target_ref.span.start_line
+      min: 1
+      max: null
+    - type: not_null
+      field: target_ref.span.end_line
+    - type: range
+      field: target_ref.span.end_line
+      min: 1
+      max: null
+    - type: not_null
+      field: model.provider
+    - type: enum
+      field: model.provider
+      values:
+      - openai
+      - anthropic
+    - type: not_null
+      field: model.name
+    - type: not_null
+      field: scores.correctness
+    - type: range
+      field: scores.correctness
+      min: 1
+      max: 5
+    - type: not_null
+      field: scores.safety
+    - type: range
+      field: scores.safety
+      min: 1
+      max: 5
+    - type: not_null
+      field: scores.style
+    - type: range
+      field: scores.style
+      min: 1
+      max: 5
+    - type: not_null
+      field: scores.weighted_score
+    - type: range
+      field: scores.weighted_score
+      min: 1.0
+      max: 5.0
+    - type: not_null
+      field: scores.weights
+    - type: not_null
+      field: verdict.label
+    - type: enum
+      field: verdict.label
+      values:
+      - APPROVE
+      - REJECT
+      - NEEDS_WORK
+    - type: not_null
+      field: verdict.rationale
+    - type: not_null
+      field: verdict.confidence
+    - type: range
+      field: verdict.confidence
+      min: 0.0
+      max: 1.0
+    - type: range
+      field: verdict.confidence
+      min: 0.0
+      max: 1.0
+    - type: zscore_drift
+      field: target_ref.span.start_line
+      mean: 106.1
+      stdev: 59.835524565261395
+      max_z: 3.5
+    - type: zscore_drift
+      field: target_ref.span.end_line
+      mean: 134.0875
+      stdev: 60.12532614256658
+      max_z: 3.5
+    - type: zscore_drift
+      field: scores.correctness
+      mean: 2.9
+      stdev: 1.4628738838327793
+      max_z: 3.5
+    - type: zscore_drift
+      field: scores.safety
+      mean: 3.1125
+      stdev: 1.5165235738358966
+      max_z: 3.5
+    - type: zscore_drift
+      field: scores.style
+      mean: 2.925
+      stdev: 1.464368464560747
+      max_z: 3.5
+    - type: zscore_drift
+      field: scores.weighted_score
+      mean: 2.95625
+      stdev: 0.8387257820646746
+      max_z: 3.5
+    - type: zscore_drift
+      field: verdict.confidence
+      mean: 0.5499535629751129
+      stdev: 0.19026326279662348
+      max_z: 3.5
+customProperties:
+  lineage:
+    upstream:
+    - week1_intent_records
+    downstream:
+    - week2_verdicts
+    blast_radius:
+      downstream_count: 1
+      impact_hint: derived from outputs/week4/lineage_snapshots.jsonl

@@ -1,0 +1,118 @@
+version: 2
+models:
+- name: week2_verdicts
+  description: Auto-generated dbt schema.yml for week2_verdicts
+  columns:
+  - name: verdict_id
+    description: ''
+    tests:
+    - not_null
+    - regex_match:
+        regex: ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+  - name: trace_id
+    description: ''
+    tests:
+    - not_null
+    - regex_match:
+        regex: ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+  - name: intent_id
+    description: ''
+    tests:
+    - not_null
+    - regex_match:
+        regex: ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+  - name: created_at
+    description: ''
+    tests:
+    - not_null
+    - regex_match:
+        regex: ^\d{4}-\d{2}-\d{2}T
+  - name: target_ref__file
+    description: ''
+    tests:
+    - not_null
+  - name: target_ref__span__start_line
+    description: ''
+    tests:
+    - not_null
+    - dbt_utils.accepted_range:
+        min_value: 1
+        max_value: null
+        inclusive: true
+  - name: target_ref__span__end_line
+    description: ''
+    tests:
+    - not_null
+    - dbt_utils.accepted_range:
+        min_value: 1
+        max_value: null
+        inclusive: true
+  - name: model__provider
+    description: ''
+    tests:
+    - not_null
+    - accepted_values:
+        values:
+        - openai
+        - anthropic
+  - name: model__name
+    description: ''
+    tests:
+    - not_null
+  - name: scores__correctness
+    description: ''
+    tests:
+    - not_null
+    - dbt_utils.accepted_range:
+        min_value: 1
+        max_value: 5
+        inclusive: true
+  - name: scores__safety
+    description: ''
+    tests:
+    - not_null
+    - dbt_utils.accepted_range:
+        min_value: 1
+        max_value: 5
+        inclusive: true
+  - name: scores__style
+    description: ''
+    tests:
+    - not_null
+    - dbt_utils.accepted_range:
+        min_value: 1
+        max_value: 5
+        inclusive: true
+  - name: scores__weighted_score
+    description: ''
+    tests:
+    - not_null
+    - dbt_utils.accepted_range:
+        min_value: 1.0
+        max_value: 5.0
+        inclusive: true
+  - name: scores__weights
+    description: ''
+    tests:
+    - not_null
+  - name: verdict__label
+    description: ''
+    tests:
+    - not_null
+    - accepted_values:
+        values:
+        - APPROVE
+        - REJECT
+        - NEEDS_WORK
+  - name: verdict__rationale
+    description: ''
+    tests:
+    - not_null
+  - name: verdict__confidence
+    description: ''
+    tests:
+    - not_null
+    - dbt_utils.accepted_range:
+        min_value: 0.0
+        max_value: 1.0
+        inclusive: true

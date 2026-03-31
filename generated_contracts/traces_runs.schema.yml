@@ -1,0 +1,103 @@
+version: 2
+models:
+- name: traces_runs
+  description: Auto-generated dbt schema.yml for traces_runs
+  columns:
+  - name: run_id
+    description: ''
+    tests:
+    - not_null
+    - regex_match:
+        regex: ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+  - name: trace_id
+    description: ''
+    tests:
+    - not_null
+    - regex_match:
+        regex: ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+  - name: provider
+    description: ''
+    tests:
+    - not_null
+    - accepted_values:
+        values:
+        - langsmith
+  - name: project
+    description: ''
+    tests:
+    - not_null
+  - name: name
+    description: ''
+    tests:
+    - not_null
+  - name: start_time
+    description: ''
+    tests:
+    - not_null
+    - regex_match:
+        regex: ^\d{4}-\d{2}-\d{2}T
+  - name: end_time
+    description: ''
+    tests:
+    - not_null
+    - regex_match:
+        regex: ^\d{4}-\d{2}-\d{2}T
+  - name: latency_ms
+    description: ''
+    tests:
+    - not_null
+    - dbt_utils.accepted_range:
+        min_value: 0.0
+        max_value: null
+        inclusive: true
+  - name: prompt_tokens
+    description: ''
+    tests:
+    - not_null
+    - dbt_utils.accepted_range:
+        min_value: 0
+        max_value: null
+        inclusive: true
+  - name: completion_tokens
+    description: ''
+    tests:
+    - not_null
+    - dbt_utils.accepted_range:
+        min_value: 0
+        max_value: null
+        inclusive: true
+  - name: total_tokens
+    description: ''
+    tests:
+    - not_null
+    - dbt_utils.accepted_range:
+        min_value: 0
+        max_value: null
+        inclusive: true
+  - name: cost_usd
+    description: ''
+    tests:
+    - not_null
+    - dbt_utils.accepted_range:
+        min_value: 0.0
+        max_value: null
+        inclusive: true
+  - name: status
+    description: ''
+    tests:
+    - not_null
+    - accepted_values:
+        values:
+        - success
+        - error
+  - name: error
+    description: ''
+    tests: []
+  - name: inputs
+    description: ''
+    tests:
+    - not_null
+  - name: outputs
+    description: ''
+    tests:
+    - not_null
