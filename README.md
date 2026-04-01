@@ -21,7 +21,24 @@ Source Data → ContractGenerator → Generated Contracts → ValidationRunner �
                                       ↓
                                    dbt Mapping → dbt Tests
 ```
+### Data Flow Diagram
 
+```mermaid
+graph LR
+
+    W1[W1: Intent Records]
+    W2[W2: Verdicts]
+    W3[W3: Extractions]
+    W4[W4: Cartographer]
+    W5[W5: Event Store]
+    LS[LangSmith Monitoring]
+
+    W1 -->|IntentRecord {intent_id, trace_id, actor}| W2
+    W2 -->|ModelVerdict {trace_id, model_scores}| W3
+    W3 -->|ExtractionRecord {doc_id, extraction_id}| W4
+    W4 -->|EventRecord {source, recorded_at}| W5
+    W5 -->|Telemetry {trace_id, latency_ms}| LS
+```
 ---
 
 ## Project Structure
