@@ -122,10 +122,10 @@ In this repo, the first validation run summaries are persisted as JSON reports (
 
 ## Real First Validation Run Results (Evidence)
 
-- Week 3 validation summary: {'total_records': 200, 'failed_records': 2, 'pass_rate': 0.99}
-- Week 3 violations (types): ['SCHEMA', 'SCHEMA', 'SCHEMA', 'SEMANTIC']
-- Week 5 validation summary: {'total_records': 200, 'failed_records': 1, 'pass_rate': 0.995}
-- Week 5 violations (types): ['SCHEMA', 'SEMANTIC']
+- Week 3 validation summary: {'total_records': 200, 'failed_records': 8, 'pass_rate': 0.96}
+- Week 3 violations (types): ['SCHEMA', 'SCHEMA', 'SCHEMA', 'SCHEMA', 'SCHEMA', 'SCHEMA', 'SEMANTIC']
+- Week 5 validation summary: {'total_records': 200, 'failed_records': 5, 'pass_rate': 0.975}
+- Week 5 violations (types): ['SCHEMA', 'SCHEMA', 'SEMANTIC', 'SEMANTIC', 'SEMANTIC']
 
 ## Real Schema Mismatches Observed (Not Hypothetical)
 
