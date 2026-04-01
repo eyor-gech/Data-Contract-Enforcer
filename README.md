@@ -25,7 +25,7 @@ Source Data → ContractGenerator → Generated Contracts → ValidationRunner �
 
 ```mermaid
 graph LR
-
+    %% Systems
     W1[W1: Intent Records]
     W2[W2: Verdicts]
     W3[W3: Extractions]
@@ -33,11 +33,21 @@ graph LR
     W5[W5: Event Store]
     LS[LangSmith Monitoring]
 
-    W1 -->|IntentRecord {intent_id, trace_id, actor}| W2
-    W2 -->|ModelVerdict {trace_id, model_scores}| W3
-    W3 -->|ExtractionRecord {doc_id, extraction_id}| W4
-    W4 -->|EventRecord {source, recorded_at}| W5
-    W5 -->|Telemetry {trace_id, latency_ms}| LS
+    %% Data Flow with schema/artifact annotations
+    W1 -- "IntentRecord {intent_id, trace_id, actor}" --> W2
+    W2 -- "ModelVerdict {trace_id, model_scores}" --> W3
+    W3 -- "ExtractionRecord {doc_id, extraction_id}" --> W4
+    W4 -- "EventRecord {source, recorded_at}" --> W5
+    W5 -- "Telemetry {trace_id, latency_ms}" --> LS
+
+    %% Group the core pipeline
+    subgraph "Core Data Pipeline"
+        W1
+        W2
+        W3
+        W4
+        W5
+    end
 ```
 ---
 
