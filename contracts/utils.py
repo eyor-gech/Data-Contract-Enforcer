@@ -133,6 +133,9 @@ class Violation:
     count: int
     root_cause: str
     lineage_path: list[str]
+    clause_id: str | None = None
+    message: str | None = None
+    samples: list[dict[str, Any]] | None = None
 
 
 def safe_mkdir(path: str) -> None:
