@@ -80,146 +80,259 @@ quality:
     rules:
     - type: row_count_min
       min: 50
+      clause_id: traces_runs__clause_001
     - type: type
       field: run_id
       expected: uuid
+      clause_id: traces_runs__clause_002
     - type: type
       field: trace_id
       expected: uuid
+      clause_id: traces_runs__clause_003
     - type: type
       field: provider
       expected: string
+      clause_id: traces_runs__clause_004
     - type: type
       field: project
       expected: string
+      clause_id: traces_runs__clause_005
     - type: type
       field: name
       expected: string
+      clause_id: traces_runs__clause_006
     - type: type
       field: start_time
       expected: datetime
+      clause_id: traces_runs__clause_007
     - type: type
       field: end_time
       expected: datetime
+      clause_id: traces_runs__clause_008
     - type: type
       field: latency_ms
       expected: number
+      clause_id: traces_runs__clause_009
     - type: type
       field: prompt_tokens
       expected: integer
+      clause_id: traces_runs__clause_010
     - type: type
       field: completion_tokens
       expected: integer
+      clause_id: traces_runs__clause_011
     - type: type
       field: total_tokens
       expected: integer
+      clause_id: traces_runs__clause_012
     - type: type
       field: cost_usd
       expected: number
+      clause_id: traces_runs__clause_013
     - type: type
       field: status
       expected: string
+      clause_id: traces_runs__clause_014
     - type: type
       field: error
       expected: object
+      clause_id: traces_runs__clause_015
     - type: type
       field: inputs
       expected: object
+      clause_id: traces_runs__clause_016
     - type: type
       field: outputs
       expected: object
+      clause_id: traces_runs__clause_017
     - type: not_null
       field: run_id
+      clause_id: traces_runs__clause_018
     - type: uuid_v4
       field: run_id
+      clause_id: traces_runs__clause_019
     - type: not_null
       field: trace_id
+      clause_id: traces_runs__clause_020
     - type: uuid_v4
       field: trace_id
+      clause_id: traces_runs__clause_021
     - type: not_null
       field: provider
+      clause_id: traces_runs__clause_022
     - type: enum
       field: provider
       values:
       - langsmith
+      clause_id: traces_runs__clause_023
     - type: not_null
       field: project
+      clause_id: traces_runs__clause_024
     - type: not_null
       field: name
+      clause_id: traces_runs__clause_025
     - type: not_null
       field: start_time
+      clause_id: traces_runs__clause_026
     - type: datetime_iso8601
       field: start_time
+      clause_id: traces_runs__clause_027
     - type: not_null
       field: end_time
+      clause_id: traces_runs__clause_028
     - type: datetime_iso8601
       field: end_time
+      clause_id: traces_runs__clause_029
     - type: not_null
       field: latency_ms
+      clause_id: traces_runs__clause_030
     - type: range
       field: latency_ms
       min: 0.0
       max: null
+      clause_id: traces_runs__clause_031
     - type: not_null
       field: prompt_tokens
+      clause_id: traces_runs__clause_032
     - type: range
       field: prompt_tokens
       min: 0
       max: null
+      clause_id: traces_runs__clause_033
     - type: not_null
       field: completion_tokens
+      clause_id: traces_runs__clause_034
     - type: range
       field: completion_tokens
       min: 0
       max: null
+      clause_id: traces_runs__clause_035
     - type: not_null
       field: total_tokens
+      clause_id: traces_runs__clause_036
     - type: range
       field: total_tokens
       min: 0
       max: null
+      clause_id: traces_runs__clause_037
     - type: not_null
       field: cost_usd
+      clause_id: traces_runs__clause_038
     - type: range
       field: cost_usd
       min: 0.0
       max: null
+      clause_id: traces_runs__clause_039
     - type: not_null
       field: status
+      clause_id: traces_runs__clause_040
     - type: enum
       field: status
       values:
       - success
       - error
+      clause_id: traces_runs__clause_041
     - type: not_null
       field: inputs
+      clause_id: traces_runs__clause_042
     - type: not_null
       field: outputs
+      clause_id: traces_runs__clause_043
+    - type: enum
+      field: name
+      values:
+      - agent_step_0
+      - agent_step_1
+      - agent_step_2
+      - agent_step_3
+      - agent_step_4
+      - agent_step_5
+      - agent_step_6
+      - agent_step_7
+      - agent_step_8
+      - agent_step_9
+      - agent_step_10
+      - agent_step_11
+      source: inferred_low_cardinality
+      clause_id: traces_runs__clause_044
+    - type: regex
+      field: project
+      pattern: ^(tenx)-.+$
+      source: inferred_prefix_regex
+      clause_id: traces_runs__clause_045
+    - type: unique
+      field: run_id
+      source: inferred_unique_ratio=1.000
+      clause_id: traces_runs__clause_046
     - type: zscore_drift
       field: latency_ms
       mean: 1064.525
       stdev: 547.6766071703872
       max_z: 3.5
+      clause_id: traces_runs__clause_047
+    - type: range_inferred
+      field: latency_ms
+      min: 93.0
+      max: 1983.0
+      source: inferred_p01_p99
+      clause_id: traces_runs__clause_048
     - type: zscore_drift
       field: prompt_tokens
       mean: 256.05833333333334
       stdev: 129.31288256481727
       max_z: 3.5
+      clause_id: traces_runs__clause_049
+    - type: range_inferred
+      field: prompt_tokens
+      min: 57.0
+      max: 487.0
+      source: inferred_p01_p99
+      clause_id: traces_runs__clause_050
     - type: zscore_drift
       field: completion_tokens
       mean: 201.40833333333333
       stdev: 114.55817269211113
       max_z: 3.5
+      clause_id: traces_runs__clause_051
+    - type: range_inferred
+      field: completion_tokens
+      min: 15.0
+      max: 395.0
+      source: inferred_p01_p99
+      clause_id: traces_runs__clause_052
     - type: zscore_drift
       field: total_tokens
       mean: 457.5083333333333
       stdev: 177.35519895740927
       max_z: 3.5
+      clause_id: traces_runs__clause_053
+    - type: range_inferred
+      field: total_tokens
+      min: 116.0
+      max: 843.0
+      source: inferred_p01_p99
+      clause_id: traces_runs__clause_054
     - type: zscore_drift
       field: cost_usd
       mean: 0.0010399833333333333
       stdev: 0.0004634434158796759
       max_z: 3.5
+      clause_id: traces_runs__clause_055
+    - type: range_inferred
+      field: cost_usd
+      min: 0.00027
+      max: 0.002367
+      source: inferred_p01_p99
+      clause_id: traces_runs__clause_056
+    - type: token_math
+      prompt_tokens_field: prompt_tokens
+      completion_tokens_field: completion_tokens
+      total_tokens_field: total_tokens
+      clause_id: traces_runs__clause_057
+    - type: time_order
+      start_field: start_time
+      end_field: end_time
+      clause_id: traces_runs__clause_058
 customProperties:
   lineage:
     upstream: []

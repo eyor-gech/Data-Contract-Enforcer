@@ -9,6 +9,7 @@ models:
     - not_null
     - regex_match:
         regex: ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+    - unique
   - name: trace_id
     description: ''
     tests:
@@ -35,9 +36,13 @@ models:
     description: ''
     tests:
     - not_null
-    - dbt_utils.accepted_range:
+    - accepted_range:
         min_value: 1
         max_value: null
+        inclusive: true
+    - accepted_range:
+        min_value: 1.0
+        max_value: 94.0
         inclusive: true
   - name: strategy__name
     description: ''
@@ -52,33 +57,49 @@ models:
     description: ''
     tests:
     - not_null
-    - dbt_utils.accepted_range:
+    - accepted_range:
         min_value: 0.0
+        max_value: 1.0
+        inclusive: true
+    - accepted_range:
+        min_value: 0.2
         max_value: 1.0
         inclusive: true
   - name: threshold
     description: ''
     tests:
     - not_null
-    - dbt_utils.accepted_range:
+    - accepted_range:
         min_value: 0.0
         max_value: 1.0
+        inclusive: true
+    - accepted_range:
+        min_value: 0.7
+        max_value: 0.7
         inclusive: true
   - name: processing_time_ms
     description: ''
     tests:
     - not_null
-    - dbt_utils.accepted_range:
+    - accepted_range:
         min_value: 0.0
         max_value: null
+        inclusive: true
+    - accepted_range:
+        min_value: 3180.9909000294283
+        max_value: 30567.873699998017
         inclusive: true
   - name: cost_usd
     description: ''
     tests:
     - not_null
-    - dbt_utils.accepted_range:
+    - accepted_range:
         min_value: 0.0
         max_value: null
+        inclusive: true
+    - accepted_range:
+        min_value: 0.0
+        max_value: 0.0
         inclusive: true
   - name: flags__escalated
     description: ''

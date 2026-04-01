@@ -57,83 +57,219 @@ quality:
     rules:
     - type: row_count_min
       min: 50
+      clause_id: week5_events__clause_001
+      description: Prevents empty/insufficient datasets from silently passing.
     - type: type
       field: event_id
       expected: uuid
+      clause_id: week5_events__clause_002
+      description: Prevents implicit coercion by enforcing declared type for `event_id`.
     - type: type
       field: trace_id
       expected: uuid
+      clause_id: week5_events__clause_003
+      description: Prevents implicit coercion by enforcing declared type for `trace_id`.
     - type: type
       field: global_position
       expected: integer
+      clause_id: week5_events__clause_004
+      description: Prevents implicit coercion by enforcing declared type for `global_position`.
     - type: type
       field: stream_id
       expected: string
+      clause_id: week5_events__clause_005
+      description: Prevents implicit coercion by enforcing declared type for `stream_id`.
     - type: type
       field: event_type
       expected: string
+      clause_id: week5_events__clause_006
+      description: Prevents implicit coercion by enforcing declared type for `event_type`.
     - type: type
       field: event_version
       expected: integer
+      clause_id: week5_events__clause_007
+      description: Prevents implicit coercion by enforcing declared type for `event_version`.
     - type: type
       field: payload
       expected: object
+      clause_id: week5_events__clause_008
+      description: Prevents implicit coercion by enforcing declared type for `payload`.
     - type: type
       field: metadata.correlation_id
       expected: string
+      clause_id: week5_events__clause_009
+      description: Prevents implicit coercion by enforcing declared type for `metadata.correlation_id`.
     - type: type
       field: metadata.causation_id
       expected: string
+      clause_id: week5_events__clause_010
+      description: Prevents implicit coercion by enforcing declared type for `metadata.causation_id`.
     - type: type
       field: metadata.generated_by
       expected: string
+      clause_id: week5_events__clause_011
+      description: Prevents implicit coercion by enforcing declared type for `metadata.generated_by`.
     - type: type
       field: recorded_at
       expected: datetime
+      clause_id: week5_events__clause_012
+      description: Prevents implicit coercion by enforcing declared type for `recorded_at`.
     - type: not_null
       field: event_id
+      clause_id: week5_events__clause_013
+      description: Prevents missing required values for `event_id`.
     - type: uuid_v4
       field: event_id
+      clause_id: week5_events__clause_014
+      description: Prevents malformed identifiers by enforcing UUIDv4 format for `event_id`.
     - type: not_null
       field: trace_id
+      clause_id: week5_events__clause_015
+      description: Prevents missing required values for `trace_id`.
     - type: uuid_v4
       field: trace_id
+      clause_id: week5_events__clause_016
+      description: Prevents malformed identifiers by enforcing UUIDv4 format for `trace_id`.
     - type: not_null
       field: global_position
+      clause_id: week5_events__clause_017
+      description: Prevents missing required values for `global_position`.
     - type: range
       field: global_position
       min: 1
       max: null
+      clause_id: week5_events__clause_018
+      description: Prevents out-of-bounds numeric values for `global_position`.
     - type: not_null
       field: stream_id
+      clause_id: week5_events__clause_019
+      description: Prevents missing required values for `stream_id`.
     - type: not_null
       field: event_type
+      clause_id: week5_events__clause_020
+      description: Prevents missing required values for `event_type`.
     - type: not_null
       field: event_version
+      clause_id: week5_events__clause_021
+      description: Prevents missing required values for `event_version`.
     - type: range
       field: event_version
       min: 1
       max: null
+      clause_id: week5_events__clause_022
+      description: Prevents out-of-bounds numeric values for `event_version`.
     - type: not_null
       field: payload
+      clause_id: week5_events__clause_023
+      description: Prevents missing required values for `payload`.
     - type: not_null
       field: metadata.correlation_id
+      clause_id: week5_events__clause_024
+      description: Prevents missing required values for `metadata.correlation_id`.
     - type: not_null
       field: metadata.generated_by
+      clause_id: week5_events__clause_025
+      description: Prevents missing required values for `metadata.generated_by`.
     - type: not_null
       field: recorded_at
+      clause_id: week5_events__clause_026
+      description: Prevents missing required values for `recorded_at`.
     - type: datetime_iso8601
       field: recorded_at
+      clause_id: week5_events__clause_027
+      description: Prevents invalid timestamps by enforcing ISO8601 datetime for `recorded_at`.
+    - type: enum
+      field: event_type
+      values:
+      - DocumentAdded
+      - DocumentUploaded
+      - ApplicationSubmitted
+      - DocumentUploadRequested
+      - PackageCreated
+      - AgentNodeExecuted
+      - AgentToolCalled
+      - DocumentFormatValidated
+      - ExtractionCompleted
+      - ExtractionStarted
+      - AgentSessionStarted
+      - AgentInputValidated
+      - AgentOutputWritten
+      - AgentSessionCompleted
+      - CreditAnalysisRequested
+      - PackageReadyForAnalysis
+      - QualityAssessmentCompleted
+      source: inferred_low_cardinality
+      clause_id: week5_events__clause_028
+      description: Prevents unexpected categories by enforcing accepted values for
+        `event_type`.
+    - type: regex
+      field: stream_id
+      pattern: ^(docpkg|loan|agent)-.+$
+      source: inferred_prefix_regex
+      clause_id: week5_events__clause_029
+      description: Prevents format drift by enforcing regex pattern for `stream_id`.
+    - type: regex
+      field: metadata.correlation_id
+      pattern: ^(corr)-.+$
+      source: inferred_prefix_regex
+      clause_id: week5_events__clause_030
+      description: Prevents format drift by enforcing regex pattern for `metadata.correlation_id`.
+    - type: unique
+      field: event_id
+      source: inferred_unique_ratio=1.000
+      clause_id: week5_events__clause_031
+      description: Prevents duplicate identifiers by enforcing uniqueness of `event_id`.
     - type: zscore_drift
       field: global_position
       mean: 100.455
       stdev: 57.814513532503234
       max_z: 3.5
+      clause_id: week5_events__clause_032
+      description: Detects distribution drift for `global_position` as data volume
+        scales (tunable over time).
+    - type: range_inferred
+      field: global_position
+      min: 3.0
+      max: 198.0
+      source: inferred_p01_p99
+      clause_id: week5_events__clause_033
+      description: Prevents extreme outliers for `global_position` using inferred
+        p01–p99 bounds.
     - type: zscore_drift
       field: event_version
       mean: 1.0
       stdev: 0.0
       max_z: 3.5
+      clause_id: week5_events__clause_034
+      description: Detects distribution drift for `event_version` as data volume scales
+        (tunable over time).
+    - type: range_inferred
+      field: event_version
+      min: 1.0
+      max: 1.0
+      source: inferred_p01_p99
+      clause_id: week5_events__clause_035
+      description: Prevents extreme outliers for `event_version` using inferred p01–p99
+        bounds.
+    - type: monotonic_increasing
+      field: global_position
+      source: event_sourcing_invariant
+      clause_id: week5_events__clause_036
+      description: Prevents event-sourcing replay errors by enforcing monotonic `global_position`.
+    - type: event_payload_required
+      event_type_field: event_type
+      payload_field: payload
+      source: event_schema
+      clause_id: week5_events__clause_037
+      description: Prevents schema drift by enforcing required payload fields per
+        event_type.
+    - type: event_payload_positive_amount
+      event_type: ApplicationSubmitted
+      payload_amount_field: payload.requested_amount_usd
+      source: event_schema
+      clause_id: week5_events__clause_038
+      description: Prevents invalid loan requests by enforcing requested_amount_usd
+        > 0.
 customProperties:
   lineage:
     upstream: []
@@ -141,3 +277,24 @@ customProperties:
     blast_radius:
       downstream_count: 0
       impact_hint: derived from outputs/week4/lineage_snapshots.jsonl
+failure_modes:
+- Non-monotonic global_position leading to replay/order bugs.
+- Missing required payload fields for event_type (schema drift).
+- Invalid recorded_at timestamps causing temporal analytics errors.
+- Malformed stream_id formats breaking routing/partitioning.
+- Requested amount <= 0 for ApplicationSubmitted (domain invalid).
+dbt_mapping:
+  notes: Documentation-only view of dbt tests emitted alongside this contract.
+  mappings:
+    not_null: not_null
+    unique: unique
+    enum: accepted_values
+    uuid_v4: regex_match (uuidv4)
+    datetime_iso8601: regex_match (datetime prefix)
+    range: accepted_range (generic test macro)
+    range_inferred: accepted_range (generic test macro)
+    regex: regex_match (generic test macro)
+    relationships: relationships
+    monotonic_increasing: not available in dbt schema.yml (enforced in runner)
+    event_payload_*: not available in dbt schema.yml (enforced in runner)
+    zscore_drift: not available in dbt schema.yml (enforced in runner)

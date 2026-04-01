@@ -92,177 +92,315 @@ quality:
     rules:
     - type: row_count_min
       min: 50
+      clause_id: week2_verdicts__clause_001
     - type: type
       field: verdict_id
       expected: uuid
+      clause_id: week2_verdicts__clause_002
     - type: type
       field: trace_id
       expected: uuid
+      clause_id: week2_verdicts__clause_003
     - type: type
       field: intent_id
       expected: uuid
+      clause_id: week2_verdicts__clause_004
     - type: type
       field: created_at
       expected: datetime
+      clause_id: week2_verdicts__clause_005
     - type: type
       field: target_ref.file
       expected: string
+      clause_id: week2_verdicts__clause_006
     - type: type
       field: target_ref.span.start_line
       expected: integer
+      clause_id: week2_verdicts__clause_007
     - type: type
       field: target_ref.span.end_line
       expected: integer
+      clause_id: week2_verdicts__clause_008
     - type: type
       field: model.provider
       expected: string
+      clause_id: week2_verdicts__clause_009
     - type: type
       field: model.name
       expected: string
+      clause_id: week2_verdicts__clause_010
     - type: type
       field: scores.correctness
       expected: integer
+      clause_id: week2_verdicts__clause_011
     - type: type
       field: scores.safety
       expected: integer
+      clause_id: week2_verdicts__clause_012
     - type: type
       field: scores.style
       expected: integer
+      clause_id: week2_verdicts__clause_013
     - type: type
       field: scores.weighted_score
       expected: number
+      clause_id: week2_verdicts__clause_014
     - type: type
       field: scores.weights
       expected: object
+      clause_id: week2_verdicts__clause_015
     - type: type
       field: verdict.label
       expected: string
+      clause_id: week2_verdicts__clause_016
     - type: type
       field: verdict.rationale
       expected: string
+      clause_id: week2_verdicts__clause_017
     - type: type
       field: verdict.confidence
       expected: number
+      clause_id: week2_verdicts__clause_018
     - type: not_null
       field: verdict_id
+      clause_id: week2_verdicts__clause_019
     - type: uuid_v4
       field: verdict_id
+      clause_id: week2_verdicts__clause_020
     - type: not_null
       field: trace_id
+      clause_id: week2_verdicts__clause_021
     - type: uuid_v4
       field: trace_id
+      clause_id: week2_verdicts__clause_022
     - type: not_null
       field: intent_id
+      clause_id: week2_verdicts__clause_023
     - type: uuid_v4
       field: intent_id
+      clause_id: week2_verdicts__clause_024
     - type: not_null
       field: created_at
+      clause_id: week2_verdicts__clause_025
     - type: datetime_iso8601
       field: created_at
+      clause_id: week2_verdicts__clause_026
     - type: not_null
       field: target_ref.file
+      clause_id: week2_verdicts__clause_027
     - type: not_null
       field: target_ref.span.start_line
+      clause_id: week2_verdicts__clause_028
     - type: range
       field: target_ref.span.start_line
       min: 1
       max: null
+      clause_id: week2_verdicts__clause_029
     - type: not_null
       field: target_ref.span.end_line
+      clause_id: week2_verdicts__clause_030
     - type: range
       field: target_ref.span.end_line
       min: 1
       max: null
+      clause_id: week2_verdicts__clause_031
     - type: not_null
       field: model.provider
+      clause_id: week2_verdicts__clause_032
     - type: enum
       field: model.provider
       values:
       - openai
       - anthropic
+      clause_id: week2_verdicts__clause_033
     - type: not_null
       field: model.name
+      clause_id: week2_verdicts__clause_034
     - type: not_null
       field: scores.correctness
+      clause_id: week2_verdicts__clause_035
     - type: range
       field: scores.correctness
       min: 1
       max: 5
+      clause_id: week2_verdicts__clause_036
     - type: not_null
       field: scores.safety
+      clause_id: week2_verdicts__clause_037
     - type: range
       field: scores.safety
       min: 1
       max: 5
+      clause_id: week2_verdicts__clause_038
     - type: not_null
       field: scores.style
+      clause_id: week2_verdicts__clause_039
     - type: range
       field: scores.style
       min: 1
       max: 5
+      clause_id: week2_verdicts__clause_040
     - type: not_null
       field: scores.weighted_score
+      clause_id: week2_verdicts__clause_041
     - type: range
       field: scores.weighted_score
       min: 1.0
       max: 5.0
+      clause_id: week2_verdicts__clause_042
     - type: not_null
       field: scores.weights
+      clause_id: week2_verdicts__clause_043
     - type: not_null
       field: verdict.label
+      clause_id: week2_verdicts__clause_044
     - type: enum
       field: verdict.label
       values:
       - APPROVE
       - REJECT
       - NEEDS_WORK
+      clause_id: week2_verdicts__clause_045
     - type: not_null
       field: verdict.rationale
+      clause_id: week2_verdicts__clause_046
     - type: not_null
       field: verdict.confidence
+      clause_id: week2_verdicts__clause_047
     - type: range
       field: verdict.confidence
       min: 0.0
       max: 1.0
-    - type: range
-      field: verdict.confidence
-      min: 0.0
-      max: 1.0
+      clause_id: week2_verdicts__clause_048
+    - type: enum
+      field: target_ref.file
+      values:
+      - src/pipeline/run.py
+      - packages/core/src/tools/concurrency_test.ts
+      - src/module_1.py
+      - packages/core/src/hooks/hook_engine.ts
+      - src/module_2.py
+      - packages/core/src/tools/governor_test.ts
+      - packages/core/src/tools/write_file.ts
+      - src/extension/api.ts
+      - webview-ui/src/components/Dashboard.tsx
+      - packages/types/src/api.ts
+      - CLAUDE.md
+      - nonexistent/file/path.py
+      source: inferred_low_cardinality
+      clause_id: week2_verdicts__clause_049
+    - type: enum
+      field: model.name
+      values:
+      - gpt-4.1-mini
+      - claude-3-5-sonnet
+      source: inferred_low_cardinality
+      clause_id: week2_verdicts__clause_050
+    - type: regex
+      field: model.name
+      pattern: ^(gpt|claude)-.+$
+      source: inferred_prefix_regex
+      clause_id: week2_verdicts__clause_051
+    - type: regex
+      field: verdict.rationale
+      pattern: ^(Auto)-.+$
+      source: inferred_prefix_regex
+      clause_id: week2_verdicts__clause_052
+    - type: unique
+      field: verdict_id
+      source: inferred_unique_ratio=1.000
+      clause_id: week2_verdicts__clause_053
     - type: zscore_drift
       field: target_ref.span.start_line
       mean: 106.1
       stdev: 59.835524565261395
       max_z: 3.5
+      clause_id: week2_verdicts__clause_054
+    - type: range_inferred
+      field: target_ref.span.start_line
+      min: 6.0
+      max: 197.0
+      source: inferred_p01_p99
+      clause_id: week2_verdicts__clause_055
     - type: zscore_drift
       field: target_ref.span.end_line
       mean: 134.0875
       stdev: 60.12532614256658
       max_z: 3.5
+      clause_id: week2_verdicts__clause_056
+    - type: range_inferred
+      field: target_ref.span.end_line
+      min: 27.0
+      max: 251.0
+      source: inferred_p01_p99
+      clause_id: week2_verdicts__clause_057
     - type: zscore_drift
       field: scores.correctness
       mean: 2.9
       stdev: 1.4628738838327793
       max_z: 3.5
+      clause_id: week2_verdicts__clause_058
+    - type: range_inferred
+      field: scores.correctness
+      min: 1.0
+      max: 5.0
+      source: inferred_p01_p99
+      clause_id: week2_verdicts__clause_059
     - type: zscore_drift
       field: scores.safety
       mean: 3.1125
       stdev: 1.5165235738358966
       max_z: 3.5
+      clause_id: week2_verdicts__clause_060
+    - type: range_inferred
+      field: scores.safety
+      min: 1.0
+      max: 5.0
+      source: inferred_p01_p99
+      clause_id: week2_verdicts__clause_061
     - type: zscore_drift
       field: scores.style
       mean: 2.925
       stdev: 1.464368464560747
       max_z: 3.5
+      clause_id: week2_verdicts__clause_062
+    - type: range_inferred
+      field: scores.style
+      min: 1.0
+      max: 5.0
+      source: inferred_p01_p99
+      clause_id: week2_verdicts__clause_063
     - type: zscore_drift
       field: scores.weighted_score
       mean: 2.95625
       stdev: 0.8387257820646746
       max_z: 3.5
+      clause_id: week2_verdicts__clause_064
+    - type: range_inferred
+      field: scores.weighted_score
+      min: 1.6
+      max: 4.7
+      source: inferred_p01_p99
+      clause_id: week2_verdicts__clause_065
     - type: zscore_drift
       field: verdict.confidence
       mean: 0.5499535629751129
       stdev: 0.19026326279662348
       max_z: 3.5
+      clause_id: week2_verdicts__clause_066
+    - type: range_inferred
+      field: verdict.confidence
+      min: 0.23729428845724088
+      max: 0.9398587553150571
+      source: inferred_p01_p99
+      clause_id: week2_verdicts__clause_067
+    - type: weighted_score_math
+      correctness_field: scores.correctness
+      safety_field: scores.safety
+      style_field: scores.style
+      weights_field: scores.weights
+      weighted_score_field: scores.weighted_score
+      clause_id: week2_verdicts__clause_068
 customProperties:
   lineage:
     upstream:

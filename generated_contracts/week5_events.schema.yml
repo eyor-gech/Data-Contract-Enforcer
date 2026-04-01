@@ -9,6 +9,7 @@ models:
     - not_null
     - regex_match:
         regex: ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+    - unique
   - name: trace_id
     description: ''
     tests:
@@ -19,14 +20,20 @@ models:
     description: ''
     tests:
     - not_null
-    - dbt_utils.accepted_range:
+    - accepted_range:
         min_value: 1
         max_value: null
+        inclusive: true
+    - accepted_range:
+        min_value: 3.0
+        max_value: 198.0
         inclusive: true
   - name: stream_id
     description: ''
     tests:
     - not_null
+    - regex_match:
+        regex: ^(docpkg|loan|agent)-.+$
   - name: event_type
     description: ''
     tests:
@@ -35,9 +42,13 @@ models:
     description: ''
     tests:
     - not_null
-    - dbt_utils.accepted_range:
+    - accepted_range:
         min_value: 1
         max_value: null
+        inclusive: true
+    - accepted_range:
+        min_value: 1.0
+        max_value: 1.0
         inclusive: true
   - name: payload
     description: ''
@@ -47,6 +58,8 @@ models:
     description: ''
     tests:
     - not_null
+    - regex_match:
+        regex: ^(corr)-.+$
   - name: metadata__causation_id
     description: ''
     tests: []

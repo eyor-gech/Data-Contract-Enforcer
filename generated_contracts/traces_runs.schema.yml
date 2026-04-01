@@ -9,6 +9,7 @@ models:
     - not_null
     - regex_match:
         regex: ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+    - unique
   - name: trace_id
     description: ''
     tests:
@@ -26,6 +27,8 @@ models:
     description: ''
     tests:
     - not_null
+    - regex_match:
+        regex: ^(tenx)-.+$
   - name: name
     description: ''
     tests:
@@ -46,41 +49,61 @@ models:
     description: ''
     tests:
     - not_null
-    - dbt_utils.accepted_range:
+    - accepted_range:
         min_value: 0.0
         max_value: null
+        inclusive: true
+    - accepted_range:
+        min_value: 93.0
+        max_value: 1983.0
         inclusive: true
   - name: prompt_tokens
     description: ''
     tests:
     - not_null
-    - dbt_utils.accepted_range:
+    - accepted_range:
         min_value: 0
         max_value: null
+        inclusive: true
+    - accepted_range:
+        min_value: 57.0
+        max_value: 487.0
         inclusive: true
   - name: completion_tokens
     description: ''
     tests:
     - not_null
-    - dbt_utils.accepted_range:
+    - accepted_range:
         min_value: 0
         max_value: null
+        inclusive: true
+    - accepted_range:
+        min_value: 15.0
+        max_value: 395.0
         inclusive: true
   - name: total_tokens
     description: ''
     tests:
     - not_null
-    - dbt_utils.accepted_range:
+    - accepted_range:
         min_value: 0
         max_value: null
+        inclusive: true
+    - accepted_range:
+        min_value: 116.0
+        max_value: 843.0
         inclusive: true
   - name: cost_usd
     description: ''
     tests:
     - not_null
-    - dbt_utils.accepted_range:
+    - accepted_range:
         min_value: 0.0
         max_value: null
+        inclusive: true
+    - accepted_range:
+        min_value: 0.00027
+        max_value: 0.002367
         inclusive: true
   - name: status
     description: ''

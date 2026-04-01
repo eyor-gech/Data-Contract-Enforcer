@@ -9,6 +9,7 @@ models:
     - not_null
     - regex_match:
         regex: ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+    - unique
   - name: trace_id
     description: ''
     tests:
@@ -35,17 +36,25 @@ models:
     description: ''
     tests:
     - not_null
-    - dbt_utils.accepted_range:
+    - accepted_range:
         min_value: 1
         max_value: null
+        inclusive: true
+    - accepted_range:
+        min_value: 6.0
+        max_value: 197.0
         inclusive: true
   - name: target_ref__span__end_line
     description: ''
     tests:
     - not_null
-    - dbt_utils.accepted_range:
+    - accepted_range:
         min_value: 1
         max_value: null
+        inclusive: true
+    - accepted_range:
+        min_value: 27.0
+        max_value: 251.0
         inclusive: true
   - name: model__provider
     description: ''
@@ -59,37 +68,55 @@ models:
     description: ''
     tests:
     - not_null
+    - regex_match:
+        regex: ^(gpt|claude)-.+$
   - name: scores__correctness
     description: ''
     tests:
     - not_null
-    - dbt_utils.accepted_range:
+    - accepted_range:
         min_value: 1
         max_value: 5
+        inclusive: true
+    - accepted_range:
+        min_value: 1.0
+        max_value: 5.0
         inclusive: true
   - name: scores__safety
     description: ''
     tests:
     - not_null
-    - dbt_utils.accepted_range:
+    - accepted_range:
         min_value: 1
         max_value: 5
+        inclusive: true
+    - accepted_range:
+        min_value: 1.0
+        max_value: 5.0
         inclusive: true
   - name: scores__style
     description: ''
     tests:
     - not_null
-    - dbt_utils.accepted_range:
+    - accepted_range:
         min_value: 1
         max_value: 5
+        inclusive: true
+    - accepted_range:
+        min_value: 1.0
+        max_value: 5.0
         inclusive: true
   - name: scores__weighted_score
     description: ''
     tests:
     - not_null
-    - dbt_utils.accepted_range:
+    - accepted_range:
         min_value: 1.0
         max_value: 5.0
+        inclusive: true
+    - accepted_range:
+        min_value: 1.6
+        max_value: 4.7
         inclusive: true
   - name: scores__weights
     description: ''
@@ -108,11 +135,17 @@ models:
     description: ''
     tests:
     - not_null
+    - regex_match:
+        regex: ^(Auto)-.+$
   - name: verdict__confidence
     description: ''
     tests:
     - not_null
-    - dbt_utils.accepted_range:
+    - accepted_range:
         min_value: 0.0
         max_value: 1.0
+        inclusive: true
+    - accepted_range:
+        min_value: 0.23729428845724088
+        max_value: 0.9398587553150571
         inclusive: true

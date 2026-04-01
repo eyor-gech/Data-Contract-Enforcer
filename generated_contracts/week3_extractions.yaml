@@ -78,142 +78,307 @@ quality:
     rules:
     - type: row_count_min
       min: 50
+      clause_id: week3_extractions__clause_001
+      description: Prevents empty/insufficient datasets from silently passing.
     - type: type
       field: extraction_id
       expected: uuid
+      clause_id: week3_extractions__clause_002
+      description: Prevents implicit coercion by enforcing declared type for `extraction_id`.
     - type: type
       field: trace_id
       expected: uuid
+      clause_id: week3_extractions__clause_003
+      description: Prevents implicit coercion by enforcing declared type for `trace_id`.
     - type: type
       field: created_at
       expected: datetime
+      clause_id: week3_extractions__clause_004
+      description: Prevents implicit coercion by enforcing declared type for `created_at`.
     - type: type
       field: doc_id
       expected: uuid
+      clause_id: week3_extractions__clause_005
+      description: Prevents implicit coercion by enforcing declared type for `doc_id`.
     - type: type
       field: doc_key
       expected: string
+      clause_id: week3_extractions__clause_006
+      description: Prevents implicit coercion by enforcing declared type for `doc_key`.
     - type: type
       field: page_number
       expected: integer
+      clause_id: week3_extractions__clause_007
+      description: Prevents implicit coercion by enforcing declared type for `page_number`.
     - type: type
       field: strategy.name
       expected: string
+      clause_id: week3_extractions__clause_008
+      description: Prevents implicit coercion by enforcing declared type for `strategy.name`.
     - type: type
       field: confidence
       expected: number
+      clause_id: week3_extractions__clause_009
+      description: Prevents implicit coercion by enforcing declared type for `confidence`.
     - type: type
       field: threshold
       expected: number
+      clause_id: week3_extractions__clause_010
+      description: Prevents implicit coercion by enforcing declared type for `threshold`.
     - type: type
       field: processing_time_ms
       expected: number
+      clause_id: week3_extractions__clause_011
+      description: Prevents implicit coercion by enforcing declared type for `processing_time_ms`.
     - type: type
       field: cost_usd
       expected: number
+      clause_id: week3_extractions__clause_012
+      description: Prevents implicit coercion by enforcing declared type for `cost_usd`.
     - type: type
       field: flags.escalated
       expected: boolean
+      clause_id: week3_extractions__clause_013
+      description: Prevents implicit coercion by enforcing declared type for `flags.escalated`.
     - type: type
       field: flags.flagged_for_review
       expected: boolean
+      clause_id: week3_extractions__clause_014
+      description: Prevents implicit coercion by enforcing declared type for `flags.flagged_for_review`.
     - type: type
       field: text
       expected: string
+      clause_id: week3_extractions__clause_015
+      description: Prevents implicit coercion by enforcing declared type for `text`.
     - type: type
       field: labels
       expected: array
+      clause_id: week3_extractions__clause_016
+      description: Prevents implicit coercion by enforcing declared type for `labels`.
     - type: not_null
       field: extraction_id
+      clause_id: week3_extractions__clause_017
+      description: Prevents missing required values for `extraction_id`.
     - type: uuid_v4
       field: extraction_id
+      clause_id: week3_extractions__clause_018
+      description: Prevents malformed identifiers by enforcing UUIDv4 format for `extraction_id`.
     - type: not_null
       field: trace_id
+      clause_id: week3_extractions__clause_019
+      description: Prevents missing required values for `trace_id`.
     - type: uuid_v4
       field: trace_id
+      clause_id: week3_extractions__clause_020
+      description: Prevents malformed identifiers by enforcing UUIDv4 format for `trace_id`.
     - type: not_null
       field: created_at
+      clause_id: week3_extractions__clause_021
+      description: Prevents missing required values for `created_at`.
     - type: datetime_iso8601
       field: created_at
+      clause_id: week3_extractions__clause_022
+      description: Prevents invalid timestamps by enforcing ISO8601 datetime for `created_at`.
     - type: not_null
       field: doc_id
+      clause_id: week3_extractions__clause_023
+      description: Prevents missing required values for `doc_id`.
     - type: uuid_v4
       field: doc_id
+      clause_id: week3_extractions__clause_024
+      description: Prevents malformed identifiers by enforcing UUIDv4 format for `doc_id`.
     - type: not_null
       field: doc_key
+      clause_id: week3_extractions__clause_025
+      description: Prevents missing required values for `doc_key`.
     - type: not_null
       field: page_number
+      clause_id: week3_extractions__clause_026
+      description: Prevents missing required values for `page_number`.
     - type: range
       field: page_number
       min: 1
       max: null
+      clause_id: week3_extractions__clause_027
+      description: Prevents out-of-bounds numeric values for `page_number`.
     - type: not_null
       field: strategy.name
+      clause_id: week3_extractions__clause_028
+      description: Prevents missing required values for `strategy.name`.
     - type: enum
       field: strategy.name
       values:
       - vision
       - ocr
       - hybrid
+      clause_id: week3_extractions__clause_029
+      description: Prevents unexpected categories by enforcing accepted values for
+        `strategy.name`.
     - type: not_null
       field: confidence
+      clause_id: week3_extractions__clause_030
+      description: Prevents missing required values for `confidence`.
     - type: range
       field: confidence
       min: 0.0
       max: 1.0
-    - type: range
-      field: confidence
-      min: 0.0
-      max: 1.0
+      clause_id: week3_extractions__clause_031
+      description: Prevents out-of-bounds numeric values for `confidence`.
     - type: not_null
       field: threshold
+      clause_id: week3_extractions__clause_032
+      description: Prevents missing required values for `threshold`.
     - type: range
       field: threshold
       min: 0.0
       max: 1.0
+      clause_id: week3_extractions__clause_033
+      description: Prevents out-of-bounds numeric values for `threshold`.
     - type: not_null
       field: processing_time_ms
+      clause_id: week3_extractions__clause_034
+      description: Prevents missing required values for `processing_time_ms`.
     - type: range
       field: processing_time_ms
       min: 0.0
       max: null
+      clause_id: week3_extractions__clause_035
+      description: Prevents out-of-bounds numeric values for `processing_time_ms`.
     - type: not_null
       field: cost_usd
+      clause_id: week3_extractions__clause_036
+      description: Prevents missing required values for `cost_usd`.
     - type: range
       field: cost_usd
       min: 0.0
       max: null
+      clause_id: week3_extractions__clause_037
+      description: Prevents out-of-bounds numeric values for `cost_usd`.
     - type: not_null
       field: flags.escalated
+      clause_id: week3_extractions__clause_038
+      description: Prevents missing required values for `flags.escalated`.
     - type: not_null
       field: flags.flagged_for_review
+      clause_id: week3_extractions__clause_039
+      description: Prevents missing required values for `flags.flagged_for_review`.
     - type: not_null
       field: labels
+      clause_id: week3_extractions__clause_040
+      description: Prevents missing required values for `labels`.
+    - type: enum
+      field: doc_key
+      values:
+      - Annual_Report_JUNE-2023
+      - tax_expenditure_ethiopia_2021_22
+      - 20191010_Pharmaceutical-Manufacturing-Opportunites-in-Ethiopia_VF
+      - Consumer Price Index August 2025
+      - Consumer Price Index July 2025
+      - 2013-E.C-Audit-finding-information
+      source: inferred_low_cardinality
+      clause_id: week3_extractions__clause_041
+      description: Prevents unexpected categories by enforcing accepted values for
+        `doc_key`.
+    - type: unique
+      field: extraction_id
+      source: inferred_unique_ratio=1.000
+      clause_id: week3_extractions__clause_042
+      description: Prevents duplicate identifiers by enforcing uniqueness of `extraction_id`.
     - type: zscore_drift
       field: page_number
       mean: 33.955
       stdev: 26.985236241322774
       max_z: 3.5
+      clause_id: week3_extractions__clause_043
+      description: Detects distribution drift for `page_number` as data volume scales
+        (tunable over time).
+    - type: range_inferred
+      field: page_number
+      min: 1.0
+      max: 94.0
+      source: inferred_p01_p99
+      clause_id: week3_extractions__clause_044
+      description: Prevents extreme outliers for `page_number` using inferred p01–p99
+        bounds.
     - type: zscore_drift
       field: confidence
       mean: 0.5529999999999999
       stdev: 0.39848588431712356
       max_z: 3.5
+      clause_id: week3_extractions__clause_045
+      description: Detects distribution drift for `confidence` as data volume scales
+        (tunable over time).
+    - type: range_inferred
+      field: confidence
+      min: 0.2
+      max: 1.0
+      source: inferred_p01_p99
+      clause_id: week3_extractions__clause_046
+      description: Prevents extreme outliers for `confidence` using inferred p01–p99
+        bounds.
     - type: zscore_drift
       field: threshold
       mean: 0.7
       stdev: 0.0
       max_z: 3.5
+      clause_id: week3_extractions__clause_047
+      description: Detects distribution drift for `threshold` as data volume scales
+        (tunable over time).
+    - type: range_inferred
+      field: threshold
+      min: 0.7
+      max: 0.7
+      source: inferred_p01_p99
+      clause_id: week3_extractions__clause_048
+      description: Prevents extreme outliers for `threshold` using inferred p01–p99
+        bounds.
     - type: zscore_drift
       field: processing_time_ms
       mean: 8596.84737550182
       stdev: 6355.05497008448
       max_z: 3.5
+      clause_id: week3_extractions__clause_049
+      description: Detects distribution drift for `processing_time_ms` as data volume
+        scales (tunable over time).
+    - type: range_inferred
+      field: processing_time_ms
+      min: 3180.9909000294283
+      max: 30567.873699998017
+      source: inferred_p01_p99
+      clause_id: week3_extractions__clause_050
+      description: Prevents extreme outliers for `processing_time_ms` using inferred
+        p01–p99 bounds.
     - type: zscore_drift
       field: cost_usd
       mean: 0.0
       stdev: 0.0
       max_z: 3.5
+      clause_id: week3_extractions__clause_051
+      description: Detects distribution drift for `cost_usd` as data volume scales
+        (tunable over time).
+    - type: range_inferred
+      field: cost_usd
+      min: 0.0
+      max: 0.0
+      source: inferred_p01_p99
+      clause_id: week3_extractions__clause_052
+      description: Prevents extreme outliers for `cost_usd` using inferred p01–p99
+        bounds.
+    - type: relationships
+      field: doc_id
+      to_dataset: week4_lineage_snapshots
+      to_field: nodes.ref.doc_id
+      source: lineage_contract
+      clause_id: week3_extractions__clause_053
+      description: Prevents referential integrity breaks by requiring `doc_id` to
+        exist upstream.
+    - type: if_confidence_below_threshold_flag
+      confidence_field: confidence
+      threshold_field: threshold
+      flag_field: flags.flagged_for_review
+      source: semantic_guardrail
+      clause_id: week3_extractions__clause_054
+      description: Prevents low-confidence extractions from skipping review workflow.
 customProperties:
   lineage:
     upstream:
@@ -223,3 +388,24 @@ customProperties:
     blast_radius:
       downstream_count: 1
       impact_hint: derived from outputs/week4/lineage_snapshots.jsonl
+failure_modes:
+- Confidence semantics drift (probability 0–1 changed to percent 0–100).
+- Doc_id referential breaks against lineage snapshots (attribution failures).
+- Out-of-range page_number or negative processing_time_ms (profiling corruption).
+- Low-confidence extractions not flagged for review (workflow bypass).
+- Statistical drift in processing_time_ms causing SLA regression.
+dbt_mapping:
+  notes: Documentation-only view of dbt tests emitted alongside this contract.
+  mappings:
+    not_null: not_null
+    unique: unique
+    enum: accepted_values
+    uuid_v4: regex_match (uuidv4)
+    datetime_iso8601: regex_match (datetime prefix)
+    range: accepted_range (generic test macro)
+    range_inferred: accepted_range (generic test macro)
+    regex: regex_match (generic test macro)
+    relationships: relationships
+    monotonic_increasing: not available in dbt schema.yml (enforced in runner)
+    event_payload_*: not available in dbt schema.yml (enforced in runner)
+    zscore_drift: not available in dbt schema.yml (enforced in runner)
