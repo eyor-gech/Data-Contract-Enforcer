@@ -90,14 +90,18 @@ def append_quality_rule(quality: list[dict[str, Any]], rule: dict[str, Any]) -> 
         impl.setdefault("rules", []).append(rule)
 
 
-def dbt_schema_yml_for_dataset(spec: DatasetSpec, model_name: str) -> dict[str, Any]:
+def dbt_schema_yml_for_dataset(
+    spec: DatasetSpec, model_name: str, quality_rules: list[dict[str, Any]] | None = None
+) -> dict[str, Any]:
+    quality_rules = quality_rules or []
+    tests_by_field = _dbt_tests_from_quality_rules(quality_rules)
     columns = []
     for f in spec.fields:
         columns.append(
             {
                 "name": f.path.replace(".", "__"),
                 "description": f.description or "",
-                "tests": _dbt_tests_for_field(f),
+                "tests": _merge_tests(_dbt_tests_for_field(f), tests_by_field.get(f.path, [])),
             }
         )
     return {
@@ -119,19 +123,13 @@ def _dbt_tests_for_field(f: FieldSpec) -> list[Any]:
     if f.enum:
         tests.append({"accepted_values": {"values": list(f.enum)}})
     if f.logical_type == "uuid":
-        tests.append(
-            {
-                "regex_match": {
-                    "regex": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
-                }
-            }
-        )
+        tests.append({"regex_match": {"regex": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"}})
     if f.logical_type == "datetime":
         tests.append({"regex_match": {"regex": "^\\d{4}-\\d{2}-\\d{2}T"}})
     if f.minimum is not None or f.maximum is not None:
         tests.append(
             {
-                "dbt_utils.accepted_range": {
+                "accepted_range": {
                     "min_value": f.minimum,
                     "max_value": f.maximum,
                     "inclusive": True,
@@ -140,3 +138,56 @@ def _dbt_tests_for_field(f: FieldSpec) -> list[Any]:
         )
     return tests
 
+
+def _merge_tests(a: list[Any], b: list[Any]) -> list[Any]:
+    # Deterministic merge; remove exact duplicates.
+    out: list[Any] = []
+    seen: set[str] = set()
+
+    def key(t: Any) -> str:
+        return str(t)
+
+    for t in a + b:
+        k = key(t)
+        if k in seen:
+            continue
+        seen.add(k)
+        out.append(t)
+    return out
+
+
+def _dbt_tests_from_quality_rules(quality_rules: list[dict[str, Any]]) -> dict[str, list[Any]]:
+    """
+    Map Week7 quality rules to dbt schema.yml tests.
+    Produces tests on flattened column names (dots become __).
+    """
+    by_field: dict[str, list[Any]] = {}
+    for r in quality_rules:
+        if not isinstance(r, dict):
+            continue
+        rtype = r.get("type")
+        field = r.get("field")
+        if not isinstance(rtype, str) or not isinstance(field, str) or not field:
+            continue
+        if rtype == "unique":
+            by_field.setdefault(field, []).append("unique")
+        if rtype == "regex":
+            pattern = r.get("pattern")
+            if isinstance(pattern, str) and pattern:
+                by_field.setdefault(field, []).append({"regex_match": {"regex": pattern}})
+        if rtype == "range_inferred":
+            by_field.setdefault(field, []).append(
+                {
+                    "accepted_range": {
+                        "min_value": r.get("min"),
+                        "max_value": r.get("max"),
+                        "inclusive": True,
+                    }
+                }
+            )
+        if rtype == "relationships":
+            to_model = r.get("to_model")
+            to_field = r.get("to_field")
+            if isinstance(to_model, str) and isinstance(to_field, str):
+                by_field.setdefault(field, []).append({"relationships": {"to": f"ref('{to_model}')", "field": to_field}})
+    return by_field
