@@ -5,20 +5,36 @@
       "type": "SCHEMA",
       "field": "confidence",
       "severity": "CRITICAL",
-      "count": 2,
+      "count": 1,
       "root_cause": "week3_extractions",
       "lineage_path": [
         "week3_extractions"
+      ],
+      "clause_id": "week3_extractions__clause_031",
+      "message": "value outside allowed numeric bounds",
+      "samples": [
+        {
+          "line_no": 1,
+          "value": 1.2
+        }
       ]
     },
     {
       "type": "SCHEMA",
-      "field": "processing_time_ms",
+      "field": "confidence",
       "severity": "MEDIUM",
-      "count": 2,
+      "count": 1,
       "root_cause": "week3_extractions",
       "lineage_path": [
         "week3_extractions"
+      ],
+      "clause_id": "week3_extractions__clause_046",
+      "message": "value outside allowed numeric bounds",
+      "samples": [
+        {
+          "line_no": 1,
+          "value": 1.2
+        }
       ]
     },
     {
@@ -29,22 +45,121 @@
       "root_cause": "week3_extractions",
       "lineage_path": [
         "week3_extractions"
+      ],
+      "clause_id": "week3_extractions__clause_027",
+      "message": "value outside allowed numeric bounds",
+      "samples": [
+        {
+          "line_no": 3,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "type": "SCHEMA",
+      "field": "page_number",
+      "severity": "MEDIUM",
+      "count": 3,
+      "root_cause": "week3_extractions",
+      "lineage_path": [
+        "week3_extractions"
+      ],
+      "clause_id": "week3_extractions__clause_044",
+      "message": "value outside allowed numeric bounds",
+      "samples": [
+        {
+          "line_no": 3,
+          "value": 0
+        },
+        {
+          "line_no": 199,
+          "value": 95
+        },
+        {
+          "line_no": 200,
+          "value": 96
+        }
+      ]
+    },
+    {
+      "type": "SCHEMA",
+      "field": "processing_time_ms",
+      "severity": "MEDIUM",
+      "count": 2,
+      "root_cause": "week3_extractions",
+      "lineage_path": [
+        "week3_extractions"
+      ],
+      "clause_id": "week3_extractions__clause_049",
+      "message": "statistical drift detected (z-score)",
+      "samples": [
+        {
+          "line_no": 81,
+          "value": 51353.10219996609
+        },
+        {
+          "line_no": 88,
+          "value": 47139.36829997692
+        }
+      ]
+    },
+    {
+      "type": "SCHEMA",
+      "field": "processing_time_ms",
+      "severity": "MEDIUM",
+      "count": 4,
+      "root_cause": "week3_extractions",
+      "lineage_path": [
+        "week3_extractions"
+      ],
+      "clause_id": "week3_extractions__clause_050",
+      "message": "value outside allowed numeric bounds",
+      "samples": [
+        {
+          "line_no": 81,
+          "value": 51353.10219996609
+        },
+        {
+          "line_no": 88,
+          "value": 47139.36829997692
+        },
+        {
+          "line_no": 91,
+          "value": 2905.3274000179954
+        }
       ]
     },
     {
       "type": "SEMANTIC",
       "field": "doc_id",
-      "severity": "HIGH",
+      "severity": "CRITICAL",
       "count": 2,
       "root_cause": "week4_lineage_snapshots",
       "lineage_path": [
         "week3_extractions"
+      ],
+      "clause_id": "week3_extractions__clause_053",
+      "message": "referential integrity failure",
+      "samples": [
+        {
+          "line_no": 1,
+          "value": "327603cb-e868-444b-9ac5-035d75feb92a"
+        },
+        {
+          "line_no": 3,
+          "value": "327603cb-e868-444b-9ac5-035d75feb92a"
+        }
       ]
     }
   ],
   "summary": {
     "total_records": 200,
-    "failed_records": 2,
-    "pass_rate": 0.99
-  }
+    "failed_records": 8,
+    "pass_rate": 0.96,
+    "total_rules": 54,
+    "rules_failed": 7,
+    "rows_affected": 8,
+    "failure_rate": 0.04
+  },
+  "parse_errors": 0
 }

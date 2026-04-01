@@ -4,11 +4,66 @@
     {
       "type": "SCHEMA",
       "field": "global_position",
+      "severity": "MEDIUM",
+      "count": 4,
+      "root_cause": "week5_events",
+      "lineage_path": [
+        "week5_events"
+      ],
+      "clause_id": "week5_events__clause_033",
+      "message": "value outside allowed numeric bounds",
+      "samples": [
+        {
+          "line_no": 1,
+          "value": 1
+        },
+        {
+          "line_no": 2,
+          "value": -7
+        },
+        {
+          "line_no": 199,
+          "value": 199
+        }
+      ]
+    },
+    {
+      "type": "SCHEMA",
+      "field": "global_position",
       "severity": "CRITICAL",
       "count": 1,
       "root_cause": "week5_events",
       "lineage_path": [
         "week5_events"
+      ],
+      "clause_id": "week5_events__clause_018",
+      "message": "value outside allowed numeric bounds",
+      "samples": [
+        {
+          "line_no": 2,
+          "value": -7
+        }
+      ]
+    },
+    {
+      "type": "SEMANTIC",
+      "field": "global_position",
+      "severity": "HIGH",
+      "count": 1,
+      "root_cause": "week5_events",
+      "lineage_path": [
+        "week5_events"
+      ],
+      "clause_id": "week5_events__clause_036",
+      "message": "sequence is not monotonic increasing",
+      "samples": [
+        {
+          "line_no": 2,
+          "group": "__all__",
+          "prev_line_no": 1,
+          "prev_value": 1.0,
+          "value": -7.0
+        }
       ]
     },
     {
@@ -19,12 +74,49 @@
       "root_cause": "week5_events",
       "lineage_path": [
         "week5_events"
+      ],
+      "clause_id": "week5_events__clause_037",
+      "message": "event payload missing required fields",
+      "samples": [
+        {
+          "line_no": 3,
+          "event_type": "ApplicationSubmitted",
+          "missing": [
+            "application_id",
+            "applicant_id",
+            "requested_amount_usd",
+            "submitted_at"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "SEMANTIC",
+      "field": "payload.requested_amount_usd",
+      "severity": "CRITICAL",
+      "count": 1,
+      "root_cause": "week5_events",
+      "lineage_path": [
+        "week5_events"
+      ],
+      "clause_id": "week5_events__clause_038",
+      "message": "requested_amount_usd must be > 0",
+      "samples": [
+        {
+          "line_no": 3,
+          "value": null
+        }
       ]
     }
   ],
   "summary": {
     "total_records": 200,
-    "failed_records": 1,
-    "pass_rate": 0.995
-  }
+    "failed_records": 5,
+    "pass_rate": 0.975,
+    "total_rules": 38,
+    "rules_failed": 5,
+    "rows_affected": 5,
+    "failure_rate": 0.025
+  },
+  "parse_errors": 0
 }
