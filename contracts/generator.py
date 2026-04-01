@@ -37,6 +37,99 @@ def _flatten(obj: Any, prefix: str = "") -> dict[str, Any]:
     return flat
 
 
+def _quantile(sorted_values: list[float], q: float) -> float | None:
+    if not sorted_values:
+        return None
+    if q <= 0:
+        return float(sorted_values[0])
+    if q >= 1:
+        return float(sorted_values[-1])
+    i = int(round((len(sorted_values) - 1) * q))
+    i = max(0, min(len(sorted_values) - 1, i))
+    return float(sorted_values[i])
+
+
+def _field_values(rows: list[dict[str, Any]], field: str) -> list[Any]:
+    out: list[Any] = []
+    for r in rows:
+        out.append(r.get(field))
+    return out
+
+
+def _null_fraction(rows: list[dict[str, Any]], field: str) -> float:
+    if not rows:
+        return 1.0
+    nulls = 0
+    for r in rows:
+        if field not in r or r.get(field) is None:
+            nulls += 1
+    return nulls / len(rows)
+
+
+def _distinct_counts(rows: list[dict[str, Any]], field: str, max_track: int = 1000) -> tuple[int, Counter[Any]]:
+    c: Counter[Any] = Counter()
+    for r in rows:
+        v = r.get(field)
+        if v is None:
+            continue
+        c[v] += 1
+        if len(c) > max_track:
+            # stop tracking too many categories
+            break
+    return len(c), c
+
+
+def _infer_enum_values(rows: list[dict[str, Any]], field: str, max_distinct: int = 20, min_coverage: float = 0.98) -> list[str] | None:
+    # Only infer for string-valued fields.
+    vals: list[str] = []
+    for r in rows:
+        v = r.get(field)
+        if isinstance(v, str):
+            vals.append(v)
+        elif v is None:
+            continue
+        else:
+            return None
+    if len(vals) < 25:
+        return None
+    c = Counter(vals)
+    distinct = len(c)
+    if distinct <= 1 or distinct > max_distinct:
+        return None
+    coverage = sum(c.values()) / max(1, len(vals))
+    if coverage < min_coverage:
+        return None
+    # Deterministic ordering: (-count, value)
+    return [k for k, _ in sorted(c.items(), key=lambda kv: (-kv[1], kv[0]))]
+
+
+def _infer_regex_prefix(rows: list[dict[str, Any]], field: str, min_coverage: float = 0.95) -> str | None:
+    # Heuristic: if values look like "<prefix>-..." and few prefixes dominate, infer a regex.
+    prefixes: list[str] = []
+    total = 0
+    for r in rows:
+        v = r.get(field)
+        if v is None:
+            continue
+        if not isinstance(v, str):
+            return None
+        total += 1
+        if "-" in v:
+            prefixes.append(v.split("-", 1)[0])
+        else:
+            prefixes.append("")
+    if total < 25:
+        return None
+    c = Counter(prefixes)
+    common = [p for p, _ in sorted(c.items(), key=lambda kv: (-kv[1], kv[0]))[:5] if p]
+    covered = sum(n for p, n in c.items() if p in set(common))
+    if not common or (covered / max(1, total)) < min_coverage:
+        return None
+    # escape regex meta in prefixes
+    safe = [p.replace("\\", "\\\\").replace(".", "\\.").replace("+", "\\+").replace("*", "\\*").replace("?", "\\?").replace("|", "\\|").replace("(", "\\(").replace(")", "\\)") for p in common]
+    return r"^(" + "|".join(safe) + r")-.+$"
+
+
 def _infer_dataset_name_from_path(path: str) -> str:
     base = os.path.basename(path).replace(".jsonl", "")
     parts = os.path.normpath(path).split(os.sep)
@@ -135,44 +228,247 @@ def _profile_numeric(rows: list[dict[str, Any]], path: str) -> dict[str, float] 
     }
 
 
+def _profile_numeric_robust(rows: list[dict[str, Any]], field: str) -> dict[str, float] | None:
+    values: list[float] = []
+    for r in rows:
+        fv = safe_float(r.get(field))
+        if fv is not None:
+            values.append(fv)
+    if len(values) < 25:
+        return None
+    values.sort()
+    p01 = _quantile(values, 0.01)
+    p99 = _quantile(values, 0.99)
+    if p01 is None or p99 is None:
+        return None
+    return {"p01": float(p01), "p99": float(p99)}
+
+
+def _rule_id(dataset: str, idx: int) -> str:
+    return f"{dataset}__clause_{idx:03d}"
+
+
+def _dedupe_rules(rules: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    out: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for r in rules:
+        # Dedupe by semantic signature (ignore clause_id/source metadata).
+        rr = dict(r)
+        rr.pop("clause_id", None)
+        rr.pop("source", None)
+        rr.pop("description", None)
+        key = yaml.safe_dump(rr, sort_keys=True)
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(r)
+    return out
+
+
+def _rule_description(rule: dict[str, Any]) -> str:
+    rtype = str(rule.get("type") or "")
+    field = rule.get("field")
+    if rtype == "row_count_min":
+        return "Prevents empty/insufficient datasets from silently passing."
+    if rtype == "type":
+        return f"Prevents implicit coercion by enforcing declared type for `{field}`."
+    if rtype == "not_null":
+        return f"Prevents missing required values for `{field}`."
+    if rtype == "uuid_v4":
+        return f"Prevents malformed identifiers by enforcing UUIDv4 format for `{field}`."
+    if rtype == "datetime_iso8601":
+        return f"Prevents invalid timestamps by enforcing ISO8601 datetime for `{field}`."
+    if rtype == "enum":
+        return f"Prevents unexpected categories by enforcing accepted values for `{field}`."
+    if rtype == "range":
+        return f"Prevents out-of-bounds numeric values for `{field}`."
+    if rtype == "range_inferred":
+        return f"Prevents extreme outliers for `{field}` using inferred p01–p99 bounds."
+    if rtype == "zscore_drift":
+        return f"Detects distribution drift for `{field}` as data volume scales (tunable over time)."
+    if rtype == "regex":
+        return f"Prevents format drift by enforcing regex pattern for `{field}`."
+    if rtype == "unique":
+        return f"Prevents duplicate identifiers by enforcing uniqueness of `{field}`."
+    if rtype == "relationships":
+        return f"Prevents referential integrity breaks by requiring `{field}` to exist upstream."
+    if rtype == "monotonic_increasing":
+        return f"Prevents event-sourcing replay errors by enforcing monotonic `{field}`."
+    if rtype == "event_payload_required":
+        return "Prevents schema drift by enforcing required payload fields per event_type."
+    if rtype == "event_payload_positive_amount":
+        return "Prevents invalid loan requests by enforcing requested_amount_usd > 0."
+    if rtype == "if_confidence_below_threshold_flag":
+        return "Prevents low-confidence extractions from skipping review workflow."
+    if rtype == "token_math":
+        return "Prevents cost/usage analytics drift by enforcing token accounting invariants."
+    if rtype == "weighted_score_math":
+        return "Prevents scoring inconsistencies by enforcing weighted score computation."
+    if rtype == "time_order":
+        return "Prevents negative latency and timing inconsistencies in trace records."
+    return "Prevents downstream failures by enforcing this contract clause."
+
+
 def _infer_quality_rules(rows: list[dict[str, Any]], spec: DatasetSpec) -> list[dict[str, Any]]:
     quality = minimal_quality_rules(spec.dataset)
+    clause_idx = 1
 
-    append_quality_rule(quality, {"type": "row_count_min", "min": max(1, spec.min_records)})
+    def add(rule: dict[str, Any]) -> None:
+        nonlocal clause_idx
+        rule.setdefault("clause_id", _rule_id(spec.dataset, clause_idx))
+        rule.setdefault("description", _rule_description(rule))
+        clause_idx += 1
+        append_quality_rule(quality, rule)
+
+    add({"type": "row_count_min", "min": max(1, spec.min_records)})
 
     # Structural type checks (no implicit coercions).
     for f in spec.fields:
-        append_quality_rule(quality, {"type": "type", "field": f.path, "expected": f.logical_type})
+        add({"type": "type", "field": f.path, "expected": f.logical_type})
 
     for f in spec.fields:
         if f.required:
-            append_quality_rule(quality, {"type": "not_null", "field": f.path})
+            add({"type": "not_null", "field": f.path})
         if f.logical_type == "uuid":
-            append_quality_rule(quality, {"type": "uuid_v4", "field": f.path})
+            add({"type": "uuid_v4", "field": f.path})
         if f.logical_type == "datetime":
-            append_quality_rule(quality, {"type": "datetime_iso8601", "field": f.path})
+            add({"type": "datetime_iso8601", "field": f.path})
         if f.enum:
-            append_quality_rule(quality, {"type": "enum", "field": f.path, "values": list(f.enum)})
+            add({"type": "enum", "field": f.path, "values": list(f.enum)})
         if f.minimum is not None or f.maximum is not None:
-            append_quality_rule(quality, {"type": "range", "field": f.path, "min": f.minimum, "max": f.maximum})
-        if f.path == "confidence" or f.path.endswith(".confidence") or "confidence" in f.path:
-            append_quality_rule(quality, {"type": "range", "field": f.path, "min": 0.0, "max": 1.0})
+            add({"type": "range", "field": f.path, "min": f.minimum, "max": f.maximum})
+        if (f.minimum is None and f.maximum is None) and (f.path == "confidence" or f.path.endswith(".confidence") or "confidence" in f.path):
+            add({"type": "range", "field": f.path, "min": 0.0, "max": 1.0})
+
+    # Data-driven inference: required fields by null_fraction.
+    for f in spec.fields:
+        if f.required:
+            continue
+        nf = _null_fraction(rows, f.path)
+        if nf <= 0.01:  # <1% null/missing in sample -> require
+            add({"type": "not_null", "field": f.path, "source": "inferred_null_fraction<=0.01"})
+
+    # Data-driven inference: enums for low-cardinality strings.
+    for f in spec.fields:
+        if f.logical_type != "string":
+            continue
+        inferred = _infer_enum_values(rows, f.path)
+        if inferred and not f.enum:
+            add({"type": "enum", "field": f.path, "values": inferred, "source": "inferred_low_cardinality"})
+
+    # Data-driven inference: regex for prefixed identifiers (e.g., stream_id).
+    for f in spec.fields:
+        if f.logical_type != "string":
+            continue
+        pattern = _infer_regex_prefix(rows, f.path)
+        if pattern:
+            add({"type": "regex", "field": f.path, "pattern": pattern, "source": "inferred_prefix_regex"})
+
+    # Data-driven inference: uniqueness for identifier-like fields.
+    non_unique_ids = {
+        "trace_id",
+        "intent_id",
+        "doc_id",
+        "metadata.correlation_id",
+    }
+    for f in spec.fields:
+        if f.logical_type != "uuid":
+            continue
+        if f.path in non_unique_ids:
+            continue
+        if _null_fraction(rows, f.path) > 0.0:
+            continue
+        values = [v for v in _field_values(rows, f.path) if isinstance(v, str)]
+        if len(values) < 25:
+            continue
+        unique_ratio = (len(set(values)) / len(values)) if values else 0.0
+        if unique_ratio >= 0.999:
+            add({"type": "unique", "field": f.path, "source": f"inferred_unique_ratio={unique_ratio:.3f}"})
 
     for f in spec.fields:
         if f.logical_type in ("integer", "number"):
             prof = _profile_numeric(rows, f.path)
             if prof:
-                append_quality_rule(
-                    quality,
+                add({"type": "zscore_drift", "field": f.path, "mean": prof["mean"], "stdev": prof["stdev"], "max_z": 3.5})
+
+            robust = _profile_numeric_robust(rows, f.path)
+            if robust:
+                add(
                     {
-                        "type": "zscore_drift",
+                        "type": "range_inferred",
                         "field": f.path,
-                        "mean": prof["mean"],
-                        "stdev": prof["stdev"],
-                        "max_z": 3.5,
-                    },
+                        "min": robust["p01"],
+                        "max": robust["p99"],
+                        "source": "inferred_p01_p99",
+                    }
                 )
 
+    # Dataset-specific strong rules (Week3 + Week5).
+    if spec.dataset == "week3_extractions":
+        add(
+            {
+                "type": "relationships",
+                "field": "doc_id",
+                "to_dataset": "week4_lineage_snapshots",
+                "to_field": "nodes.ref.doc_id",
+                "source": "lineage_contract",
+            }
+        )
+        add(
+            {
+                "type": "if_confidence_below_threshold_flag",
+                "confidence_field": "confidence",
+                "threshold_field": "threshold",
+                "flag_field": "flags.flagged_for_review",
+                "source": "semantic_guardrail",
+            }
+        )
+
+    if spec.dataset == "week5_events":
+        add(
+            {
+                "type": "monotonic_increasing",
+                "field": "global_position",
+                "source": "event_sourcing_invariant",
+            }
+        )
+        add(
+            {
+                "type": "event_payload_required",
+                "event_type_field": "event_type",
+                "payload_field": "payload",
+                "source": "event_schema",
+            }
+        )
+        add(
+            {
+                "type": "event_payload_positive_amount",
+                "event_type": "ApplicationSubmitted",
+                "payload_amount_field": "payload.requested_amount_usd",
+                "source": "event_schema",
+            }
+        )
+
+    if spec.dataset == "traces_runs":
+        add({"type": "token_math", "prompt_tokens_field": "prompt_tokens", "completion_tokens_field": "completion_tokens", "total_tokens_field": "total_tokens"})
+        add({"type": "time_order", "start_field": "start_time", "end_field": "end_time"})
+
+    if spec.dataset == "week2_verdicts":
+        add(
+            {
+                "type": "weighted_score_math",
+                "correctness_field": "scores.correctness",
+                "safety_field": "scores.safety",
+                "style_field": "scores.style",
+                "weights_field": "scores.weights",
+                "weighted_score_field": "scores.weighted_score",
+            }
+        )
+
+    # Dedupe and re-attach.
+    impl = quality[0].get("implementation")
+    if isinstance(impl, dict) and isinstance(impl.get("rules"), list):
+        impl["rules"] = _dedupe_rules([r for r in impl["rules"] if isinstance(r, dict)])
     return quality
 
 
@@ -204,13 +500,76 @@ def _lineage_custom_properties(dataset_name: str) -> dict[str, Any]:
     }
 
 
+def _failure_modes_for_dataset(dataset_name: str) -> list[str]:
+    if dataset_name == "week3_extractions":
+        return [
+            "Confidence semantics drift (probability 0–1 changed to percent 0–100).",
+            "Doc_id referential breaks against lineage snapshots (attribution failures).",
+            "Out-of-range page_number or negative processing_time_ms (profiling corruption).",
+            "Low-confidence extractions not flagged for review (workflow bypass).",
+            "Statistical drift in processing_time_ms causing SLA regression.",
+        ]
+    if dataset_name == "week5_events":
+        return [
+            "Non-monotonic global_position leading to replay/order bugs.",
+            "Missing required payload fields for event_type (schema drift).",
+            "Invalid recorded_at timestamps causing temporal analytics errors.",
+            "Malformed stream_id formats breaking routing/partitioning.",
+            "Requested amount <= 0 for ApplicationSubmitted (domain invalid).",
+        ]
+    if dataset_name == "traces_runs":
+        return [
+            "Token accounting mismatch (total != prompt + completion) corrupting cost analytics.",
+            "Timing inconsistencies (end_time < start_time) producing negative latencies.",
+            "Provider/project/name cardinality explosion (tag drift).",
+            "Status/error schema drift breaking observability pipelines.",
+        ]
+    if dataset_name == "week2_verdicts":
+        return [
+            "Weighted score math drift (stored score diverges from components).",
+            "Score range violations (outside 1–5) skewing evaluation.",
+            "Target_ref mismatches against upstream intents (broken linkage).",
+            "Confidence scale drift (0–1 changed) causing gating errors.",
+        ]
+    return [
+        "Unexpected null expansion on key fields (requiredness drift).",
+        "Cardinality or distribution drift beyond expected bounds.",
+        "Identifier format drift (regex/UUID) breaking joins and lineage.",
+        "Downstream incompatibility due to unversioned schema changes.",
+    ]
+
+
+def _dbt_mapping_block() -> dict[str, Any]:
+    return {
+        "notes": "Documentation-only view of dbt tests emitted alongside this contract.",
+        "mappings": {
+            "not_null": "not_null",
+            "unique": "unique",
+            "enum": "accepted_values",
+            "uuid_v4": "regex_match (uuidv4)",
+            "datetime_iso8601": "regex_match (datetime prefix)",
+            "range": "accepted_range (generic test macro)",
+            "range_inferred": "accepted_range (generic test macro)",
+            "regex": "regex_match (generic test macro)",
+            "relationships": "relationships",
+            "monotonic_increasing": "not available in dbt schema.yml (enforced in runner)",
+            "event_payload_*": "not available in dbt schema.yml (enforced in runner)",
+            "zscore_drift": "not available in dbt schema.yml (enforced in runner)",
+        },
+    }
+
+
 def generate_contract(source: str, output_dir: str) -> tuple[str, str]:
     dataset_name = _infer_dataset_name_from_path(source)
     raw_rows = _load_rows(source)
     flat_rows = [_flatten(r) for r in raw_rows]
 
     canon = canonical_specs().get(dataset_name)
-    spec = canon or DatasetSpec(dataset=dataset_name, fields=_infer_field_specs(raw_rows, dataset_name), min_records=50)
+    if canon:
+        spec = canon
+    else:
+        inferred = sorted(_infer_field_specs(raw_rows, dataset_name), key=lambda f: f.path)
+        spec = DatasetSpec(dataset=dataset_name, fields=inferred, min_records=50)
     quality = _infer_quality_rules(flat_rows, spec)
     custom_props = _lineage_custom_properties(dataset_name)
 
@@ -226,6 +585,16 @@ def generate_contract(source: str, output_dir: str) -> tuple[str, str]:
         quality_rules=quality,
         custom_properties=custom_props,
     )
+    # Contract-level risk documentation (no rule duplication).
+    contract.setdefault(
+        "failure_modes",
+        _failure_modes_for_dataset(dataset_name),
+    )
+    # Documentation-only: visibility into dbt tests already emitted.
+    contract.setdefault(
+        "dbt_mapping",
+        _dbt_mapping_block(),
+    )
 
     os.makedirs(output_dir, exist_ok=True)
     contract_path = os.path.join(output_dir, f"{dataset_name}.yaml")
@@ -234,7 +603,10 @@ def generate_contract(source: str, output_dir: str) -> tuple[str, str]:
     with open(contract_path, "w", encoding="utf-8", newline="\n") as f:
         yaml.safe_dump(contract, f, sort_keys=False, allow_unicode=True)
 
-    dbt_schema = dbt_schema_yml_for_dataset(spec, model_name=dataset_name)
+    # Map quality rules into dbt tests.
+    impl = quality[0].get("implementation") if quality and isinstance(quality[0], dict) else {}
+    rules = impl.get("rules") if isinstance(impl, dict) else []
+    dbt_schema = dbt_schema_yml_for_dataset(spec, model_name=dataset_name, quality_rules=rules if isinstance(rules, list) else None)
     with open(dbt_path, "w", encoding="utf-8", newline="\n") as f:
         yaml.safe_dump(dbt_schema, f, sort_keys=False, allow_unicode=True)
 
