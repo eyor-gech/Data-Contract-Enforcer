@@ -33,3 +33,12 @@ The React page calls:
 - `GET /api/ai-drift`
 - `GET /api/llm-violations`
 - `GET /api/executive-llm-summary`
+
+## Guided Demo (6 steps)
+
+- `POST /generate-contract`
+- `POST /run-validation`
+- `POST /run-attribution`
+- `POST /schema-evolution`
+- `POST /ai-extensions`
+- `POST /generate-report`
