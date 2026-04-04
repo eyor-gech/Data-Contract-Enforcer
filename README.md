@@ -250,3 +250,118 @@ This project satisfies all **“Mastered” criteria**:
 ## Author
 Eyor Getachew
 Data Scientist | Data Platform Engineer
+## Week 7 — Data Contract Enforcer (Production-Ready)
+
+All steps are runnable end-to-end with no manual edits.
+
+### 0) Bootstrap (datasets + contracts + validations)
+
+```powershell
+python scripts/week7_bootstrap.py --cloned-root "C:\Users\Eyor.G\Documents\Cloned"
+```
+
+Outputs:
+- `outputs/` canonical datasets
+- `generated_contracts/*.yaml` + `generated_contracts/*.schema.yml`
+- `validation_reports/*.json`
+
+### 1) Generate a Contract (and snapshot schema)
+
+```powershell
+python contracts/generator.py --source outputs/week3/extractions.jsonl --output generated_contracts
+python contracts/generator.py --source outputs/week5/events.jsonl --output generated_contracts
+```
+
+Schema snapshots are stored under:
+- `schema_snapshots/<contract_id>/<timestamp>.yaml`
+
+### 2) Schema Evolution Analyzer (Phase 3)
+
+Create snapshots (run twice to create 2+ snapshots):
+```powershell
+python contracts/schema_analyzer.py snapshot --contract generated_contracts/week3_extractions.yaml
+python contracts/schema_analyzer.py snapshot --contract generated_contracts/week3_extractions.yaml
+```
+
+Generate a migration report from latest 2 snapshots:
+```powershell
+python contracts/schema_analyzer.py report-latest --contract generated_contracts/week3_extractions.yaml
+```
+
+Reports:
+- `reports/schema_migration_reports/*_migration_report.yaml`
+- `reports/schema_migration_reports/*_migration_report.pdf`
+
+### 3) AI Contract Extensions (Phase 4A)
+
+```powershell
+python contracts/ai_extensions.py
+```
+
+Outputs:
+- `validation_reports/ai_extensions.json`
+- `outputs/quarantine/*.jsonl` (non-conforming prompt inputs)
+- `violation_log/violations.jsonl`
+
+### 4) Enforcer Report (Phase 4B)
+
+```powershell
+python contracts/report_generator.py --out-dir enforcer_report
+```
+
+Outputs:
+- `enforcer_report/report_data.json`
+- `enforcer_report/enforcer_report.pdf`
+
+### 5) Attribution (blame chain + blast radius)
+
+```powershell
+python contracts/attributor.py --dataset week3_extractions --violation-report validation_reports/week3_extractions.json
+```
+
+## Evaluator Guide (Fresh Clone, End-to-End)
+
+Run these **five entry-point scripts** in order. Each command is deterministic and writes outputs under the repo.
+
+1) Bootstrap (datasets + contracts + snapshots + validations + reports)
+```powershell
+python scripts/week7_bootstrap.py --cloned-root "C:\Users\Eyor.G\Documents\Cloned"
+```
+Expected outputs (paths):
+- `outputs/week3/extractions.jsonl`, `outputs/week5/events.jsonl`
+- `generated_contracts/week3_extractions.yaml`, `generated_contracts/week5_events.yaml`
+- `schema_snapshots/<contract_id>/*.yaml` (≥2 snapshots per contract)
+- `reports/schema_migration_reports/*_migration_report.yaml` and `.pdf`
+- `validation_reports/week3_extractions.json`, `validation_reports/week5_events.json`, `validation_reports/ai_extensions.json`
+- `enforcer_report/report_data.json` and `enforcer_report/enforcer_report.pdf`
+- `violation_log/violations.jsonl`
+
+2) Schema Evolution Analyzer (list snapshots since a time)
+```powershell
+python contracts/schema_analyzer.py list --contract-id <contract_id> --since 20260404T000000.000000Z.yaml
+```
+Expected output: YAML listing snapshot file paths.
+
+3) AI Contract Extensions (drift + prompt schema + LLM output enforcement)
+```powershell
+python contracts/ai_extensions.py
+```
+Expected outputs:
+- `validation_reports/ai_extensions.json`
+- `outputs/quarantine/traces_runs_inputs_invalid.jsonl`
+- `validation_reports/week2_violation_rate_history.jsonl`
+
+4) Enforcer Report Aggregation (business-facing)
+```powershell
+python contracts/report_generator.py --out-dir enforcer_report
+```
+Expected outputs:
+- `enforcer_report/report_data.json` (includes `recommended_actions` with `file_path` + `contract_clause`)
+- `enforcer_report/enforcer_report.pdf` (5 sections)
+
+5) Attribution (ranked upstream candidates + blast radius)
+```powershell
+python contracts/attributor.py --dataset week3_extractions --violation-report validation_reports/week3_extractions.json
+```
+Expected output:
+- `enforcer_report/attribution.json` (includes `ranked_candidates` + `blast_radius_detailed.contamination_depth`)
