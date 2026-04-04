@@ -1,0 +1,941 @@
+{
+  "violation_id": "e8f69c06-100c-40f0-9d7f-42354ab37a77",
+  "check_id": "week3_extractions__clause_031",
+  "detected_at": "2026-04-04T06:50:12.335359Z",
+  "dataset": "week3_extractions",
+  "blame_chain_path": [
+    "week1_intent_records",
+    "week2_verdicts",
+    "week3_extractions"
+  ],
+  "blame_chain": [
+    {
+      "dataset": "week4_lineage_snapshots",
+      "file": "src/analyzers/sql_lineage.py",
+      "violation_count": 2,
+      "lineage_hops": 3,
+      "days_since_commit": 3,
+      "confidence_score": 0.09999999999999987,
+      "commit_hash": "356d6004371fe9c6372fd0e15439c89df750e3f9",
+      "author": "eyor23",
+      "commit_timestamp": "2026-03-15T04:56:34+03:00",
+      "commit_message": "Enhance Archivist, Navigator, Orchestrator, and CLI with full analysis workflow- Archivist generates required CODEBASE sections + onboarding brief from upstream outputs and logs trace actions (src/age",
+      "blame_chain": [
+        "week1_intent_records",
+        "week2_verdicts",
+        "week3_extractions",
+        "week4_lineage_snapshots"
+      ]
+    },
+    {
+      "dataset": "week4_lineage_snapshots",
+      "file": "src/graph/data_lineage_graph.py",
+      "violation_count": 2,
+      "lineage_hops": 3,
+      "days_since_commit": 3,
+      "confidence_score": 0.09999999999999987,
+      "commit_hash": "356d6004371fe9c6372fd0e15439c89df750e3f9",
+      "author": "eyor23",
+      "commit_timestamp": "2026-03-15T04:56:34+03:00",
+      "commit_message": "Enhance Archivist, Navigator, Orchestrator, and CLI with full analysis workflow- Archivist generates required CODEBASE sections + onboarding brief from upstream outputs and logs trace actions (src/age",
+      "blame_chain": [
+        "week1_intent_records",
+        "week2_verdicts",
+        "week3_extractions",
+        "week4_lineage_snapshots"
+      ]
+    },
+    {
+      "dataset": "week4_lineage_snapshots",
+      "file": "tests/test_lineage_agents.py",
+      "violation_count": 2,
+      "lineage_hops": 3,
+      "days_since_commit": 3,
+      "confidence_score": 0.09999999999999987,
+      "commit_hash": "6e16ba54bd0d0bd4b021d6014ecc1745d86821ad",
+      "author": "eyor23",
+      "commit_timestamp": "2026-03-13T21:21:37+03:00",
+      "commit_message": "Test scripts",
+      "blame_chain": [
+        "week1_intent_records",
+        "week2_verdicts",
+        "week3_extractions",
+        "week4_lineage_snapshots"
+      ]
+    },
+    {
+      "dataset": "week3_extractions",
+      "file": "rubric/extraction_rules.yaml",
+      "violation_count": 12,
+      "lineage_hops": 2,
+      "days_since_commit": 25,
+      "confidence_score": 0.0,
+      "commit_hash": "840be74ec295cbbdab196437872ed0af5ab7db2b",
+      "author": "eyor23",
+      "commit_timestamp": "2026-03-06T13:44:48+03:00",
+      "commit_message": "Stage 1: Triage Agent implemented and tested",
+      "blame_chain": [
+        "week1_intent_records",
+        "week2_verdicts",
+        "week3_extractions"
+      ]
+    },
+    {
+      "dataset": "week3_extractions",
+      "file": "src/agents/extractor.py",
+      "violation_count": 12,
+      "lineage_hops": 2,
+      "days_since_commit": 25,
+      "confidence_score": 0.0,
+      "commit_hash": "4f35bd98f8dabf0068c3386b8107a480401df9ed",
+      "author": "eyor23",
+      "commit_timestamp": "2026-03-06T16:36:15+03:00",
+      "commit_message": "Extraction Router with Confidence-Gated Escalation",
+      "blame_chain": [
+        "week1_intent_records",
+        "week2_verdicts",
+        "week3_extractions"
+      ]
+    }
+  ],
+  "blast_radius": {
+    "datasets": [
+      "week4_lineage_snapshots",
+      "week5_events",
+      "week7_enforcer"
+    ],
+    "pipelines": [
+      {
+        "from": "week3_extractions",
+        "to": "week4_lineage_snapshots",
+        "subscriber_id": "week4_lineage_snapshots",
+        "validation_mode": "ENFORCE"
+      }
+    ],
+    "detailed": [
+      {
+        "dataset": "week4_lineage_snapshots",
+        "contamination_depth": 1
+      },
+      {
+        "dataset": "week5_events",
+        "contamination_depth": 2
+      },
+      {
+        "dataset": "week7_enforcer",
+        "contamination_depth": 2
+      }
+    ]
+  },
+  "violation_report": {
+    "report_id": "e1c9c0d0-a080-43c5-872a-771e11b5f69d",
+    "contract_id": "7fd02684-e381-45a7-b623-71c9f752f9ab",
+    "snapshot_id": "20260404T061141.195846Z.yaml",
+    "run_timestamp": "2026-04-04T06:49:29.112328Z",
+    "total_checks": 54,
+    "passed": 47,
+    "failed": 7,
+    "warned": 0,
+    "errored": 0,
+    "results": [
+      {
+        "check_id": "week3_extractions__clause_001",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {},
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_002",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "expected": "uuid"
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_003",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "expected": "uuid"
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_004",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "expected": "datetime"
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_005",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "expected": "uuid"
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_006",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "expected": "string"
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_007",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "expected": "integer"
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_008",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "expected": "string"
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_009",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "expected": "number"
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_010",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "expected": "number"
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_011",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "expected": "number"
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_012",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "expected": "number"
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_013",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "expected": "boolean"
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_014",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "expected": "boolean"
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_015",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "expected": "string"
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_016",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "expected": "array"
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_017",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "required": true
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_018",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "pattern": null
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_019",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "required": true
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_020",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "pattern": null
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_021",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "required": true
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_022",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {},
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_023",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "required": true
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_024",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "pattern": null
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_025",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "required": true
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_026",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "required": true
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_027",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "actual_value": null,
+        "expected": {
+          "min": 1,
+          "max": null
+        },
+        "message": "value outside allowed numeric bounds"
+      },
+      {
+        "check_id": "week3_extractions__clause_028",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "required": true
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_029",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "values": [
+            "vision",
+            "ocr",
+            "hybrid"
+          ]
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_030",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "required": true
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_031",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "actual_value": null,
+        "expected": {
+          "min": 0.0,
+          "max": 1.0
+        },
+        "message": "value outside allowed numeric bounds"
+      },
+      {
+        "check_id": "week3_extractions__clause_032",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "required": true
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_033",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "min": 0.0,
+          "max": 1.0
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_034",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "required": true
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_035",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "min": 0.0,
+          "max": null
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_036",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "required": true
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_037",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "min": 0.0,
+          "max": null
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_038",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "required": true
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_039",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "required": true
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_040",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "required": true
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_041",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "values": [
+            "Annual_Report_JUNE-2023",
+            "tax_expenditure_ethiopia_2021_22",
+            "20191010_Pharmaceutical-Manufacturing-Opportunites-in-Ethiopia_VF",
+            "Consumer Price Index August 2025",
+            "Consumer Price Index July 2025",
+            "2013-E.C-Audit-finding-information"
+          ]
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_042",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {},
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_043",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {},
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_044",
+        "status": "FAIL",
+        "severity": "MEDIUM",
+        "actual_value": null,
+        "expected": {
+          "min": 1.0,
+          "max": 94.0
+        },
+        "message": "value outside allowed numeric bounds"
+      },
+      {
+        "check_id": "week3_extractions__clause_045",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {},
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_046",
+        "status": "FAIL",
+        "severity": "MEDIUM",
+        "actual_value": null,
+        "expected": {
+          "min": 0.2,
+          "max": 1.0
+        },
+        "message": "value outside allowed numeric bounds"
+      },
+      {
+        "check_id": "week3_extractions__clause_047",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {},
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_048",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "min": 0.7,
+          "max": 0.7
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_049",
+        "status": "FAIL",
+        "severity": "MEDIUM",
+        "actual_value": null,
+        "expected": {},
+        "message": "statistical drift detected (z-score)"
+      },
+      {
+        "check_id": "week3_extractions__clause_050",
+        "status": "FAIL",
+        "severity": "MEDIUM",
+        "actual_value": null,
+        "expected": {
+          "min": 3180.9909000294283,
+          "max": 30567.873699998017
+        },
+        "message": "value outside allowed numeric bounds"
+      },
+      {
+        "check_id": "week3_extractions__clause_051",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {},
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_052",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "message": "Contract check passed."
+      },
+      {
+        "check_id": "week3_extractions__clause_053",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "actual_value": null,
+        "expected": {
+          "to_dataset": "week4_lineage_snapshots",
+          "field": "doc_id",
+          "ref_field": null
+        },
+        "message": "referential integrity failure"
+      },
+      {
+        "check_id": "week3_extractions__clause_054",
+        "status": "PASS",
+        "severity": "LOW",
+        "actual_value": null,
+        "expected": {},
+        "message": "Contract check passed."
+      }
+    ],
+    "status": "FAIL",
+    "violations": [
+      {
+        "type": "SCHEMA",
+        "field": "confidence",
+        "severity": "CRITICAL",
+        "count": 1,
+        "root_cause": "week3_extractions",
+        "lineage_path": [
+          "week3_extractions"
+        ],
+        "clause_id": "week3_extractions__clause_031",
+        "message": "value outside allowed numeric bounds",
+        "samples": [
+          {
+            "line_no": 1,
+            "value": 1.2
+          }
+        ]
+      },
+      {
+        "type": "SCHEMA",
+        "field": "confidence",
+        "severity": "MEDIUM",
+        "count": 1,
+        "root_cause": "week3_extractions",
+        "lineage_path": [
+          "week3_extractions"
+        ],
+        "clause_id": "week3_extractions__clause_046",
+        "message": "value outside allowed numeric bounds",
+        "samples": [
+          {
+            "line_no": 1,
+            "value": 1.2
+          }
+        ]
+      },
+      {
+        "type": "SCHEMA",
+        "field": "page_number",
+        "severity": "CRITICAL",
+        "count": 1,
+        "root_cause": "week3_extractions",
+        "lineage_path": [
+          "week3_extractions"
+        ],
+        "clause_id": "week3_extractions__clause_027",
+        "message": "value outside allowed numeric bounds",
+        "samples": [
+          {
+            "line_no": 3,
+            "value": 0
+          }
+        ]
+      },
+      {
+        "type": "SCHEMA",
+        "field": "page_number",
+        "severity": "MEDIUM",
+        "count": 3,
+        "root_cause": "week3_extractions",
+        "lineage_path": [
+          "week3_extractions"
+        ],
+        "clause_id": "week3_extractions__clause_044",
+        "message": "value outside allowed numeric bounds",
+        "samples": [
+          {
+            "line_no": 3,
+            "value": 0
+          },
+          {
+            "line_no": 199,
+            "value": 95
+          },
+          {
+            "line_no": 200,
+            "value": 96
+          }
+        ]
+      },
+      {
+        "type": "SCHEMA",
+        "field": "processing_time_ms",
+        "severity": "MEDIUM",
+        "count": 2,
+        "root_cause": "week3_extractions",
+        "lineage_path": [
+          "week3_extractions"
+        ],
+        "clause_id": "week3_extractions__clause_049",
+        "message": "statistical drift detected (z-score)",
+        "samples": [
+          {
+            "line_no": 81,
+            "value": 51353.10219996609
+          },
+          {
+            "line_no": 88,
+            "value": 47139.36829997692
+          }
+        ]
+      },
+      {
+        "type": "SCHEMA",
+        "field": "processing_time_ms",
+        "severity": "MEDIUM",
+        "count": 4,
+        "root_cause": "week3_extractions",
+        "lineage_path": [
+          "week3_extractions"
+        ],
+        "clause_id": "week3_extractions__clause_050",
+        "message": "value outside allowed numeric bounds",
+        "samples": [
+          {
+            "line_no": 81,
+            "value": 51353.10219996609
+          },
+          {
+            "line_no": 88,
+            "value": 47139.36829997692
+          },
+          {
+            "line_no": 91,
+            "value": 2905.3274000179954
+          }
+        ]
+      },
+      {
+        "type": "SEMANTIC",
+        "field": "doc_id",
+        "severity": "CRITICAL",
+        "count": 2,
+        "root_cause": "week4_lineage_snapshots",
+        "lineage_path": [
+          "week3_extractions"
+        ],
+        "clause_id": "week3_extractions__clause_053",
+        "message": "referential integrity failure",
+        "samples": [
+          {
+            "line_no": 1,
+            "value": "327603cb-e868-444b-9ac5-035d75feb92a"
+          },
+          {
+            "line_no": 3,
+            "value": "327603cb-e868-444b-9ac5-035d75feb92a"
+          }
+        ]
+      }
+    ],
+    "summary": {
+      "total_records": 200,
+      "failed_records": 8,
+      "pass_rate": 0.96,
+      "total_rules": 54,
+      "rules_failed": 7,
+      "rows_affected": 8,
+      "failure_rate": 0.04
+    },
+    "parse_errors": 0
+  },
+  "ranked_candidates": [
+    {
+      "dataset": "week4_lineage_snapshots",
+      "file": "src/analyzers/sql_lineage.py",
+      "violation_count": 2,
+      "lineage_hops": 3,
+      "days_since_commit": 3,
+      "confidence_score": 0.09999999999999987,
+      "commit_hash": "356d6004371fe9c6372fd0e15439c89df750e3f9",
+      "author": "eyor23",
+      "commit_timestamp": "2026-03-15T04:56:34+03:00",
+      "commit_message": "Enhance Archivist, Navigator, Orchestrator, and CLI with full analysis workflow- Archivist generates required CODEBASE sections + onboarding brief from upstream outputs and logs trace actions (src/age",
+      "blame_chain": [
+        "week1_intent_records",
+        "week2_verdicts",
+        "week3_extractions",
+        "week4_lineage_snapshots"
+      ]
+    },
+    {
+      "dataset": "week4_lineage_snapshots",
+      "file": "src/graph/data_lineage_graph.py",
+      "violation_count": 2,
+      "lineage_hops": 3,
+      "days_since_commit": 3,
+      "confidence_score": 0.09999999999999987,
+      "commit_hash": "356d6004371fe9c6372fd0e15439c89df750e3f9",
+      "author": "eyor23",
+      "commit_timestamp": "2026-03-15T04:56:34+03:00",
+      "commit_message": "Enhance Archivist, Navigator, Orchestrator, and CLI with full analysis workflow- Archivist generates required CODEBASE sections + onboarding brief from upstream outputs and logs trace actions (src/age",
+      "blame_chain": [
+        "week1_intent_records",
+        "week2_verdicts",
+        "week3_extractions",
+        "week4_lineage_snapshots"
+      ]
+    },
+    {
+      "dataset": "week4_lineage_snapshots",
+      "file": "tests/test_lineage_agents.py",
+      "violation_count": 2,
+      "lineage_hops": 3,
+      "days_since_commit": 3,
+      "confidence_score": 0.09999999999999987,
+      "commit_hash": "6e16ba54bd0d0bd4b021d6014ecc1745d86821ad",
+      "author": "eyor23",
+      "commit_timestamp": "2026-03-13T21:21:37+03:00",
+      "commit_message": "Test scripts",
+      "blame_chain": [
+        "week1_intent_records",
+        "week2_verdicts",
+        "week3_extractions",
+        "week4_lineage_snapshots"
+      ]
+    },
+    {
+      "dataset": "week3_extractions",
+      "file": "rubric/extraction_rules.yaml",
+      "violation_count": 12,
+      "lineage_hops": 2,
+      "days_since_commit": 25,
+      "confidence_score": 0.0,
+      "commit_hash": "840be74ec295cbbdab196437872ed0af5ab7db2b",
+      "author": "eyor23",
+      "commit_timestamp": "2026-03-06T13:44:48+03:00",
+      "commit_message": "Stage 1: Triage Agent implemented and tested",
+      "blame_chain": [
+        "week1_intent_records",
+        "week2_verdicts",
+        "week3_extractions"
+      ]
+    },
+    {
+      "dataset": "week3_extractions",
+      "file": "src/agents/extractor.py",
+      "violation_count": 12,
+      "lineage_hops": 2,
+      "days_since_commit": 25,
+      "confidence_score": 0.0,
+      "commit_hash": "4f35bd98f8dabf0068c3386b8107a480401df9ed",
+      "author": "eyor23",
+      "commit_timestamp": "2026-03-06T16:36:15+03:00",
+      "commit_message": "Extraction Router with Confidence-Gated Escalation",
+      "blame_chain": [
+        "week1_intent_records",
+        "week2_verdicts",
+        "week3_extractions"
+      ]
+    }
+  ]
+}
