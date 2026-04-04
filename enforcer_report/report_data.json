@@ -1,10 +1,10 @@
 {
   "report_version": "1.0.0",
-  "generated_at": "2026-04-04T06:49:48.378936Z",
+  "generated_at": "2026-04-04T08:31:47.502658Z",
   "data_health_score": 0,
   "health_score_inputs": {
-    "total_rules": 92,
-    "failed_rules": 12,
+    "total": 92,
+    "passed": 80,
     "critical_count": 18
   },
   "inputs": {
@@ -25,6 +25,128 @@
   },
   "violations": [
     {
+      "phase": "4A",
+      "type": "AI",
+      "severity": "CRITICAL",
+      "dataset": "week3_extractions",
+      "check": "embedding_drift_week3",
+      "message": "Embedding drift mean cosine distance 0.186 exceeded threshold 0.150.",
+      "recommendation": "Investigate Week3 extractor prompt/model changes; rebaseline if change is intentional and versioned.",
+      "logged_at": "2026-04-02T09:26:53.378901Z",
+      "source_report": "violation_log\\violations.jsonl",
+      "clause_id": null
+    },
+    {
+      "phase": "4A",
+      "type": "AI",
+      "severity": "CRITICAL",
+      "dataset": "week2_verdicts",
+      "check": "target_ref_link",
+      "message": "Week2 verdict references file not present in Week1 intents: nonexistent/file/path.py",
+      "recommendation": "Constrain the LLM to only reference files present in intent.code_refs; add retrieval/grounding.",
+      "logged_at": "2026-04-02T09:26:53.434052Z",
+      "source_report": "violation_log\\violations.jsonl",
+      "clause_id": null
+    },
+    {
+      "phase": "4A",
+      "type": "AI",
+      "severity": "CRITICAL",
+      "dataset": "week3_extractions",
+      "check": "embedding_drift_week3",
+      "message": "Embedding drift mean cosine distance 0.186 exceeded threshold 0.150.",
+      "recommendation": "Investigate Week3 extractor prompt/model changes; rebaseline if change is intentional and versioned.",
+      "logged_at": "2026-04-02T09:31:12.133359Z",
+      "source_report": "violation_log\\violations.jsonl",
+      "clause_id": null
+    },
+    {
+      "phase": "4A",
+      "type": "AI",
+      "severity": "CRITICAL",
+      "dataset": "week2_verdicts",
+      "check": "target_ref_link",
+      "message": "Week2 verdict references file not present in Week1 intents: nonexistent/file/path.py",
+      "recommendation": "Constrain the LLM to only reference files present in intent.code_refs; add retrieval/grounding.",
+      "logged_at": "2026-04-02T09:31:12.185529Z",
+      "source_report": "violation_log\\violations.jsonl",
+      "clause_id": null
+    },
+    {
+      "phase": "4A",
+      "type": "AI",
+      "severity": "CRITICAL",
+      "dataset": "week3_extractions",
+      "check": "embedding_drift_week3",
+      "message": "Embedding drift mean cosine distance 0.186 exceeded threshold 0.150.",
+      "recommendation": "Investigate Week3 extractor prompt/model changes; rebaseline if change is intentional and versioned.",
+      "logged_at": "2026-04-02T09:37:21.009132Z",
+      "source_report": "violation_log\\violations.jsonl",
+      "clause_id": null
+    },
+    {
+      "phase": "4A",
+      "type": "AI",
+      "severity": "CRITICAL",
+      "dataset": "week2_verdicts",
+      "check": "target_ref_link",
+      "message": "Week2 verdict references file not present in Week1 intents: nonexistent/file/path.py",
+      "recommendation": "Constrain the LLM to only reference files present in intent.code_refs; add retrieval/grounding.",
+      "logged_at": "2026-04-02T09:37:21.094448Z",
+      "source_report": "violation_log\\violations.jsonl",
+      "clause_id": null
+    },
+    {
+      "phase": "4A",
+      "type": "AI",
+      "severity": "CRITICAL",
+      "dataset": "week3_extractions",
+      "check": "embedding_drift_week3",
+      "message": "Embedding drift mean cosine distance 0.186 exceeded threshold 0.150.",
+      "recommendation": "Investigate Week3 extractor prompt/model changes; rebaseline if change is intentional and versioned.",
+      "logged_at": "2026-04-04T06:11:56.399252Z",
+      "source_report": "violation_log\\violations.jsonl",
+      "clause_id": null
+    },
+    {
+      "phase": "4A",
+      "type": "AI",
+      "severity": "CRITICAL",
+      "dataset": "week2_verdicts",
+      "check": "target_ref_link",
+      "message": "Week2 verdict references file not present in Week1 intents: nonexistent/file/path.py",
+      "recommendation": "Constrain the LLM to only reference files present in intent.code_refs; add retrieval/grounding.",
+      "logged_at": "2026-04-04T06:11:56.452759Z",
+      "source_report": "violation_log\\violations.jsonl",
+      "clause_id": null
+    },
+    {
+      "type": "SEMANTIC",
+      "field": "total_tokens",
+      "severity": "CRITICAL",
+      "count": 1,
+      "root_cause": "traces_runs",
+      "lineage_path": [
+        "traces_runs"
+      ],
+      "source_report": "validation_reports\\phase0_traces_runs.json",
+      "clause_id": null
+    },
+    {
+      "type": "SEMANTIC",
+      "field": "target_ref.file",
+      "severity": "CRITICAL",
+      "count": 1,
+      "root_cause": "week1_intent_records",
+      "lineage_path": [
+        "week1_intent_records",
+        "week2_verdicts"
+      ],
+      "source_report": "validation_reports\\phase0_week2_verdicts.json",
+      "downstream_impact": "week2_verdicts",
+      "clause_id": null
+    },
+    {
       "type": "SCHEMA",
       "field": "confidence",
       "severity": "CRITICAL",
@@ -44,23 +166,16 @@
       "source_report": "validation_reports\\week3_extractions.json"
     },
     {
-      "type": "SCHEMA",
-      "field": "confidence",
-      "severity": "MEDIUM",
+      "type": "AI",
+      "field": "embedding_drift",
+      "severity": "CRITICAL",
       "count": 1,
       "root_cause": "week3_extractions",
+      "clause_id": "ai_extensions:embedding_drift_week3",
+      "message": "Embedding drift exceeded threshold; extraction semantics likely changed.",
       "lineage_path": [
         "week3_extractions"
-      ],
-      "clause_id": "week3_extractions__clause_046",
-      "message": "value outside allowed numeric bounds",
-      "samples": [
-        {
-          "line_no": 1,
-          "value": 1.2
-        }
-      ],
-      "source_report": "validation_reports\\week3_extractions.json"
+      ]
     },
     {
       "type": "SCHEMA",
@@ -77,6 +192,303 @@
         {
           "line_no": 3,
           "value": 0
+        }
+      ],
+      "source_report": "validation_reports\\week3_extractions.json"
+    },
+    {
+      "type": "SEMANTIC",
+      "field": "doc_id",
+      "severity": "CRITICAL",
+      "count": 2,
+      "root_cause": "week4_lineage_snapshots",
+      "lineage_path": [
+        "week3_extractions"
+      ],
+      "clause_id": "week3_extractions__clause_053",
+      "message": "referential integrity failure",
+      "samples": [
+        {
+          "line_no": 1,
+          "value": "327603cb-e868-444b-9ac5-035d75feb92a"
+        },
+        {
+          "line_no": 3,
+          "value": "327603cb-e868-444b-9ac5-035d75feb92a"
+        }
+      ],
+      "source_report": "validation_reports\\week3_extractions.json"
+    },
+    {
+      "type": "SCHEMA",
+      "field": "global_position",
+      "severity": "CRITICAL",
+      "count": 1,
+      "root_cause": "week5_events",
+      "lineage_path": [
+        "week5_events"
+      ],
+      "clause_id": "week5_events__clause_018",
+      "message": "value outside allowed numeric bounds",
+      "samples": [
+        {
+          "line_no": 2,
+          "value": -7
+        }
+      ],
+      "source_report": "validation_reports\\week5_events.json"
+    },
+    {
+      "type": "SEMANTIC",
+      "field": "payload",
+      "severity": "CRITICAL",
+      "count": 1,
+      "root_cause": "week5_events",
+      "lineage_path": [
+        "week5_events"
+      ],
+      "source_report": "validation_reports\\phase0_week5_events.json",
+      "clause_id": null
+    },
+    {
+      "type": "SEMANTIC",
+      "field": "payload",
+      "severity": "CRITICAL",
+      "count": 1,
+      "root_cause": "week5_events",
+      "lineage_path": [
+        "week5_events"
+      ],
+      "clause_id": "week5_events__clause_037",
+      "message": "event payload missing required fields",
+      "samples": [
+        {
+          "line_no": 3,
+          "event_type": "ApplicationSubmitted",
+          "missing": [
+            "application_id",
+            "applicant_id",
+            "requested_amount_usd",
+            "submitted_at"
+          ]
+        }
+      ],
+      "source_report": "validation_reports\\week5_events.json"
+    },
+    {
+      "type": "SEMANTIC",
+      "field": "payload.requested_amount_usd",
+      "severity": "CRITICAL",
+      "count": 1,
+      "root_cause": "week5_events",
+      "lineage_path": [
+        "week5_events"
+      ],
+      "clause_id": "week5_events__clause_038",
+      "message": "requested_amount_usd must be > 0",
+      "samples": [
+        {
+          "line_no": 3,
+          "value": null
+        }
+      ],
+      "source_report": "validation_reports\\week5_events.json"
+    },
+    {
+      "phase": "4A",
+      "type": "AI",
+      "severity": "HIGH",
+      "dataset": "week2_verdicts",
+      "check": "llm_output_schema",
+      "message": "Week2 verdict schema invalid at line 2: 7 is greater than the maximum of 5",
+      "recommendation": "Update verdict formatter to match required schema and score bounds.",
+      "logged_at": "2026-04-02T09:26:53.413933Z",
+      "source_report": "violation_log\\violations.jsonl",
+      "clause_id": null
+    },
+    {
+      "phase": "4A",
+      "type": "AI",
+      "severity": "HIGH",
+      "dataset": "week2_verdicts",
+      "check": "llm_output_schema",
+      "message": "Week2 verdict schema invalid at line 2: 7 is greater than the maximum of 5",
+      "recommendation": "Update verdict formatter to match required schema and score bounds.",
+      "logged_at": "2026-04-02T09:31:12.166213Z",
+      "source_report": "violation_log\\violations.jsonl",
+      "clause_id": null
+    },
+    {
+      "phase": "4A",
+      "type": "AI",
+      "severity": "HIGH",
+      "dataset": "week2_verdicts",
+      "check": "llm_output_schema",
+      "message": "Week2 verdict schema invalid at line 2: 7 is greater than the maximum of 5",
+      "recommendation": "Update verdict formatter to match required schema and score bounds.",
+      "logged_at": "2026-04-02T09:37:21.055894Z",
+      "source_report": "violation_log\\violations.jsonl",
+      "clause_id": null
+    },
+    {
+      "phase": "4A",
+      "type": "AI",
+      "severity": "HIGH",
+      "dataset": "week2_verdicts",
+      "check": "llm_output_schema",
+      "message": "Week2 verdict schema invalid at line 2: 7 is greater than the maximum of 5",
+      "recommendation": "Update verdict formatter to match required schema and score bounds.",
+      "logged_at": "2026-04-04T06:11:56.437305Z",
+      "source_report": "violation_log\\violations.jsonl",
+      "clause_id": null
+    },
+    {
+      "type": "SEMANTIC",
+      "field": "doc_id",
+      "severity": "HIGH",
+      "count": 2,
+      "root_cause": "week4_lineage_snapshots",
+      "lineage_path": [
+        "week3_extractions",
+        "week4_lineage_snapshots"
+      ],
+      "source_report": "validation_reports\\phase0_week3_extractions.json",
+      "downstream_impact": "week4_lineage_snapshots",
+      "clause_id": null
+    },
+    {
+      "type": "SEMANTIC",
+      "field": "global_position",
+      "severity": "HIGH",
+      "count": 1,
+      "root_cause": "week5_events",
+      "lineage_path": [
+        "week5_events"
+      ],
+      "clause_id": "week5_events__clause_036",
+      "message": "sequence is not monotonic increasing",
+      "samples": [
+        {
+          "line_no": 2,
+          "group": "__all__",
+          "prev_line_no": 1,
+          "prev_value": 1.0,
+          "value": -7.0
+        }
+      ],
+      "source_report": "validation_reports\\week5_events.json"
+    },
+    {
+      "phase": "4A",
+      "type": "AI",
+      "severity": "MEDIUM",
+      "dataset": "week2_verdicts",
+      "check": "weighted_score_math",
+      "message": "Weighted score mismatch at line 1: expected 2.200000, got 2.700000",
+      "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
+      "logged_at": "2026-04-02T09:26:53.406167Z",
+      "source_report": "violation_log\\violations.jsonl",
+      "clause_id": null
+    },
+    {
+      "phase": "4A",
+      "type": "AI",
+      "severity": "MEDIUM",
+      "dataset": "week2_verdicts",
+      "check": "weighted_score_math",
+      "message": "Weighted score mismatch at line 2: expected 4.900000, got 3.400000",
+      "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
+      "logged_at": "2026-04-02T09:26:53.424879Z",
+      "source_report": "violation_log\\violations.jsonl",
+      "clause_id": null
+    },
+    {
+      "phase": "4A",
+      "type": "AI",
+      "severity": "MEDIUM",
+      "dataset": "week2_verdicts",
+      "check": "weighted_score_math",
+      "message": "Weighted score mismatch at line 1: expected 2.200000, got 2.700000",
+      "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
+      "logged_at": "2026-04-02T09:31:12.156757Z",
+      "source_report": "violation_log\\violations.jsonl",
+      "clause_id": null
+    },
+    {
+      "phase": "4A",
+      "type": "AI",
+      "severity": "MEDIUM",
+      "dataset": "week2_verdicts",
+      "check": "weighted_score_math",
+      "message": "Weighted score mismatch at line 2: expected 4.900000, got 3.400000",
+      "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
+      "logged_at": "2026-04-02T09:31:12.174426Z",
+      "source_report": "violation_log\\violations.jsonl",
+      "clause_id": null
+    },
+    {
+      "phase": "4A",
+      "type": "AI",
+      "severity": "MEDIUM",
+      "dataset": "week2_verdicts",
+      "check": "weighted_score_math",
+      "message": "Weighted score mismatch at line 1: expected 2.200000, got 2.700000",
+      "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
+      "logged_at": "2026-04-02T09:37:21.040352Z",
+      "source_report": "violation_log\\violations.jsonl",
+      "clause_id": null
+    },
+    {
+      "phase": "4A",
+      "type": "AI",
+      "severity": "MEDIUM",
+      "dataset": "week2_verdicts",
+      "check": "weighted_score_math",
+      "message": "Weighted score mismatch at line 2: expected 4.900000, got 3.400000",
+      "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
+      "logged_at": "2026-04-02T09:37:21.077231Z",
+      "source_report": "violation_log\\violations.jsonl",
+      "clause_id": null
+    },
+    {
+      "phase": "4A",
+      "type": "AI",
+      "severity": "MEDIUM",
+      "dataset": "week2_verdicts",
+      "check": "weighted_score_math",
+      "message": "Weighted score mismatch at line 1: expected 2.200000, got 2.700000",
+      "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
+      "logged_at": "2026-04-04T06:11:56.427337Z",
+      "source_report": "violation_log\\violations.jsonl",
+      "clause_id": null
+    },
+    {
+      "phase": "4A",
+      "type": "AI",
+      "severity": "MEDIUM",
+      "dataset": "week2_verdicts",
+      "check": "weighted_score_math",
+      "message": "Weighted score mismatch at line 2: expected 4.900000, got 3.400000",
+      "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
+      "logged_at": "2026-04-04T06:11:56.444490Z",
+      "source_report": "violation_log\\violations.jsonl",
+      "clause_id": null
+    },
+    {
+      "type": "SCHEMA",
+      "field": "confidence",
+      "severity": "MEDIUM",
+      "count": 1,
+      "root_cause": "week3_extractions",
+      "lineage_path": [
+        "week3_extractions"
+      ],
+      "clause_id": "week3_extractions__clause_046",
+      "message": "value outside allowed numeric bounds",
+      "samples": [
+        {
+          "line_no": 1,
+          "value": 1.2
         }
       ],
       "source_report": "validation_reports\\week3_extractions.json"
@@ -159,29 +571,6 @@
       "source_report": "validation_reports\\week3_extractions.json"
     },
     {
-      "type": "SEMANTIC",
-      "field": "doc_id",
-      "severity": "CRITICAL",
-      "count": 2,
-      "root_cause": "week4_lineage_snapshots",
-      "lineage_path": [
-        "week3_extractions"
-      ],
-      "clause_id": "week3_extractions__clause_053",
-      "message": "referential integrity failure",
-      "samples": [
-        {
-          "line_no": 1,
-          "value": "327603cb-e868-444b-9ac5-035d75feb92a"
-        },
-        {
-          "line_no": 3,
-          "value": "327603cb-e868-444b-9ac5-035d75feb92a"
-        }
-      ],
-      "source_report": "validation_reports\\week3_extractions.json"
-    },
-    {
       "type": "SCHEMA",
       "field": "global_position",
       "severity": "MEDIUM",
@@ -207,370 +596,6 @@
         }
       ],
       "source_report": "validation_reports\\week5_events.json"
-    },
-    {
-      "type": "SCHEMA",
-      "field": "global_position",
-      "severity": "CRITICAL",
-      "count": 1,
-      "root_cause": "week5_events",
-      "lineage_path": [
-        "week5_events"
-      ],
-      "clause_id": "week5_events__clause_018",
-      "message": "value outside allowed numeric bounds",
-      "samples": [
-        {
-          "line_no": 2,
-          "value": -7
-        }
-      ],
-      "source_report": "validation_reports\\week5_events.json"
-    },
-    {
-      "type": "SEMANTIC",
-      "field": "global_position",
-      "severity": "HIGH",
-      "count": 1,
-      "root_cause": "week5_events",
-      "lineage_path": [
-        "week5_events"
-      ],
-      "clause_id": "week5_events__clause_036",
-      "message": "sequence is not monotonic increasing",
-      "samples": [
-        {
-          "line_no": 2,
-          "group": "__all__",
-          "prev_line_no": 1,
-          "prev_value": 1.0,
-          "value": -7.0
-        }
-      ],
-      "source_report": "validation_reports\\week5_events.json"
-    },
-    {
-      "type": "SEMANTIC",
-      "field": "payload",
-      "severity": "CRITICAL",
-      "count": 1,
-      "root_cause": "week5_events",
-      "lineage_path": [
-        "week5_events"
-      ],
-      "clause_id": "week5_events__clause_037",
-      "message": "event payload missing required fields",
-      "samples": [
-        {
-          "line_no": 3,
-          "event_type": "ApplicationSubmitted",
-          "missing": [
-            "application_id",
-            "applicant_id",
-            "requested_amount_usd",
-            "submitted_at"
-          ]
-        }
-      ],
-      "source_report": "validation_reports\\week5_events.json"
-    },
-    {
-      "type": "SEMANTIC",
-      "field": "payload.requested_amount_usd",
-      "severity": "CRITICAL",
-      "count": 1,
-      "root_cause": "week5_events",
-      "lineage_path": [
-        "week5_events"
-      ],
-      "clause_id": "week5_events__clause_038",
-      "message": "requested_amount_usd must be > 0",
-      "samples": [
-        {
-          "line_no": 3,
-          "value": null
-        }
-      ],
-      "source_report": "validation_reports\\week5_events.json"
-    },
-    {
-      "type": "SEMANTIC",
-      "field": "total_tokens",
-      "severity": "CRITICAL",
-      "count": 1,
-      "root_cause": "traces_runs",
-      "lineage_path": [
-        "traces_runs"
-      ],
-      "source_report": "validation_reports\\phase0_traces_runs.json"
-    },
-    {
-      "type": "SEMANTIC",
-      "field": "target_ref.file",
-      "severity": "CRITICAL",
-      "count": 1,
-      "root_cause": "week1_intent_records",
-      "lineage_path": [
-        "week1_intent_records",
-        "week2_verdicts"
-      ],
-      "source_report": "validation_reports\\phase0_week2_verdicts.json",
-      "downstream_impact": "week2_verdicts"
-    },
-    {
-      "type": "SEMANTIC",
-      "field": "doc_id",
-      "severity": "HIGH",
-      "count": 2,
-      "root_cause": "week4_lineage_snapshots",
-      "lineage_path": [
-        "week3_extractions",
-        "week4_lineage_snapshots"
-      ],
-      "source_report": "validation_reports\\phase0_week3_extractions.json",
-      "downstream_impact": "week4_lineage_snapshots"
-    },
-    {
-      "type": "SEMANTIC",
-      "field": "payload",
-      "severity": "CRITICAL",
-      "count": 1,
-      "root_cause": "week5_events",
-      "lineage_path": [
-        "week5_events"
-      ],
-      "source_report": "validation_reports\\phase0_week5_events.json"
-    },
-    {
-      "phase": "4A",
-      "type": "AI",
-      "severity": "CRITICAL",
-      "dataset": "week3_extractions",
-      "check": "embedding_drift_week3",
-      "message": "Embedding drift mean cosine distance 0.186 exceeded threshold 0.150.",
-      "recommendation": "Investigate Week3 extractor prompt/model changes; rebaseline if change is intentional and versioned.",
-      "logged_at": "2026-04-02T09:26:53.378901Z",
-      "source_report": "violation_log\\violations.jsonl"
-    },
-    {
-      "phase": "4A",
-      "type": "AI",
-      "severity": "MEDIUM",
-      "dataset": "week2_verdicts",
-      "check": "weighted_score_math",
-      "message": "Weighted score mismatch at line 1: expected 2.200000, got 2.700000",
-      "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
-      "logged_at": "2026-04-02T09:26:53.406167Z",
-      "source_report": "violation_log\\violations.jsonl"
-    },
-    {
-      "phase": "4A",
-      "type": "AI",
-      "severity": "HIGH",
-      "dataset": "week2_verdicts",
-      "check": "llm_output_schema",
-      "message": "Week2 verdict schema invalid at line 2: 7 is greater than the maximum of 5",
-      "recommendation": "Update verdict formatter to match required schema and score bounds.",
-      "logged_at": "2026-04-02T09:26:53.413933Z",
-      "source_report": "violation_log\\violations.jsonl"
-    },
-    {
-      "phase": "4A",
-      "type": "AI",
-      "severity": "MEDIUM",
-      "dataset": "week2_verdicts",
-      "check": "weighted_score_math",
-      "message": "Weighted score mismatch at line 2: expected 4.900000, got 3.400000",
-      "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
-      "logged_at": "2026-04-02T09:26:53.424879Z",
-      "source_report": "violation_log\\violations.jsonl"
-    },
-    {
-      "phase": "4A",
-      "type": "AI",
-      "severity": "CRITICAL",
-      "dataset": "week2_verdicts",
-      "check": "target_ref_link",
-      "message": "Week2 verdict references file not present in Week1 intents: nonexistent/file/path.py",
-      "recommendation": "Constrain the LLM to only reference files present in intent.code_refs; add retrieval/grounding.",
-      "logged_at": "2026-04-02T09:26:53.434052Z",
-      "source_report": "violation_log\\violations.jsonl"
-    },
-    {
-      "phase": "4A",
-      "type": "AI",
-      "severity": "CRITICAL",
-      "dataset": "week3_extractions",
-      "check": "embedding_drift_week3",
-      "message": "Embedding drift mean cosine distance 0.186 exceeded threshold 0.150.",
-      "recommendation": "Investigate Week3 extractor prompt/model changes; rebaseline if change is intentional and versioned.",
-      "logged_at": "2026-04-02T09:31:12.133359Z",
-      "source_report": "violation_log\\violations.jsonl"
-    },
-    {
-      "phase": "4A",
-      "type": "AI",
-      "severity": "MEDIUM",
-      "dataset": "week2_verdicts",
-      "check": "weighted_score_math",
-      "message": "Weighted score mismatch at line 1: expected 2.200000, got 2.700000",
-      "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
-      "logged_at": "2026-04-02T09:31:12.156757Z",
-      "source_report": "violation_log\\violations.jsonl"
-    },
-    {
-      "phase": "4A",
-      "type": "AI",
-      "severity": "HIGH",
-      "dataset": "week2_verdicts",
-      "check": "llm_output_schema",
-      "message": "Week2 verdict schema invalid at line 2: 7 is greater than the maximum of 5",
-      "recommendation": "Update verdict formatter to match required schema and score bounds.",
-      "logged_at": "2026-04-02T09:31:12.166213Z",
-      "source_report": "violation_log\\violations.jsonl"
-    },
-    {
-      "phase": "4A",
-      "type": "AI",
-      "severity": "MEDIUM",
-      "dataset": "week2_verdicts",
-      "check": "weighted_score_math",
-      "message": "Weighted score mismatch at line 2: expected 4.900000, got 3.400000",
-      "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
-      "logged_at": "2026-04-02T09:31:12.174426Z",
-      "source_report": "violation_log\\violations.jsonl"
-    },
-    {
-      "phase": "4A",
-      "type": "AI",
-      "severity": "CRITICAL",
-      "dataset": "week2_verdicts",
-      "check": "target_ref_link",
-      "message": "Week2 verdict references file not present in Week1 intents: nonexistent/file/path.py",
-      "recommendation": "Constrain the LLM to only reference files present in intent.code_refs; add retrieval/grounding.",
-      "logged_at": "2026-04-02T09:31:12.185529Z",
-      "source_report": "violation_log\\violations.jsonl"
-    },
-    {
-      "phase": "4A",
-      "type": "AI",
-      "severity": "CRITICAL",
-      "dataset": "week3_extractions",
-      "check": "embedding_drift_week3",
-      "message": "Embedding drift mean cosine distance 0.186 exceeded threshold 0.150.",
-      "recommendation": "Investigate Week3 extractor prompt/model changes; rebaseline if change is intentional and versioned.",
-      "logged_at": "2026-04-02T09:37:21.009132Z",
-      "source_report": "violation_log\\violations.jsonl"
-    },
-    {
-      "phase": "4A",
-      "type": "AI",
-      "severity": "MEDIUM",
-      "dataset": "week2_verdicts",
-      "check": "weighted_score_math",
-      "message": "Weighted score mismatch at line 1: expected 2.200000, got 2.700000",
-      "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
-      "logged_at": "2026-04-02T09:37:21.040352Z",
-      "source_report": "violation_log\\violations.jsonl"
-    },
-    {
-      "phase": "4A",
-      "type": "AI",
-      "severity": "HIGH",
-      "dataset": "week2_verdicts",
-      "check": "llm_output_schema",
-      "message": "Week2 verdict schema invalid at line 2: 7 is greater than the maximum of 5",
-      "recommendation": "Update verdict formatter to match required schema and score bounds.",
-      "logged_at": "2026-04-02T09:37:21.055894Z",
-      "source_report": "violation_log\\violations.jsonl"
-    },
-    {
-      "phase": "4A",
-      "type": "AI",
-      "severity": "MEDIUM",
-      "dataset": "week2_verdicts",
-      "check": "weighted_score_math",
-      "message": "Weighted score mismatch at line 2: expected 4.900000, got 3.400000",
-      "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
-      "logged_at": "2026-04-02T09:37:21.077231Z",
-      "source_report": "violation_log\\violations.jsonl"
-    },
-    {
-      "phase": "4A",
-      "type": "AI",
-      "severity": "CRITICAL",
-      "dataset": "week2_verdicts",
-      "check": "target_ref_link",
-      "message": "Week2 verdict references file not present in Week1 intents: nonexistent/file/path.py",
-      "recommendation": "Constrain the LLM to only reference files present in intent.code_refs; add retrieval/grounding.",
-      "logged_at": "2026-04-02T09:37:21.094448Z",
-      "source_report": "violation_log\\violations.jsonl"
-    },
-    {
-      "phase": "4A",
-      "type": "AI",
-      "severity": "CRITICAL",
-      "dataset": "week3_extractions",
-      "check": "embedding_drift_week3",
-      "message": "Embedding drift mean cosine distance 0.186 exceeded threshold 0.150.",
-      "recommendation": "Investigate Week3 extractor prompt/model changes; rebaseline if change is intentional and versioned.",
-      "logged_at": "2026-04-04T06:11:56.399252Z",
-      "source_report": "violation_log\\violations.jsonl"
-    },
-    {
-      "phase": "4A",
-      "type": "AI",
-      "severity": "MEDIUM",
-      "dataset": "week2_verdicts",
-      "check": "weighted_score_math",
-      "message": "Weighted score mismatch at line 1: expected 2.200000, got 2.700000",
-      "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
-      "logged_at": "2026-04-04T06:11:56.427337Z",
-      "source_report": "violation_log\\violations.jsonl"
-    },
-    {
-      "phase": "4A",
-      "type": "AI",
-      "severity": "HIGH",
-      "dataset": "week2_verdicts",
-      "check": "llm_output_schema",
-      "message": "Week2 verdict schema invalid at line 2: 7 is greater than the maximum of 5",
-      "recommendation": "Update verdict formatter to match required schema and score bounds.",
-      "logged_at": "2026-04-04T06:11:56.437305Z",
-      "source_report": "violation_log\\violations.jsonl"
-    },
-    {
-      "phase": "4A",
-      "type": "AI",
-      "severity": "MEDIUM",
-      "dataset": "week2_verdicts",
-      "check": "weighted_score_math",
-      "message": "Weighted score mismatch at line 2: expected 4.900000, got 3.400000",
-      "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
-      "logged_at": "2026-04-04T06:11:56.444490Z",
-      "source_report": "violation_log\\violations.jsonl"
-    },
-    {
-      "phase": "4A",
-      "type": "AI",
-      "severity": "CRITICAL",
-      "dataset": "week2_verdicts",
-      "check": "target_ref_link",
-      "message": "Week2 verdict references file not present in Week1 intents: nonexistent/file/path.py",
-      "recommendation": "Constrain the LLM to only reference files present in intent.code_refs; add retrieval/grounding.",
-      "logged_at": "2026-04-04T06:11:56.452759Z",
-      "source_report": "violation_log\\violations.jsonl"
-    },
-    {
-      "type": "AI",
-      "field": "embedding_drift",
-      "severity": "CRITICAL",
-      "count": 1,
-      "root_cause": "week3_extractions",
-      "message": "Embedding drift exceeded threshold; extraction semantics likely changed.",
-      "lineage_path": [
-        "week3_extractions"
-      ]
     }
   ],
   "narrative": [
@@ -612,209 +637,191 @@
     "[CRITICAL] unknown_system: unknown_field — Week2 verdict references file not present in Week1 intents: nonexistent/file/path.py",
     "[CRITICAL] week3_extractions: embedding_drift — Embedding drift exceeded threshold; extraction semantics likely changed."
   ],
-  "recommendations": [
-    "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`.",
-    "Investigate producer changes and update `README.md` to satisfy contract clause `week3_extractions__clause_053`.",
-    "Investigate producer changes and update `outputs\\migrate\\events_migration.py` to satisfy contract clause `week5_events__clause_018`.",
-    "Investigate producer changes and update `outputs\\migrate\\events_migration.py` to satisfy contract clause `week5_events__clause_033`.",
-    "Investigate producer changes and update `outputs\\migrate\\extractions_migration.py` to satisfy contract clause `unknown_clause`.",
-    "Investigate producer changes and update `outputs\\migrate\\extractions_migration.py` to satisfy contract clause `week3_extractions__clause_027`.",
-    "Investigate producer changes and update `outputs\\migrate\\extractions_migration.py` to satisfy contract clause `week3_extractions__clause_044`.",
-    "Investigate producer changes and update `outputs\\migrate\\extractions_migration.py` to satisfy contract clause `week3_extractions__clause_049`.",
-    "Investigate producer changes and update `outputs\\migrate\\extractions_migration.py` to satisfy contract clause `week3_extractions__clause_050`.",
-    "Update `outputs\\migrate\\events_migration.py` to emit required `payload` fields per `event_type` (contract clause `unknown_clause`).",
-    "Update `outputs\\migrate\\events_migration.py` to emit required `payload` fields per `event_type` (contract clause `week5_events__clause_037`).",
-    "Update `outputs\\migrate\\events_migration.py` to emit required `payload` fields per `event_type` (contract clause `week5_events__clause_038`).",
-    "Update `outputs\\migrate\\events_migration.py` to guarantee monotonic `global_position` (contract clause `week5_events__clause_036`).",
-    "Update `outputs\\migrate\\extractions_migration.py` to output `confidence` as float in [0.0, 1.0] (contract clause `week3_extractions__clause_031`).",
-    "Update `outputs\\migrate\\extractions_migration.py` to output `confidence` as float in [0.0, 1.0] (contract clause `week3_extractions__clause_046`).",
-    "Update `scripts\\generate_traces_runs.py` so `total_tokens == prompt_tokens + completion_tokens` (contract clause `unknown_clause`)."
-  ],
   "recommended_actions": [
     {
-      "file_path": "outputs\\migrate\\extractions_migration.py",
-      "contract_clause": "week3_extractions__clause_031",
-      "action": "Update `outputs\\migrate\\extractions_migration.py` to output `confidence` as float in [0.0, 1.0] (contract clause `week3_extractions__clause_031`)."
+      "file_path": "outputs/migrate/extractions_migration.py",
+      "contract_clause": "ai:unknown_field",
+      "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `ai:unknown_field`.",
+      "section": "1) Data Health Score"
     },
     {
-      "file_path": "outputs\\migrate\\extractions_migration.py",
-      "contract_clause": "week3_extractions__clause_046",
-      "action": "Update `outputs\\migrate\\extractions_migration.py` to output `confidence` as float in [0.0, 1.0] (contract clause `week3_extractions__clause_046`)."
+      "file_path": "outputs/migrate/intent_records_migration.py",
+      "contract_clause": "semantic:target_ref.file",
+      "action": "Investigate producer changes and update `outputs/migrate/intent_records_migration.py` to satisfy contract clause `semantic:target_ref.file`.",
+      "section": "1) Data Health Score"
     },
     {
-      "file_path": "outputs\\migrate\\extractions_migration.py",
-      "contract_clause": "week3_extractions__clause_027",
-      "action": "Investigate producer changes and update `outputs\\migrate\\extractions_migration.py` to satisfy contract clause `week3_extractions__clause_027`."
+      "file_path": "scripts/generate_traces_runs.py",
+      "contract_clause": "semantic:total_tokens",
+      "action": "Update `scripts/generate_traces_runs.py` so `total_tokens == prompt_tokens + completion_tokens` (contract clause `semantic:total_tokens`).",
+      "section": "1) Data Health Score"
     },
     {
-      "file_path": "outputs\\migrate\\extractions_migration.py",
-      "contract_clause": "week3_extractions__clause_044",
-      "action": "Investigate producer changes and update `outputs\\migrate\\extractions_migration.py` to satisfy contract clause `week3_extractions__clause_044`."
+      "file_path": "scripts/generate_week2_verdicts.py",
+      "contract_clause": "ai:unknown_field",
+      "action": "Investigate producer changes and update `scripts/generate_week2_verdicts.py` to satisfy contract clause `ai:unknown_field`.",
+      "section": "1) Data Health Score"
     },
     {
-      "file_path": "outputs\\migrate\\extractions_migration.py",
-      "contract_clause": "week3_extractions__clause_049",
-      "action": "Investigate producer changes and update `outputs\\migrate\\extractions_migration.py` to satisfy contract clause `week3_extractions__clause_049`."
+      "file_path": "outputs/migrate/events_migration.py",
+      "contract_clause": "semantic:payload",
+      "action": "Update `outputs/migrate/events_migration.py` to emit required `payload` fields per `event_type` (contract clause `semantic:payload`).",
+      "section": "2) Violations this week"
     },
     {
-      "file_path": "outputs\\migrate\\extractions_migration.py",
-      "contract_clause": "week3_extractions__clause_050",
-      "action": "Investigate producer changes and update `outputs\\migrate\\extractions_migration.py` to satisfy contract clause `week3_extractions__clause_050`."
-    },
-    {
-      "file_path": "README.md",
-      "contract_clause": "week3_extractions__clause_053",
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `week3_extractions__clause_053`."
-    },
-    {
-      "file_path": "outputs\\migrate\\events_migration.py",
-      "contract_clause": "week5_events__clause_033",
-      "action": "Investigate producer changes and update `outputs\\migrate\\events_migration.py` to satisfy contract clause `week5_events__clause_033`."
-    },
-    {
-      "file_path": "outputs\\migrate\\events_migration.py",
+      "file_path": "outputs/migrate/events_migration.py",
       "contract_clause": "week5_events__clause_018",
-      "action": "Investigate producer changes and update `outputs\\migrate\\events_migration.py` to satisfy contract clause `week5_events__clause_018`."
+      "action": "Investigate producer changes and update `outputs/migrate/events_migration.py` to satisfy contract clause `week5_events__clause_018`.",
+      "section": "2) Violations this week"
     },
     {
-      "file_path": "outputs\\migrate\\events_migration.py",
+      "file_path": "outputs/migrate/events_migration.py",
+      "contract_clause": "week5_events__clause_033",
+      "action": "Investigate producer changes and update `outputs/migrate/events_migration.py` to satisfy contract clause `week5_events__clause_033`.",
+      "section": "2) Violations this week"
+    },
+    {
+      "file_path": "outputs/migrate/events_migration.py",
       "contract_clause": "week5_events__clause_036",
-      "action": "Update `outputs\\migrate\\events_migration.py` to guarantee monotonic `global_position` (contract clause `week5_events__clause_036`)."
+      "action": "Update `outputs/migrate/events_migration.py` to guarantee monotonic `global_position` (contract clause `week5_events__clause_036`).",
+      "section": "2) Violations this week"
     },
     {
-      "file_path": "outputs\\migrate\\events_migration.py",
+      "file_path": "outputs/migrate/events_migration.py",
       "contract_clause": "week5_events__clause_037",
-      "action": "Update `outputs\\migrate\\events_migration.py` to emit required `payload` fields per `event_type` (contract clause `week5_events__clause_037`)."
+      "action": "Update `outputs/migrate/events_migration.py` to emit required `payload` fields per `event_type` (contract clause `week5_events__clause_037`).",
+      "section": "2) Violations this week"
     },
     {
-      "file_path": "outputs\\migrate\\events_migration.py",
+      "file_path": "outputs/migrate/events_migration.py",
       "contract_clause": "week5_events__clause_038",
-      "action": "Update `outputs\\migrate\\events_migration.py` to emit required `payload` fields per `event_type` (contract clause `week5_events__clause_038`)."
+      "action": "Update `outputs/migrate/events_migration.py` to emit required `payload` fields per `event_type` (contract clause `week5_events__clause_038`).",
+      "section": "2) Violations this week"
     },
     {
-      "file_path": "scripts\\generate_traces_runs.py",
-      "contract_clause": null,
-      "action": "Update `scripts\\generate_traces_runs.py` so `total_tokens == prompt_tokens + completion_tokens` (contract clause `unknown_clause`)."
+      "file_path": "outputs/migrate/extractions_migration.py",
+      "contract_clause": "ai:unknown_field",
+      "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `ai:unknown_field`.",
+      "section": "2) Violations this week"
     },
     {
-      "file_path": "README.md",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`."
+      "file_path": "outputs/migrate/extractions_migration.py",
+      "contract_clause": "ai_extensions:embedding_drift_week3",
+      "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `ai_extensions:embedding_drift_week3`.",
+      "section": "2) Violations this week"
     },
     {
-      "file_path": "README.md",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`."
+      "file_path": "outputs/migrate/extractions_migration.py",
+      "contract_clause": "week3_extractions__clause_027",
+      "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `week3_extractions__clause_027`.",
+      "section": "2) Violations this week"
     },
     {
-      "file_path": "outputs\\migrate\\events_migration.py",
-      "contract_clause": null,
-      "action": "Update `outputs\\migrate\\events_migration.py` to emit required `payload` fields per `event_type` (contract clause `unknown_clause`)."
+      "file_path": "outputs/migrate/extractions_migration.py",
+      "contract_clause": "week3_extractions__clause_031",
+      "action": "Update `outputs/migrate/extractions_migration.py` to output `confidence` as float in [0.0, 1.0] (contract clause `week3_extractions__clause_031`).",
+      "section": "2) Violations this week"
     },
     {
-      "file_path": "README.md",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`."
+      "file_path": "outputs/migrate/extractions_migration.py",
+      "contract_clause": "week3_extractions__clause_044",
+      "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `week3_extractions__clause_044`.",
+      "section": "2) Violations this week"
     },
     {
-      "file_path": "README.md",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`."
+      "file_path": "outputs/migrate/extractions_migration.py",
+      "contract_clause": "week3_extractions__clause_046",
+      "action": "Update `outputs/migrate/extractions_migration.py` to output `confidence` as float in [0.0, 1.0] (contract clause `week3_extractions__clause_046`).",
+      "section": "2) Violations this week"
     },
     {
-      "file_path": "README.md",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`."
+      "file_path": "outputs/migrate/extractions_migration.py",
+      "contract_clause": "week3_extractions__clause_049",
+      "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `week3_extractions__clause_049`.",
+      "section": "2) Violations this week"
     },
     {
-      "file_path": "README.md",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`."
+      "file_path": "outputs/migrate/extractions_migration.py",
+      "contract_clause": "week3_extractions__clause_050",
+      "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `week3_extractions__clause_050`.",
+      "section": "2) Violations this week"
     },
     {
-      "file_path": "README.md",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`."
+      "file_path": "outputs/migrate/intent_records_migration.py",
+      "contract_clause": "semantic:target_ref.file",
+      "action": "Investigate producer changes and update `outputs/migrate/intent_records_migration.py` to satisfy contract clause `semantic:target_ref.file`.",
+      "section": "2) Violations this week"
     },
     {
-      "file_path": "README.md",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`."
+      "file_path": "outputs/migrate/lineage_snapshots_migration.py",
+      "contract_clause": "semantic:doc_id",
+      "action": "Investigate producer changes and update `outputs/migrate/lineage_snapshots_migration.py` to satisfy contract clause `semantic:doc_id`.",
+      "section": "2) Violations this week"
     },
     {
-      "file_path": "README.md",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`."
+      "file_path": "outputs/migrate/lineage_snapshots_migration.py",
+      "contract_clause": "week3_extractions__clause_053",
+      "action": "Investigate producer changes and update `outputs/migrate/lineage_snapshots_migration.py` to satisfy contract clause `week3_extractions__clause_053`.",
+      "section": "2) Violations this week"
     },
     {
-      "file_path": "README.md",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`."
+      "file_path": "scripts/generate_traces_runs.py",
+      "contract_clause": "semantic:total_tokens",
+      "action": "Update `scripts/generate_traces_runs.py` so `total_tokens == prompt_tokens + completion_tokens` (contract clause `semantic:total_tokens`).",
+      "section": "2) Violations this week"
     },
     {
-      "file_path": "README.md",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`."
+      "file_path": "scripts/generate_week2_verdicts.py",
+      "contract_clause": "ai:unknown_field",
+      "action": "Investigate producer changes and update `scripts/generate_week2_verdicts.py` to satisfy contract clause `ai:unknown_field`.",
+      "section": "2) Violations this week"
     },
     {
-      "file_path": "README.md",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`."
+      "file_path": "outputs/migrate/extractions_migration.py",
+      "contract_clause": "schema_change:RANGE_WIDENED:confidence",
+      "action": "Apply rollback/migration for `confidence` (RANGE_WIDENED, severity=LOW): Re-deploy prior producer version that writes previous schema.",
+      "section": "3) Schema changes detected",
+      "source_report": "reports\\schema_migration_reports\\week3_extractions_migration_report.yaml"
     },
     {
-      "file_path": "README.md",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`."
+      "file_path": "outputs/migrate/extractions_migration.py",
+      "contract_clause": "schema_change:RANGE_WIDENED:cost_usd",
+      "action": "Apply rollback/migration for `cost_usd` (RANGE_WIDENED, severity=LOW): Re-deploy prior producer version that writes previous schema.",
+      "section": "3) Schema changes detected",
+      "source_report": "reports\\schema_migration_reports\\week3_extractions_migration_report.yaml"
     },
     {
-      "file_path": "README.md",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`."
+      "file_path": "outputs/migrate/extractions_migration.py",
+      "contract_clause": "schema_change:RANGE_WIDENED:page_number",
+      "action": "Apply rollback/migration for `page_number` (RANGE_WIDENED, severity=LOW): Re-deploy prior producer version that writes previous schema.",
+      "section": "3) Schema changes detected",
+      "source_report": "reports\\schema_migration_reports\\week3_extractions_migration_report.yaml"
     },
     {
-      "file_path": "README.md",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`."
+      "file_path": "outputs/migrate/extractions_migration.py",
+      "contract_clause": "schema_change:RANGE_WIDENED:processing_time_ms",
+      "action": "Apply rollback/migration for `processing_time_ms` (RANGE_WIDENED, severity=LOW): Re-deploy prior producer version that writes previous schema.",
+      "section": "3) Schema changes detected",
+      "source_report": "reports\\schema_migration_reports\\week3_extractions_migration_report.yaml"
     },
     {
-      "file_path": "README.md",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`."
+      "file_path": "outputs/migrate/extractions_migration.py",
+      "contract_clause": "schema_change:RANGE_WIDENED:threshold",
+      "action": "Apply rollback/migration for `threshold` (RANGE_WIDENED, severity=LOW): Re-deploy prior producer version that writes previous schema.",
+      "section": "3) Schema changes detected",
+      "source_report": "reports\\schema_migration_reports\\week3_extractions_migration_report.yaml"
     },
     {
-      "file_path": "README.md",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`."
+      "file_path": "contracts/ai_extensions.py",
+      "contract_clause": "ai_extensions:embedding_drift_week3",
+      "action": "Investigate embedding drift and rebaseline only with versioned change control (contract clause `ai_extensions:embedding_drift_week3`).",
+      "section": "4) AI system risk assessment"
     },
     {
-      "file_path": "README.md",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`."
-    },
-    {
-      "file_path": "README.md",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`."
-    },
-    {
-      "file_path": "README.md",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`."
-    },
-    {
-      "file_path": "README.md",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`."
-    },
-    {
-      "file_path": "README.md",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `README.md` to satisfy contract clause `unknown_clause`."
-    },
-    {
-      "file_path": "outputs\\migrate\\extractions_migration.py",
-      "contract_clause": null,
-      "action": "Investigate producer changes and update `outputs\\migrate\\extractions_migration.py` to satisfy contract clause `unknown_clause`."
+      "file_path": "contracts/ai_extensions.py",
+      "contract_clause": "ai_extensions:output_schema_violation_rate",
+      "action": "Enforce structured LLM output schema; monitor violation trend and roll back prompt/template on regression (contract clause `ai_extensions:output_schema_violation_rate`).",
+      "section": "4) AI system risk assessment"
     }
   ],
   "sections": [
@@ -824,12 +831,1068 @@
     "4) AI system risk assessment",
     "5) Recommended actions"
   ],
+  "sections_data": {
+    "1) Data Health Score": {
+      "score_formula": "score = (passed/total)*100 - (20*critical_count)",
+      "inputs": {
+        "total": 92,
+        "passed": 80,
+        "critical_count": 18
+      },
+      "recommended_actions": [
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "ai:unknown_field",
+          "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `ai:unknown_field`.",
+          "section": "1) Data Health Score"
+        },
+        {
+          "file_path": "scripts/generate_week2_verdicts.py",
+          "contract_clause": "ai:unknown_field",
+          "action": "Investigate producer changes and update `scripts/generate_week2_verdicts.py` to satisfy contract clause `ai:unknown_field`.",
+          "section": "1) Data Health Score"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "ai:unknown_field",
+          "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `ai:unknown_field`.",
+          "section": "1) Data Health Score"
+        },
+        {
+          "file_path": "scripts/generate_week2_verdicts.py",
+          "contract_clause": "ai:unknown_field",
+          "action": "Investigate producer changes and update `scripts/generate_week2_verdicts.py` to satisfy contract clause `ai:unknown_field`.",
+          "section": "1) Data Health Score"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "ai:unknown_field",
+          "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `ai:unknown_field`.",
+          "section": "1) Data Health Score"
+        },
+        {
+          "file_path": "scripts/generate_week2_verdicts.py",
+          "contract_clause": "ai:unknown_field",
+          "action": "Investigate producer changes and update `scripts/generate_week2_verdicts.py` to satisfy contract clause `ai:unknown_field`.",
+          "section": "1) Data Health Score"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "ai:unknown_field",
+          "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `ai:unknown_field`.",
+          "section": "1) Data Health Score"
+        },
+        {
+          "file_path": "scripts/generate_week2_verdicts.py",
+          "contract_clause": "ai:unknown_field",
+          "action": "Investigate producer changes and update `scripts/generate_week2_verdicts.py` to satisfy contract clause `ai:unknown_field`.",
+          "section": "1) Data Health Score"
+        },
+        {
+          "file_path": "scripts/generate_traces_runs.py",
+          "contract_clause": "semantic:total_tokens",
+          "action": "Update `scripts/generate_traces_runs.py` so `total_tokens == prompt_tokens + completion_tokens` (contract clause `semantic:total_tokens`).",
+          "section": "1) Data Health Score"
+        },
+        {
+          "file_path": "outputs/migrate/intent_records_migration.py",
+          "contract_clause": "semantic:target_ref.file",
+          "action": "Investigate producer changes and update `outputs/migrate/intent_records_migration.py` to satisfy contract clause `semantic:target_ref.file`.",
+          "section": "1) Data Health Score"
+        }
+      ]
+    },
+    "2) Violations this week": {
+      "violations": [
+        {
+          "phase": "4A",
+          "type": "AI",
+          "severity": "CRITICAL",
+          "dataset": "week3_extractions",
+          "check": "embedding_drift_week3",
+          "message": "Embedding drift mean cosine distance 0.186 exceeded threshold 0.150.",
+          "recommendation": "Investigate Week3 extractor prompt/model changes; rebaseline if change is intentional and versioned.",
+          "logged_at": "2026-04-02T09:26:53.378901Z",
+          "source_report": "violation_log\\violations.jsonl",
+          "clause_id": null
+        },
+        {
+          "phase": "4A",
+          "type": "AI",
+          "severity": "CRITICAL",
+          "dataset": "week2_verdicts",
+          "check": "target_ref_link",
+          "message": "Week2 verdict references file not present in Week1 intents: nonexistent/file/path.py",
+          "recommendation": "Constrain the LLM to only reference files present in intent.code_refs; add retrieval/grounding.",
+          "logged_at": "2026-04-02T09:26:53.434052Z",
+          "source_report": "violation_log\\violations.jsonl",
+          "clause_id": null
+        },
+        {
+          "phase": "4A",
+          "type": "AI",
+          "severity": "CRITICAL",
+          "dataset": "week3_extractions",
+          "check": "embedding_drift_week3",
+          "message": "Embedding drift mean cosine distance 0.186 exceeded threshold 0.150.",
+          "recommendation": "Investigate Week3 extractor prompt/model changes; rebaseline if change is intentional and versioned.",
+          "logged_at": "2026-04-02T09:31:12.133359Z",
+          "source_report": "violation_log\\violations.jsonl",
+          "clause_id": null
+        },
+        {
+          "phase": "4A",
+          "type": "AI",
+          "severity": "CRITICAL",
+          "dataset": "week2_verdicts",
+          "check": "target_ref_link",
+          "message": "Week2 verdict references file not present in Week1 intents: nonexistent/file/path.py",
+          "recommendation": "Constrain the LLM to only reference files present in intent.code_refs; add retrieval/grounding.",
+          "logged_at": "2026-04-02T09:31:12.185529Z",
+          "source_report": "violation_log\\violations.jsonl",
+          "clause_id": null
+        },
+        {
+          "phase": "4A",
+          "type": "AI",
+          "severity": "CRITICAL",
+          "dataset": "week3_extractions",
+          "check": "embedding_drift_week3",
+          "message": "Embedding drift mean cosine distance 0.186 exceeded threshold 0.150.",
+          "recommendation": "Investigate Week3 extractor prompt/model changes; rebaseline if change is intentional and versioned.",
+          "logged_at": "2026-04-02T09:37:21.009132Z",
+          "source_report": "violation_log\\violations.jsonl",
+          "clause_id": null
+        },
+        {
+          "phase": "4A",
+          "type": "AI",
+          "severity": "CRITICAL",
+          "dataset": "week2_verdicts",
+          "check": "target_ref_link",
+          "message": "Week2 verdict references file not present in Week1 intents: nonexistent/file/path.py",
+          "recommendation": "Constrain the LLM to only reference files present in intent.code_refs; add retrieval/grounding.",
+          "logged_at": "2026-04-02T09:37:21.094448Z",
+          "source_report": "violation_log\\violations.jsonl",
+          "clause_id": null
+        },
+        {
+          "phase": "4A",
+          "type": "AI",
+          "severity": "CRITICAL",
+          "dataset": "week3_extractions",
+          "check": "embedding_drift_week3",
+          "message": "Embedding drift mean cosine distance 0.186 exceeded threshold 0.150.",
+          "recommendation": "Investigate Week3 extractor prompt/model changes; rebaseline if change is intentional and versioned.",
+          "logged_at": "2026-04-04T06:11:56.399252Z",
+          "source_report": "violation_log\\violations.jsonl",
+          "clause_id": null
+        },
+        {
+          "phase": "4A",
+          "type": "AI",
+          "severity": "CRITICAL",
+          "dataset": "week2_verdicts",
+          "check": "target_ref_link",
+          "message": "Week2 verdict references file not present in Week1 intents: nonexistent/file/path.py",
+          "recommendation": "Constrain the LLM to only reference files present in intent.code_refs; add retrieval/grounding.",
+          "logged_at": "2026-04-04T06:11:56.452759Z",
+          "source_report": "violation_log\\violations.jsonl",
+          "clause_id": null
+        },
+        {
+          "type": "SEMANTIC",
+          "field": "total_tokens",
+          "severity": "CRITICAL",
+          "count": 1,
+          "root_cause": "traces_runs",
+          "lineage_path": [
+            "traces_runs"
+          ],
+          "source_report": "validation_reports\\phase0_traces_runs.json",
+          "clause_id": null
+        },
+        {
+          "type": "SEMANTIC",
+          "field": "target_ref.file",
+          "severity": "CRITICAL",
+          "count": 1,
+          "root_cause": "week1_intent_records",
+          "lineage_path": [
+            "week1_intent_records",
+            "week2_verdicts"
+          ],
+          "source_report": "validation_reports\\phase0_week2_verdicts.json",
+          "downstream_impact": "week2_verdicts",
+          "clause_id": null
+        },
+        {
+          "type": "SCHEMA",
+          "field": "confidence",
+          "severity": "CRITICAL",
+          "count": 1,
+          "root_cause": "week3_extractions",
+          "lineage_path": [
+            "week3_extractions"
+          ],
+          "clause_id": "week3_extractions__clause_031",
+          "message": "value outside allowed numeric bounds",
+          "samples": [
+            {
+              "line_no": 1,
+              "value": 1.2
+            }
+          ],
+          "source_report": "validation_reports\\week3_extractions.json"
+        },
+        {
+          "type": "AI",
+          "field": "embedding_drift",
+          "severity": "CRITICAL",
+          "count": 1,
+          "root_cause": "week3_extractions",
+          "clause_id": "ai_extensions:embedding_drift_week3",
+          "message": "Embedding drift exceeded threshold; extraction semantics likely changed.",
+          "lineage_path": [
+            "week3_extractions"
+          ]
+        },
+        {
+          "type": "SCHEMA",
+          "field": "page_number",
+          "severity": "CRITICAL",
+          "count": 1,
+          "root_cause": "week3_extractions",
+          "lineage_path": [
+            "week3_extractions"
+          ],
+          "clause_id": "week3_extractions__clause_027",
+          "message": "value outside allowed numeric bounds",
+          "samples": [
+            {
+              "line_no": 3,
+              "value": 0
+            }
+          ],
+          "source_report": "validation_reports\\week3_extractions.json"
+        },
+        {
+          "type": "SEMANTIC",
+          "field": "doc_id",
+          "severity": "CRITICAL",
+          "count": 2,
+          "root_cause": "week4_lineage_snapshots",
+          "lineage_path": [
+            "week3_extractions"
+          ],
+          "clause_id": "week3_extractions__clause_053",
+          "message": "referential integrity failure",
+          "samples": [
+            {
+              "line_no": 1,
+              "value": "327603cb-e868-444b-9ac5-035d75feb92a"
+            },
+            {
+              "line_no": 3,
+              "value": "327603cb-e868-444b-9ac5-035d75feb92a"
+            }
+          ],
+          "source_report": "validation_reports\\week3_extractions.json"
+        },
+        {
+          "type": "SCHEMA",
+          "field": "global_position",
+          "severity": "CRITICAL",
+          "count": 1,
+          "root_cause": "week5_events",
+          "lineage_path": [
+            "week5_events"
+          ],
+          "clause_id": "week5_events__clause_018",
+          "message": "value outside allowed numeric bounds",
+          "samples": [
+            {
+              "line_no": 2,
+              "value": -7
+            }
+          ],
+          "source_report": "validation_reports\\week5_events.json"
+        },
+        {
+          "type": "SEMANTIC",
+          "field": "payload",
+          "severity": "CRITICAL",
+          "count": 1,
+          "root_cause": "week5_events",
+          "lineage_path": [
+            "week5_events"
+          ],
+          "source_report": "validation_reports\\phase0_week5_events.json",
+          "clause_id": null
+        },
+        {
+          "type": "SEMANTIC",
+          "field": "payload",
+          "severity": "CRITICAL",
+          "count": 1,
+          "root_cause": "week5_events",
+          "lineage_path": [
+            "week5_events"
+          ],
+          "clause_id": "week5_events__clause_037",
+          "message": "event payload missing required fields",
+          "samples": [
+            {
+              "line_no": 3,
+              "event_type": "ApplicationSubmitted",
+              "missing": [
+                "application_id",
+                "applicant_id",
+                "requested_amount_usd",
+                "submitted_at"
+              ]
+            }
+          ],
+          "source_report": "validation_reports\\week5_events.json"
+        },
+        {
+          "type": "SEMANTIC",
+          "field": "payload.requested_amount_usd",
+          "severity": "CRITICAL",
+          "count": 1,
+          "root_cause": "week5_events",
+          "lineage_path": [
+            "week5_events"
+          ],
+          "clause_id": "week5_events__clause_038",
+          "message": "requested_amount_usd must be > 0",
+          "samples": [
+            {
+              "line_no": 3,
+              "value": null
+            }
+          ],
+          "source_report": "validation_reports\\week5_events.json"
+        },
+        {
+          "phase": "4A",
+          "type": "AI",
+          "severity": "HIGH",
+          "dataset": "week2_verdicts",
+          "check": "llm_output_schema",
+          "message": "Week2 verdict schema invalid at line 2: 7 is greater than the maximum of 5",
+          "recommendation": "Update verdict formatter to match required schema and score bounds.",
+          "logged_at": "2026-04-02T09:26:53.413933Z",
+          "source_report": "violation_log\\violations.jsonl",
+          "clause_id": null
+        },
+        {
+          "phase": "4A",
+          "type": "AI",
+          "severity": "HIGH",
+          "dataset": "week2_verdicts",
+          "check": "llm_output_schema",
+          "message": "Week2 verdict schema invalid at line 2: 7 is greater than the maximum of 5",
+          "recommendation": "Update verdict formatter to match required schema and score bounds.",
+          "logged_at": "2026-04-02T09:31:12.166213Z",
+          "source_report": "violation_log\\violations.jsonl",
+          "clause_id": null
+        },
+        {
+          "phase": "4A",
+          "type": "AI",
+          "severity": "HIGH",
+          "dataset": "week2_verdicts",
+          "check": "llm_output_schema",
+          "message": "Week2 verdict schema invalid at line 2: 7 is greater than the maximum of 5",
+          "recommendation": "Update verdict formatter to match required schema and score bounds.",
+          "logged_at": "2026-04-02T09:37:21.055894Z",
+          "source_report": "violation_log\\violations.jsonl",
+          "clause_id": null
+        },
+        {
+          "phase": "4A",
+          "type": "AI",
+          "severity": "HIGH",
+          "dataset": "week2_verdicts",
+          "check": "llm_output_schema",
+          "message": "Week2 verdict schema invalid at line 2: 7 is greater than the maximum of 5",
+          "recommendation": "Update verdict formatter to match required schema and score bounds.",
+          "logged_at": "2026-04-04T06:11:56.437305Z",
+          "source_report": "violation_log\\violations.jsonl",
+          "clause_id": null
+        },
+        {
+          "type": "SEMANTIC",
+          "field": "doc_id",
+          "severity": "HIGH",
+          "count": 2,
+          "root_cause": "week4_lineage_snapshots",
+          "lineage_path": [
+            "week3_extractions",
+            "week4_lineage_snapshots"
+          ],
+          "source_report": "validation_reports\\phase0_week3_extractions.json",
+          "downstream_impact": "week4_lineage_snapshots",
+          "clause_id": null
+        },
+        {
+          "type": "SEMANTIC",
+          "field": "global_position",
+          "severity": "HIGH",
+          "count": 1,
+          "root_cause": "week5_events",
+          "lineage_path": [
+            "week5_events"
+          ],
+          "clause_id": "week5_events__clause_036",
+          "message": "sequence is not monotonic increasing",
+          "samples": [
+            {
+              "line_no": 2,
+              "group": "__all__",
+              "prev_line_no": 1,
+              "prev_value": 1.0,
+              "value": -7.0
+            }
+          ],
+          "source_report": "validation_reports\\week5_events.json"
+        },
+        {
+          "phase": "4A",
+          "type": "AI",
+          "severity": "MEDIUM",
+          "dataset": "week2_verdicts",
+          "check": "weighted_score_math",
+          "message": "Weighted score mismatch at line 1: expected 2.200000, got 2.700000",
+          "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
+          "logged_at": "2026-04-02T09:26:53.406167Z",
+          "source_report": "violation_log\\violations.jsonl",
+          "clause_id": null
+        },
+        {
+          "phase": "4A",
+          "type": "AI",
+          "severity": "MEDIUM",
+          "dataset": "week2_verdicts",
+          "check": "weighted_score_math",
+          "message": "Weighted score mismatch at line 2: expected 4.900000, got 3.400000",
+          "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
+          "logged_at": "2026-04-02T09:26:53.424879Z",
+          "source_report": "violation_log\\violations.jsonl",
+          "clause_id": null
+        },
+        {
+          "phase": "4A",
+          "type": "AI",
+          "severity": "MEDIUM",
+          "dataset": "week2_verdicts",
+          "check": "weighted_score_math",
+          "message": "Weighted score mismatch at line 1: expected 2.200000, got 2.700000",
+          "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
+          "logged_at": "2026-04-02T09:31:12.156757Z",
+          "source_report": "violation_log\\violations.jsonl",
+          "clause_id": null
+        },
+        {
+          "phase": "4A",
+          "type": "AI",
+          "severity": "MEDIUM",
+          "dataset": "week2_verdicts",
+          "check": "weighted_score_math",
+          "message": "Weighted score mismatch at line 2: expected 4.900000, got 3.400000",
+          "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
+          "logged_at": "2026-04-02T09:31:12.174426Z",
+          "source_report": "violation_log\\violations.jsonl",
+          "clause_id": null
+        },
+        {
+          "phase": "4A",
+          "type": "AI",
+          "severity": "MEDIUM",
+          "dataset": "week2_verdicts",
+          "check": "weighted_score_math",
+          "message": "Weighted score mismatch at line 1: expected 2.200000, got 2.700000",
+          "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
+          "logged_at": "2026-04-02T09:37:21.040352Z",
+          "source_report": "violation_log\\violations.jsonl",
+          "clause_id": null
+        },
+        {
+          "phase": "4A",
+          "type": "AI",
+          "severity": "MEDIUM",
+          "dataset": "week2_verdicts",
+          "check": "weighted_score_math",
+          "message": "Weighted score mismatch at line 2: expected 4.900000, got 3.400000",
+          "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
+          "logged_at": "2026-04-02T09:37:21.077231Z",
+          "source_report": "violation_log\\violations.jsonl",
+          "clause_id": null
+        },
+        {
+          "phase": "4A",
+          "type": "AI",
+          "severity": "MEDIUM",
+          "dataset": "week2_verdicts",
+          "check": "weighted_score_math",
+          "message": "Weighted score mismatch at line 1: expected 2.200000, got 2.700000",
+          "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
+          "logged_at": "2026-04-04T06:11:56.427337Z",
+          "source_report": "violation_log\\violations.jsonl",
+          "clause_id": null
+        },
+        {
+          "phase": "4A",
+          "type": "AI",
+          "severity": "MEDIUM",
+          "dataset": "week2_verdicts",
+          "check": "weighted_score_math",
+          "message": "Weighted score mismatch at line 2: expected 4.900000, got 3.400000",
+          "recommendation": "Recompute weighted_score from component scores before emitting verdicts.",
+          "logged_at": "2026-04-04T06:11:56.444490Z",
+          "source_report": "violation_log\\violations.jsonl",
+          "clause_id": null
+        },
+        {
+          "type": "SCHEMA",
+          "field": "confidence",
+          "severity": "MEDIUM",
+          "count": 1,
+          "root_cause": "week3_extractions",
+          "lineage_path": [
+            "week3_extractions"
+          ],
+          "clause_id": "week3_extractions__clause_046",
+          "message": "value outside allowed numeric bounds",
+          "samples": [
+            {
+              "line_no": 1,
+              "value": 1.2
+            }
+          ],
+          "source_report": "validation_reports\\week3_extractions.json"
+        },
+        {
+          "type": "SCHEMA",
+          "field": "page_number",
+          "severity": "MEDIUM",
+          "count": 3,
+          "root_cause": "week3_extractions",
+          "lineage_path": [
+            "week3_extractions"
+          ],
+          "clause_id": "week3_extractions__clause_044",
+          "message": "value outside allowed numeric bounds",
+          "samples": [
+            {
+              "line_no": 3,
+              "value": 0
+            },
+            {
+              "line_no": 199,
+              "value": 95
+            },
+            {
+              "line_no": 200,
+              "value": 96
+            }
+          ],
+          "source_report": "validation_reports\\week3_extractions.json"
+        },
+        {
+          "type": "SCHEMA",
+          "field": "processing_time_ms",
+          "severity": "MEDIUM",
+          "count": 2,
+          "root_cause": "week3_extractions",
+          "lineage_path": [
+            "week3_extractions"
+          ],
+          "clause_id": "week3_extractions__clause_049",
+          "message": "statistical drift detected (z-score)",
+          "samples": [
+            {
+              "line_no": 81,
+              "value": 51353.10219996609
+            },
+            {
+              "line_no": 88,
+              "value": 47139.36829997692
+            }
+          ],
+          "source_report": "validation_reports\\week3_extractions.json"
+        },
+        {
+          "type": "SCHEMA",
+          "field": "processing_time_ms",
+          "severity": "MEDIUM",
+          "count": 4,
+          "root_cause": "week3_extractions",
+          "lineage_path": [
+            "week3_extractions"
+          ],
+          "clause_id": "week3_extractions__clause_050",
+          "message": "value outside allowed numeric bounds",
+          "samples": [
+            {
+              "line_no": 81,
+              "value": 51353.10219996609
+            },
+            {
+              "line_no": 88,
+              "value": 47139.36829997692
+            },
+            {
+              "line_no": 91,
+              "value": 2905.3274000179954
+            }
+          ],
+          "source_report": "validation_reports\\week3_extractions.json"
+        },
+        {
+          "type": "SCHEMA",
+          "field": "global_position",
+          "severity": "MEDIUM",
+          "count": 4,
+          "root_cause": "week5_events",
+          "lineage_path": [
+            "week5_events"
+          ],
+          "clause_id": "week5_events__clause_033",
+          "message": "value outside allowed numeric bounds",
+          "samples": [
+            {
+              "line_no": 1,
+              "value": 1
+            },
+            {
+              "line_no": 2,
+              "value": -7
+            },
+            {
+              "line_no": 199,
+              "value": 199
+            }
+          ],
+          "source_report": "validation_reports\\week5_events.json"
+        }
+      ],
+      "recommended_actions": [
+        {
+          "file_path": "outputs/migrate/events_migration.py",
+          "contract_clause": "semantic:payload",
+          "action": "Update `outputs/migrate/events_migration.py` to emit required `payload` fields per `event_type` (contract clause `semantic:payload`).",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/events_migration.py",
+          "contract_clause": "week5_events__clause_018",
+          "action": "Investigate producer changes and update `outputs/migrate/events_migration.py` to satisfy contract clause `week5_events__clause_018`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/events_migration.py",
+          "contract_clause": "week5_events__clause_033",
+          "action": "Investigate producer changes and update `outputs/migrate/events_migration.py` to satisfy contract clause `week5_events__clause_033`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/events_migration.py",
+          "contract_clause": "week5_events__clause_036",
+          "action": "Update `outputs/migrate/events_migration.py` to guarantee monotonic `global_position` (contract clause `week5_events__clause_036`).",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/events_migration.py",
+          "contract_clause": "week5_events__clause_037",
+          "action": "Update `outputs/migrate/events_migration.py` to emit required `payload` fields per `event_type` (contract clause `week5_events__clause_037`).",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/events_migration.py",
+          "contract_clause": "week5_events__clause_038",
+          "action": "Update `outputs/migrate/events_migration.py` to emit required `payload` fields per `event_type` (contract clause `week5_events__clause_038`).",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "ai:unknown_field",
+          "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `ai:unknown_field`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "ai_extensions:embedding_drift_week3",
+          "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `ai_extensions:embedding_drift_week3`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "week3_extractions__clause_027",
+          "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `week3_extractions__clause_027`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "week3_extractions__clause_031",
+          "action": "Update `outputs/migrate/extractions_migration.py` to output `confidence` as float in [0.0, 1.0] (contract clause `week3_extractions__clause_031`).",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "week3_extractions__clause_044",
+          "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `week3_extractions__clause_044`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "week3_extractions__clause_046",
+          "action": "Update `outputs/migrate/extractions_migration.py` to output `confidence` as float in [0.0, 1.0] (contract clause `week3_extractions__clause_046`).",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "week3_extractions__clause_049",
+          "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `week3_extractions__clause_049`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "week3_extractions__clause_050",
+          "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `week3_extractions__clause_050`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/intent_records_migration.py",
+          "contract_clause": "semantic:target_ref.file",
+          "action": "Investigate producer changes and update `outputs/migrate/intent_records_migration.py` to satisfy contract clause `semantic:target_ref.file`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/lineage_snapshots_migration.py",
+          "contract_clause": "semantic:doc_id",
+          "action": "Investigate producer changes and update `outputs/migrate/lineage_snapshots_migration.py` to satisfy contract clause `semantic:doc_id`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/lineage_snapshots_migration.py",
+          "contract_clause": "week3_extractions__clause_053",
+          "action": "Investigate producer changes and update `outputs/migrate/lineage_snapshots_migration.py` to satisfy contract clause `week3_extractions__clause_053`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "scripts/generate_traces_runs.py",
+          "contract_clause": "semantic:total_tokens",
+          "action": "Update `scripts/generate_traces_runs.py` so `total_tokens == prompt_tokens + completion_tokens` (contract clause `semantic:total_tokens`).",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "scripts/generate_week2_verdicts.py",
+          "contract_clause": "ai:unknown_field",
+          "action": "Investigate producer changes and update `scripts/generate_week2_verdicts.py` to satisfy contract clause `ai:unknown_field`.",
+          "section": "2) Violations this week"
+        }
+      ]
+    },
+    "3) Schema changes detected": {
+      "schema_changes": [
+        {
+          "source": "reports\\schema_migration_reports\\week3_extractions_migration_report.yaml",
+          "compatibility_verdict": "COMPATIBLE",
+          "reasons": []
+        },
+        {
+          "source": "reports\\schema_migration_reports\\week5_events_migration_report.yaml",
+          "compatibility_verdict": "COMPATIBLE",
+          "reasons": []
+        }
+      ],
+      "recommended_actions": [
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "schema_change:RANGE_WIDENED:confidence",
+          "action": "Apply rollback/migration for `confidence` (RANGE_WIDENED, severity=LOW): Re-deploy prior producer version that writes previous schema.",
+          "section": "3) Schema changes detected",
+          "source_report": "reports\\schema_migration_reports\\week3_extractions_migration_report.yaml"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "schema_change:RANGE_WIDENED:cost_usd",
+          "action": "Apply rollback/migration for `cost_usd` (RANGE_WIDENED, severity=LOW): Re-deploy prior producer version that writes previous schema.",
+          "section": "3) Schema changes detected",
+          "source_report": "reports\\schema_migration_reports\\week3_extractions_migration_report.yaml"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "schema_change:RANGE_WIDENED:page_number",
+          "action": "Apply rollback/migration for `page_number` (RANGE_WIDENED, severity=LOW): Re-deploy prior producer version that writes previous schema.",
+          "section": "3) Schema changes detected",
+          "source_report": "reports\\schema_migration_reports\\week3_extractions_migration_report.yaml"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "schema_change:RANGE_WIDENED:processing_time_ms",
+          "action": "Apply rollback/migration for `processing_time_ms` (RANGE_WIDENED, severity=LOW): Re-deploy prior producer version that writes previous schema.",
+          "section": "3) Schema changes detected",
+          "source_report": "reports\\schema_migration_reports\\week3_extractions_migration_report.yaml"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "schema_change:RANGE_WIDENED:threshold",
+          "action": "Apply rollback/migration for `threshold` (RANGE_WIDENED, severity=LOW): Re-deploy prior producer version that writes previous schema.",
+          "section": "3) Schema changes detected",
+          "source_report": "reports\\schema_migration_reports\\week3_extractions_migration_report.yaml"
+        }
+      ]
+    },
+    "4) AI system risk assessment": {
+      "ai": {
+        "embedding_drift": {
+          "check": "embedding_drift_week3",
+          "status": "FAIL",
+          "drift_threshold": 0.15,
+          "sample_n": 200,
+          "mean_cosine_distance": 0.18633072078227997,
+          "p95_cosine_distance": 0.3356638550758362
+        },
+        "prompt_inputs": {
+          "check": "prompt_input_schema",
+          "invalid_count": 0,
+          "quarantine_path": "outputs\\quarantine\\traces_runs_inputs_invalid.jsonl"
+        },
+        "llm_outputs": {
+          "check": "llm_output_enforcement_week2",
+          "status": "PASS",
+          "total_records": 80,
+          "schema_invalid": 1,
+          "weighted_math_invalid": 2,
+          "target_ref_link_invalid": 1,
+          "output_schema_violation_rate": 0.0125,
+          "violation_rate_trend_last5": null,
+          "baseline_output_schema_violation_rate": 0.0125,
+          "threshold_rate": 0.018750000000000003,
+          "history_path": "validation_reports\\week2_violation_rate_history.jsonl",
+          "samples": [
+            {
+              "line_no": 2,
+              "verdict_id": "bafd17a1-a962-4743-83e0-e5ca41876bec",
+              "error": "7 is greater than the maximum of 5"
+            }
+          ]
+        }
+      },
+      "recommended_actions": [
+        {
+          "file_path": "contracts/ai_extensions.py",
+          "contract_clause": "ai_extensions:embedding_drift_week3",
+          "action": "Investigate embedding drift and rebaseline only with versioned change control (contract clause `ai_extensions:embedding_drift_week3`).",
+          "section": "4) AI system risk assessment"
+        },
+        {
+          "file_path": "contracts/ai_extensions.py",
+          "contract_clause": "ai_extensions:output_schema_violation_rate",
+          "action": "Enforce structured LLM output schema; monitor violation trend and roll back prompt/template on regression (contract clause `ai_extensions:output_schema_violation_rate`).",
+          "section": "4) AI system risk assessment"
+        }
+      ]
+    },
+    "5) Recommended actions": {
+      "recommended_actions": [
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "ai:unknown_field",
+          "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `ai:unknown_field`.",
+          "section": "1) Data Health Score"
+        },
+        {
+          "file_path": "outputs/migrate/intent_records_migration.py",
+          "contract_clause": "semantic:target_ref.file",
+          "action": "Investigate producer changes and update `outputs/migrate/intent_records_migration.py` to satisfy contract clause `semantic:target_ref.file`.",
+          "section": "1) Data Health Score"
+        },
+        {
+          "file_path": "scripts/generate_traces_runs.py",
+          "contract_clause": "semantic:total_tokens",
+          "action": "Update `scripts/generate_traces_runs.py` so `total_tokens == prompt_tokens + completion_tokens` (contract clause `semantic:total_tokens`).",
+          "section": "1) Data Health Score"
+        },
+        {
+          "file_path": "scripts/generate_week2_verdicts.py",
+          "contract_clause": "ai:unknown_field",
+          "action": "Investigate producer changes and update `scripts/generate_week2_verdicts.py` to satisfy contract clause `ai:unknown_field`.",
+          "section": "1) Data Health Score"
+        },
+        {
+          "file_path": "outputs/migrate/events_migration.py",
+          "contract_clause": "semantic:payload",
+          "action": "Update `outputs/migrate/events_migration.py` to emit required `payload` fields per `event_type` (contract clause `semantic:payload`).",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/events_migration.py",
+          "contract_clause": "week5_events__clause_018",
+          "action": "Investigate producer changes and update `outputs/migrate/events_migration.py` to satisfy contract clause `week5_events__clause_018`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/events_migration.py",
+          "contract_clause": "week5_events__clause_033",
+          "action": "Investigate producer changes and update `outputs/migrate/events_migration.py` to satisfy contract clause `week5_events__clause_033`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/events_migration.py",
+          "contract_clause": "week5_events__clause_036",
+          "action": "Update `outputs/migrate/events_migration.py` to guarantee monotonic `global_position` (contract clause `week5_events__clause_036`).",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/events_migration.py",
+          "contract_clause": "week5_events__clause_037",
+          "action": "Update `outputs/migrate/events_migration.py` to emit required `payload` fields per `event_type` (contract clause `week5_events__clause_037`).",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/events_migration.py",
+          "contract_clause": "week5_events__clause_038",
+          "action": "Update `outputs/migrate/events_migration.py` to emit required `payload` fields per `event_type` (contract clause `week5_events__clause_038`).",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "ai:unknown_field",
+          "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `ai:unknown_field`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "ai_extensions:embedding_drift_week3",
+          "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `ai_extensions:embedding_drift_week3`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "week3_extractions__clause_027",
+          "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `week3_extractions__clause_027`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "week3_extractions__clause_031",
+          "action": "Update `outputs/migrate/extractions_migration.py` to output `confidence` as float in [0.0, 1.0] (contract clause `week3_extractions__clause_031`).",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "week3_extractions__clause_044",
+          "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `week3_extractions__clause_044`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "week3_extractions__clause_046",
+          "action": "Update `outputs/migrate/extractions_migration.py` to output `confidence` as float in [0.0, 1.0] (contract clause `week3_extractions__clause_046`).",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "week3_extractions__clause_049",
+          "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `week3_extractions__clause_049`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "week3_extractions__clause_050",
+          "action": "Investigate producer changes and update `outputs/migrate/extractions_migration.py` to satisfy contract clause `week3_extractions__clause_050`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/intent_records_migration.py",
+          "contract_clause": "semantic:target_ref.file",
+          "action": "Investigate producer changes and update `outputs/migrate/intent_records_migration.py` to satisfy contract clause `semantic:target_ref.file`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/lineage_snapshots_migration.py",
+          "contract_clause": "semantic:doc_id",
+          "action": "Investigate producer changes and update `outputs/migrate/lineage_snapshots_migration.py` to satisfy contract clause `semantic:doc_id`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/lineage_snapshots_migration.py",
+          "contract_clause": "week3_extractions__clause_053",
+          "action": "Investigate producer changes and update `outputs/migrate/lineage_snapshots_migration.py` to satisfy contract clause `week3_extractions__clause_053`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "scripts/generate_traces_runs.py",
+          "contract_clause": "semantic:total_tokens",
+          "action": "Update `scripts/generate_traces_runs.py` so `total_tokens == prompt_tokens + completion_tokens` (contract clause `semantic:total_tokens`).",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "scripts/generate_week2_verdicts.py",
+          "contract_clause": "ai:unknown_field",
+          "action": "Investigate producer changes and update `scripts/generate_week2_verdicts.py` to satisfy contract clause `ai:unknown_field`.",
+          "section": "2) Violations this week"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "schema_change:RANGE_WIDENED:confidence",
+          "action": "Apply rollback/migration for `confidence` (RANGE_WIDENED, severity=LOW): Re-deploy prior producer version that writes previous schema.",
+          "section": "3) Schema changes detected",
+          "source_report": "reports\\schema_migration_reports\\week3_extractions_migration_report.yaml"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "schema_change:RANGE_WIDENED:cost_usd",
+          "action": "Apply rollback/migration for `cost_usd` (RANGE_WIDENED, severity=LOW): Re-deploy prior producer version that writes previous schema.",
+          "section": "3) Schema changes detected",
+          "source_report": "reports\\schema_migration_reports\\week3_extractions_migration_report.yaml"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "schema_change:RANGE_WIDENED:page_number",
+          "action": "Apply rollback/migration for `page_number` (RANGE_WIDENED, severity=LOW): Re-deploy prior producer version that writes previous schema.",
+          "section": "3) Schema changes detected",
+          "source_report": "reports\\schema_migration_reports\\week3_extractions_migration_report.yaml"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "schema_change:RANGE_WIDENED:processing_time_ms",
+          "action": "Apply rollback/migration for `processing_time_ms` (RANGE_WIDENED, severity=LOW): Re-deploy prior producer version that writes previous schema.",
+          "section": "3) Schema changes detected",
+          "source_report": "reports\\schema_migration_reports\\week3_extractions_migration_report.yaml"
+        },
+        {
+          "file_path": "outputs/migrate/extractions_migration.py",
+          "contract_clause": "schema_change:RANGE_WIDENED:threshold",
+          "action": "Apply rollback/migration for `threshold` (RANGE_WIDENED, severity=LOW): Re-deploy prior producer version that writes previous schema.",
+          "section": "3) Schema changes detected",
+          "source_report": "reports\\schema_migration_reports\\week3_extractions_migration_report.yaml"
+        },
+        {
+          "file_path": "contracts/ai_extensions.py",
+          "contract_clause": "ai_extensions:embedding_drift_week3",
+          "action": "Investigate embedding drift and rebaseline only with versioned change control (contract clause `ai_extensions:embedding_drift_week3`).",
+          "section": "4) AI system risk assessment"
+        },
+        {
+          "file_path": "contracts/ai_extensions.py",
+          "contract_clause": "ai_extensions:output_schema_violation_rate",
+          "action": "Enforce structured LLM output schema; monitor violation trend and roll back prompt/template on regression (contract clause `ai_extensions:output_schema_violation_rate`).",
+          "section": "4) AI system risk assessment"
+        }
+      ]
+    }
+  },
   "schema_migration_reports": [
     {
       "source": "reports\\schema_migration_reports\\week3_extractions_migration_report.yaml",
       "report": {
-        "report_version": "1.0.0",
-        "generated_at": "20260404T062449.730586Z",
+        "report_version": "1.1.0",
+        "generated_at": "20260404T081436.786147Z",
         "contract_path": "generated_contracts/week3_extractions.yaml",
         "snapshots": {
           "from": "schema_snapshots\\7fd02684-e381-45a7-b623-71c9f752f9ab\\20260402T094730.492585Z.yaml",
@@ -838,6 +1901,166 @@
         "compatibility": {
           "verdict": "COMPATIBLE",
           "reasons": []
+        },
+        "change_taxonomy": {
+          "taxonomy_version": "1.0.0",
+          "definitions": {
+            "FIELD_ADDED_NULLABLE": {
+              "compatibility": "COMPATIBLE",
+              "severity": "LOW"
+            },
+            "FIELD_ADDED_REQUIRED": {
+              "compatibility": "BREAKING",
+              "severity": "HIGH"
+            },
+            "FIELD_REMOVED": {
+              "compatibility": "BREAKING",
+              "severity": "HIGH"
+            },
+            "FIELD_RENAMED": {
+              "compatibility": "BREAKING",
+              "severity": "HIGH"
+            },
+            "TYPE_WIDENED": {
+              "compatibility": "COMPATIBLE",
+              "severity": "LOW"
+            },
+            "TYPE_NARROWED": {
+              "compatibility": "BREAKING",
+              "severity": "CRITICAL"
+            },
+            "REQUIREDNESS_TIGHTENED": {
+              "compatibility": "BREAKING",
+              "severity": "HIGH"
+            },
+            "REQUIREDNESS_LOOSENED": {
+              "compatibility": "COMPATIBLE",
+              "severity": "LOW"
+            },
+            "ENUM_VALUE_ADDED": {
+              "compatibility": "COMPATIBLE",
+              "severity": "LOW"
+            },
+            "ENUM_VALUE_REMOVED": {
+              "compatibility": "BREAKING",
+              "severity": "HIGH"
+            },
+            "RANGE_NARROWED": {
+              "compatibility": "BREAKING",
+              "severity": "HIGH"
+            },
+            "RANGE_WIDENED": {
+              "compatibility": "COMPATIBLE",
+              "severity": "LOW"
+            },
+            "ARRAY_ITEM_TYPE_CHANGED": {
+              "compatibility": "BREAKING",
+              "severity": "HIGH"
+            }
+          },
+          "detected": [
+            {
+              "change_type": "RANGE_WIDENED",
+              "field": "confidence",
+              "compatibility": "COMPATIBLE",
+              "severity": "LOW",
+              "from": {
+                "min": null,
+                "max": null
+              },
+              "to": {
+                "min": 0.0,
+                "max": 1.0
+              },
+              "rollback_plan": [
+                "Re-deploy prior producer version that writes previous schema.",
+                "Re-run generator to restore prior contracts and snapshots.",
+                "Re-validate and confirm violation rates return to baseline."
+              ]
+            },
+            {
+              "change_type": "RANGE_WIDENED",
+              "field": "cost_usd",
+              "compatibility": "COMPATIBLE",
+              "severity": "LOW",
+              "from": {
+                "min": null,
+                "max": null
+              },
+              "to": {
+                "min": 0.0,
+                "max": null
+              },
+              "rollback_plan": [
+                "Re-deploy prior producer version that writes previous schema.",
+                "Re-run generator to restore prior contracts and snapshots.",
+                "Re-validate and confirm violation rates return to baseline."
+              ]
+            },
+            {
+              "change_type": "RANGE_WIDENED",
+              "field": "page_number",
+              "compatibility": "COMPATIBLE",
+              "severity": "LOW",
+              "from": {
+                "min": null,
+                "max": null
+              },
+              "to": {
+                "min": 1,
+                "max": null
+              },
+              "rollback_plan": [
+                "Re-deploy prior producer version that writes previous schema.",
+                "Re-run generator to restore prior contracts and snapshots.",
+                "Re-validate and confirm violation rates return to baseline."
+              ]
+            },
+            {
+              "change_type": "RANGE_WIDENED",
+              "field": "processing_time_ms",
+              "compatibility": "COMPATIBLE",
+              "severity": "LOW",
+              "from": {
+                "min": null,
+                "max": null
+              },
+              "to": {
+                "min": 0.0,
+                "max": null
+              },
+              "rollback_plan": [
+                "Re-deploy prior producer version that writes previous schema.",
+                "Re-run generator to restore prior contracts and snapshots.",
+                "Re-validate and confirm violation rates return to baseline."
+              ]
+            },
+            {
+              "change_type": "RANGE_WIDENED",
+              "field": "threshold",
+              "compatibility": "COMPATIBLE",
+              "severity": "LOW",
+              "from": {
+                "min": null,
+                "max": null
+              },
+              "to": {
+                "min": 0.0,
+                "max": 1.0
+              },
+              "rollback_plan": [
+                "Re-deploy prior producer version that writes previous schema.",
+                "Re-run generator to restore prior contracts and snapshots.",
+                "Re-validate and confirm violation rates return to baseline."
+              ]
+            }
+          ],
+          "summary": {
+            "total": 5,
+            "breaking": 0,
+            "compatible": 5,
+            "critical": 0
+          }
         },
         "lineage_blast_radius": {
           "upstream": [
@@ -854,18 +2077,49 @@
             "impact_hint": "derived from outputs/week4/lineage_snapshots.jsonl"
           }
         },
-        "per_consumer_impact": [
+        "per_consumer_failure_analysis": [
           {
             "consumer": "week4_lineage_snapshots",
             "contamination_depth": 1,
+            "subscriber_id": "week4_lineage_snapshots",
+            "validation_mode": "ENFORCE",
+            "contact": "oncall:data-platform",
+            "fields_consumed": [
+              "doc_id",
+              "confidence",
+              "threshold"
+            ],
             "breaking_fields_matched": [],
-            "failure_mode": "Consumer may fail validation or produce incorrect results if affected fields change without migration."
+            "breaking_reasons_matched": {},
+            "failure_mode": "Potential soft risk: schema changed but does not match declared breaking fields; monitor for latent coupling."
+          },
+          {
+            "consumer": "week5_events",
+            "contamination_depth": 2,
+            "subscriber_id": "week5_events",
+            "validation_mode": "WARN",
+            "contact": "oncall:data-platform",
+            "fields_consumed": [
+              "edges",
+              "nodes"
+            ],
+            "breaking_fields_matched": [],
+            "breaking_reasons_matched": {},
+            "failure_mode": "Potential soft risk: schema changed but does not match declared breaking fields; monitor for latent coupling."
           },
           {
             "consumer": "week7_enforcer",
             "contamination_depth": 2,
+            "subscriber_id": "week7_enforcer",
+            "validation_mode": "ENFORCE",
+            "contact": "oncall:data-platform",
+            "fields_consumed": [
+              "edges",
+              "nodes"
+            ],
             "breaking_fields_matched": [],
-            "failure_mode": "Consumer may fail validation or produce incorrect results if affected fields change without migration."
+            "breaking_reasons_matched": {},
+            "failure_mode": "Potential soft risk: schema changed but does not match declared breaking fields; monitor for latent coupling."
           }
         ],
         "exact_diff": "--- schema_snapshots\\7fd02684-e381-45a7-b623-71c9f752f9ab\\20260402T094730.492585Z.yaml\n+++ schema_snapshots\\7fd02684-e381-45a7-b623-71c9f752f9ab\\20260404T061141.195846Z.yaml\n@@ -1,5 +1,5 @@\n snapshot_version: 1.0.0\n-captured_at: 20260402T094730.492585Z\n+captured_at: 20260404T061141.195846Z\n contract:\n   id: 7fd02684-e381-45a7-b623-71c9f752f9ab\n   name: week3_extractions_contract\n@@ -12,62 +12,92 @@\n     logical_type: number\n     required: true\n     array_item_type: null\n+    minimum: 0.0\n+    maximum: 1.0\n   - name: cost_usd\n     logical_type: number\n     required: true\n     array_item_type: null\n+    minimum: 0.0\n+    maximum: null\n   - name: created_at\n     logical_type: string\n     required: true\n     array_item_type: null\n+    minimum: null\n+    maximum: null\n   - name: doc_id\n     logical_type: string\n     required: true\n     array_item_type: null\n+    minimum: null\n+    maximum: null\n   - name: doc_key\n     logical_type: string\n     required: true\n     array_item_type: null\n+    minimum: null\n+    maximum: null\n   - name: extraction_id\n     logical_type: string\n     required: true\n     array_item_type: null\n+    minimum: null\n+    maximum: null\n   - name: flags.escalated\n     logical_type: boolean\n     required: true\n     array_item_type: null\n+    minimum: null\n+    maximum: null\n   - name: flags.flagged_for_review\n     logical_type: boolean\n     required: true\n     array_item_type: null\n+    minimum: null\n+    maximum: null\n   - name: labels\n     logical_type: array\n     required: true\n     array_item_type: null\n+    minimum: null\n+    maximum: null\n   - name: page_number\n     logical_type: integer\n     required: true\n     array_item_type: null\n+    minimum: 1\n+    maximum: null\n   - name: processing_time_ms\n     logical_type: number\n     required: true\n     array_item_type: null\n+    minimum: 0.0\n+    maximum: null\n   - name: strategy.name\n     logical_type: string\n     required: true\n     array_item_type: null\n+    minimum: null\n+    maximum: null\n   - name: text\n     logical_type: string\n     required: false\n     array_item_type: null\n+    minimum: null\n+    maximum: null\n   - name: threshold\n     logical_type: number\n     required: true\n     array_item_type: null\n+    minimum: 0.0\n+    maximum: 1.0\n   - name: trace_id\n     logical_type: string\n     required: true\n     array_item_type: null\n+    minimum: null\n+    maximum: null\n   quality_rule_fingerprint:\n   - type: datetime_iso8601\n     field: created_at",
@@ -877,12 +2131,66 @@
           "Validate using ValidationRunner + AI extensions on staging.",
           "Promote to production and monitor violation rates."
         ],
-        "rollback_plan": [
-          "Re-deploy prior producer version that writes previous schema.",
-          "Re-run generator to restore prior contracts.",
-          "Re-validate and confirm violation rates return to baseline.",
-          "Backfill/replay events from last known good offset if needed."
-        ]
+        "rollback_plan": {
+          "overall": [
+            "Re-deploy prior producer version that writes previous schema.",
+            "Re-run generator to restore prior contracts.",
+            "Re-validate and confirm violation rates return to baseline.",
+            "Backfill/replay events from last known good offset if needed."
+          ],
+          "per_change": [
+            {
+              "field": "confidence",
+              "change_type": "RANGE_WIDENED",
+              "severity": "LOW",
+              "rollback_plan": [
+                "Re-deploy prior producer version that writes previous schema.",
+                "Re-run generator to restore prior contracts and snapshots.",
+                "Re-validate and confirm violation rates return to baseline."
+              ]
+            },
+            {
+              "field": "cost_usd",
+              "change_type": "RANGE_WIDENED",
+              "severity": "LOW",
+              "rollback_plan": [
+                "Re-deploy prior producer version that writes previous schema.",
+                "Re-run generator to restore prior contracts and snapshots.",
+                "Re-validate and confirm violation rates return to baseline."
+              ]
+            },
+            {
+              "field": "page_number",
+              "change_type": "RANGE_WIDENED",
+              "severity": "LOW",
+              "rollback_plan": [
+                "Re-deploy prior producer version that writes previous schema.",
+                "Re-run generator to restore prior contracts and snapshots.",
+                "Re-validate and confirm violation rates return to baseline."
+              ]
+            },
+            {
+              "field": "processing_time_ms",
+              "change_type": "RANGE_WIDENED",
+              "severity": "LOW",
+              "rollback_plan": [
+                "Re-deploy prior producer version that writes previous schema.",
+                "Re-run generator to restore prior contracts and snapshots.",
+                "Re-validate and confirm violation rates return to baseline."
+              ]
+            },
+            {
+              "field": "threshold",
+              "change_type": "RANGE_WIDENED",
+              "severity": "LOW",
+              "rollback_plan": [
+                "Re-deploy prior producer version that writes previous schema.",
+                "Re-run generator to restore prior contracts and snapshots.",
+                "Re-validate and confirm violation rates return to baseline."
+              ]
+            }
+          ]
+        }
       }
     },
     {
