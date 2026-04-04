@@ -88,7 +88,7 @@ contract_registry/
 
 ---
 
-## Evaluator Guide: End-to-End Execution (Fresh Clone)
+## End-to-End Execution (Fresh Clone)
 
 This guide explains how to run each of the **five core entry-point scripts** end-to-end on a fresh repository clone. The scripts evaluate all elements of the framework and output their results dynamically.
 
