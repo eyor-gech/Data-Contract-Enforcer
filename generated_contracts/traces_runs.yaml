@@ -81,168 +81,215 @@ quality:
     - type: row_count_min
       min: 50
       clause_id: traces_runs__clause_001
+      description: Prevents empty/insufficient datasets from silently passing.
     - type: type
       field: run_id
       expected: uuid
       clause_id: traces_runs__clause_002
+      description: Prevents implicit coercion by enforcing declared type for `run_id`.
     - type: type
       field: trace_id
       expected: uuid
       clause_id: traces_runs__clause_003
+      description: Prevents implicit coercion by enforcing declared type for `trace_id`.
     - type: type
       field: provider
       expected: string
       clause_id: traces_runs__clause_004
+      description: Prevents implicit coercion by enforcing declared type for `provider`.
     - type: type
       field: project
       expected: string
       clause_id: traces_runs__clause_005
+      description: Prevents implicit coercion by enforcing declared type for `project`.
     - type: type
       field: name
       expected: string
       clause_id: traces_runs__clause_006
+      description: Prevents implicit coercion by enforcing declared type for `name`.
     - type: type
       field: start_time
       expected: datetime
       clause_id: traces_runs__clause_007
+      description: Prevents implicit coercion by enforcing declared type for `start_time`.
     - type: type
       field: end_time
       expected: datetime
       clause_id: traces_runs__clause_008
+      description: Prevents implicit coercion by enforcing declared type for `end_time`.
     - type: type
       field: latency_ms
       expected: number
       clause_id: traces_runs__clause_009
+      description: Prevents implicit coercion by enforcing declared type for `latency_ms`.
     - type: type
       field: prompt_tokens
       expected: integer
       clause_id: traces_runs__clause_010
+      description: Prevents implicit coercion by enforcing declared type for `prompt_tokens`.
     - type: type
       field: completion_tokens
       expected: integer
       clause_id: traces_runs__clause_011
+      description: Prevents implicit coercion by enforcing declared type for `completion_tokens`.
     - type: type
       field: total_tokens
       expected: integer
       clause_id: traces_runs__clause_012
+      description: Prevents implicit coercion by enforcing declared type for `total_tokens`.
     - type: type
       field: cost_usd
       expected: number
       clause_id: traces_runs__clause_013
+      description: Prevents implicit coercion by enforcing declared type for `cost_usd`.
     - type: type
       field: status
       expected: string
       clause_id: traces_runs__clause_014
+      description: Prevents implicit coercion by enforcing declared type for `status`.
     - type: type
       field: error
       expected: object
       clause_id: traces_runs__clause_015
+      description: Prevents implicit coercion by enforcing declared type for `error`.
     - type: type
       field: inputs
       expected: object
       clause_id: traces_runs__clause_016
+      description: Prevents implicit coercion by enforcing declared type for `inputs`.
     - type: type
       field: outputs
       expected: object
       clause_id: traces_runs__clause_017
+      description: Prevents implicit coercion by enforcing declared type for `outputs`.
     - type: not_null
       field: run_id
       clause_id: traces_runs__clause_018
+      description: Prevents missing required values for `run_id`.
     - type: uuid_v4
       field: run_id
       clause_id: traces_runs__clause_019
+      description: Prevents malformed identifiers by enforcing UUIDv4 format for `run_id`.
     - type: not_null
       field: trace_id
       clause_id: traces_runs__clause_020
+      description: Prevents missing required values for `trace_id`.
     - type: uuid_v4
       field: trace_id
       clause_id: traces_runs__clause_021
+      description: Prevents malformed identifiers by enforcing UUIDv4 format for `trace_id`.
     - type: not_null
       field: provider
       clause_id: traces_runs__clause_022
+      description: Prevents missing required values for `provider`.
     - type: enum
       field: provider
       values:
       - langsmith
       clause_id: traces_runs__clause_023
+      description: Prevents unexpected categories by enforcing accepted values for
+        `provider`.
     - type: not_null
       field: project
       clause_id: traces_runs__clause_024
+      description: Prevents missing required values for `project`.
     - type: not_null
       field: name
       clause_id: traces_runs__clause_025
+      description: Prevents missing required values for `name`.
     - type: not_null
       field: start_time
       clause_id: traces_runs__clause_026
+      description: Prevents missing required values for `start_time`.
     - type: datetime_iso8601
       field: start_time
       clause_id: traces_runs__clause_027
+      description: Prevents invalid timestamps by enforcing ISO8601 datetime for `start_time`.
     - type: not_null
       field: end_time
       clause_id: traces_runs__clause_028
+      description: Prevents missing required values for `end_time`.
     - type: datetime_iso8601
       field: end_time
       clause_id: traces_runs__clause_029
+      description: Prevents invalid timestamps by enforcing ISO8601 datetime for `end_time`.
     - type: not_null
       field: latency_ms
       clause_id: traces_runs__clause_030
+      description: Prevents missing required values for `latency_ms`.
     - type: range
       field: latency_ms
       min: 0.0
       max: null
       clause_id: traces_runs__clause_031
+      description: Prevents out-of-bounds numeric values for `latency_ms`.
     - type: not_null
       field: prompt_tokens
       clause_id: traces_runs__clause_032
+      description: Prevents missing required values for `prompt_tokens`.
     - type: range
       field: prompt_tokens
       min: 0
       max: null
       clause_id: traces_runs__clause_033
+      description: Prevents out-of-bounds numeric values for `prompt_tokens`.
     - type: not_null
       field: completion_tokens
       clause_id: traces_runs__clause_034
+      description: Prevents missing required values for `completion_tokens`.
     - type: range
       field: completion_tokens
       min: 0
       max: null
       clause_id: traces_runs__clause_035
+      description: Prevents out-of-bounds numeric values for `completion_tokens`.
     - type: not_null
       field: total_tokens
       clause_id: traces_runs__clause_036
+      description: Prevents missing required values for `total_tokens`.
     - type: range
       field: total_tokens
       min: 0
       max: null
       clause_id: traces_runs__clause_037
+      description: Prevents out-of-bounds numeric values for `total_tokens`.
     - type: not_null
       field: cost_usd
       clause_id: traces_runs__clause_038
+      description: Prevents missing required values for `cost_usd`.
     - type: range
       field: cost_usd
       min: 0.0
       max: null
       clause_id: traces_runs__clause_039
+      description: Prevents out-of-bounds numeric values for `cost_usd`.
     - type: not_null
       field: status
       clause_id: traces_runs__clause_040
+      description: Prevents missing required values for `status`.
     - type: enum
       field: status
       values:
       - success
       - error
       clause_id: traces_runs__clause_041
+      description: Prevents unexpected categories by enforcing accepted values for
+        `status`.
     - type: not_null
       field: inputs
       clause_id: traces_runs__clause_042
+      description: Prevents missing required values for `inputs`.
     - type: not_null
       field: outputs
       clause_id: traces_runs__clause_043
+      description: Prevents missing required values for `outputs`.
     - type: enum
       field: name
       values:
       - agent_step_0
       - agent_step_1
+      - agent_step_10
+      - agent_step_11
       - agent_step_2
       - agent_step_3
       - agent_step_4
@@ -251,88 +298,113 @@ quality:
       - agent_step_7
       - agent_step_8
       - agent_step_9
-      - agent_step_10
-      - agent_step_11
       source: inferred_low_cardinality
       clause_id: traces_runs__clause_044
+      description: Prevents unexpected categories by enforcing accepted values for
+        `name`.
     - type: regex
       field: project
       pattern: ^(tenx)-.+$
       source: inferred_prefix_regex
       clause_id: traces_runs__clause_045
+      description: Prevents format drift by enforcing regex pattern for `project`.
     - type: unique
       field: run_id
       source: inferred_unique_ratio=1.000
       clause_id: traces_runs__clause_046
+      description: Prevents duplicate identifiers by enforcing uniqueness of `run_id`.
     - type: zscore_drift
       field: latency_ms
       mean: 1064.525
       stdev: 547.6766071703872
       max_z: 3.5
       clause_id: traces_runs__clause_047
+      description: Detects distribution drift for `latency_ms` as data volume scales
+        (tunable over time).
     - type: range_inferred
       field: latency_ms
       min: 93.0
       max: 1983.0
       source: inferred_p01_p99
       clause_id: traces_runs__clause_048
+      description: Prevents extreme outliers for `latency_ms` using inferred p01–p99
+        bounds.
     - type: zscore_drift
       field: prompt_tokens
       mean: 256.05833333333334
       stdev: 129.31288256481727
       max_z: 3.5
       clause_id: traces_runs__clause_049
+      description: Detects distribution drift for `prompt_tokens` as data volume scales
+        (tunable over time).
     - type: range_inferred
       field: prompt_tokens
       min: 57.0
       max: 487.0
       source: inferred_p01_p99
       clause_id: traces_runs__clause_050
+      description: Prevents extreme outliers for `prompt_tokens` using inferred p01–p99
+        bounds.
     - type: zscore_drift
       field: completion_tokens
       mean: 201.40833333333333
       stdev: 114.55817269211113
       max_z: 3.5
       clause_id: traces_runs__clause_051
+      description: Detects distribution drift for `completion_tokens` as data volume
+        scales (tunable over time).
     - type: range_inferred
       field: completion_tokens
       min: 15.0
       max: 395.0
       source: inferred_p01_p99
       clause_id: traces_runs__clause_052
+      description: Prevents extreme outliers for `completion_tokens` using inferred
+        p01–p99 bounds.
     - type: zscore_drift
       field: total_tokens
       mean: 457.5083333333333
       stdev: 177.35519895740927
       max_z: 3.5
       clause_id: traces_runs__clause_053
+      description: Detects distribution drift for `total_tokens` as data volume scales
+        (tunable over time).
     - type: range_inferred
       field: total_tokens
       min: 116.0
       max: 843.0
       source: inferred_p01_p99
       clause_id: traces_runs__clause_054
+      description: Prevents extreme outliers for `total_tokens` using inferred p01–p99
+        bounds.
     - type: zscore_drift
       field: cost_usd
       mean: 0.0010399833333333333
       stdev: 0.0004634434158796759
       max_z: 3.5
       clause_id: traces_runs__clause_055
+      description: Detects distribution drift for `cost_usd` as data volume scales
+        (tunable over time).
     - type: range_inferred
       field: cost_usd
       min: 0.00027
       max: 0.002367
       source: inferred_p01_p99
       clause_id: traces_runs__clause_056
+      description: Prevents extreme outliers for `cost_usd` using inferred p01–p99
+        bounds.
     - type: token_math
       prompt_tokens_field: prompt_tokens
       completion_tokens_field: completion_tokens
       total_tokens_field: total_tokens
       clause_id: traces_runs__clause_057
+      description: Prevents cost/usage analytics drift by enforcing token accounting
+        invariants.
     - type: time_order
       start_field: start_time
       end_field: end_time
       clause_id: traces_runs__clause_058
+      description: Prevents negative latency and timing inconsistencies in trace records.
 customProperties:
   lineage:
     upstream: []
@@ -340,3 +412,23 @@ customProperties:
     blast_radius:
       downstream_count: 0
       impact_hint: derived from outputs/week4/lineage_snapshots.jsonl
+failure_modes:
+- Token accounting mismatch (total != prompt + completion) corrupting cost analytics.
+- Timing inconsistencies (end_time < start_time) producing negative latencies.
+- Provider/project/name cardinality explosion (tag drift).
+- Status/error schema drift breaking observability pipelines.
+dbt_mapping:
+  notes: Documentation-only view of dbt tests emitted alongside this contract.
+  mappings:
+    not_null: not_null
+    unique: unique
+    enum: accepted_values
+    uuid_v4: regex_match (uuidv4)
+    datetime_iso8601: regex_match (datetime prefix)
+    range: accepted_range (generic test macro)
+    range_inferred: accepted_range (generic test macro)
+    regex: regex_match (generic test macro)
+    relationships: relationships
+    monotonic_increasing: not available in dbt schema.yml (enforced in runner)
+    event_payload_*: not available in dbt schema.yml (enforced in runner)
+    zscore_drift: not available in dbt schema.yml (enforced in runner)
