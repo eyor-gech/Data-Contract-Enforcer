@@ -1,5 +1,5 @@
 .venv/
-.env
+adapter_api/.env
 __pycache__
 main.py 
 .python-version
