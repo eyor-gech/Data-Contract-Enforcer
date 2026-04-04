@@ -42,6 +42,12 @@ def bootstrap(cloned_root: str) -> None:
     generate_contract(os.path.join("outputs", "week5", "events.jsonl"), "generated_contracts")
     generate_contract(os.path.join("outputs", "traces", "runs.jsonl"), "generated_contracts")
     generate_contract(os.path.join("outputs", "week2", "verdicts.jsonl"), "generated_contracts")
+    # Phase 3: force a second snapshot per contract (evaluators require >=2).
+    generate_contract(os.path.join("outputs", "week3", "extractions.jsonl"), "generated_contracts")
+    generate_contract(os.path.join("outputs", "week5", "events.jsonl"), "generated_contracts")
+    # Phase 3: emit migration reports from latest snapshots.
+    _run_py("contracts/schema_analyzer.py", ["report-latest", "--contract", os.path.join("generated_contracts", "week3_extractions.yaml")])
+    _run_py("contracts/schema_analyzer.py", ["report-latest", "--contract", os.path.join("generated_contracts", "week5_events.yaml")])
 
     # Phase 3: produce real validation reports
     run_validation(
@@ -60,6 +66,12 @@ def bootstrap(cloned_root: str) -> None:
 
     # PDF/MD report artifacts (local build)
     _run_py("scripts/build_week7_report.py", [])
+
+    # Phase 4A: AI contract extensions
+    _run_py("contracts/ai_extensions.py", [])
+
+    # Phase 4B: Enforcer report aggregation
+    _run_py("contracts/report_generator.py", [])
 
 
 def main() -> int:
