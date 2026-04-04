@@ -93,167 +93,212 @@ quality:
     - type: row_count_min
       min: 50
       clause_id: week2_verdicts__clause_001
+      description: Prevents empty/insufficient datasets from silently passing.
     - type: type
       field: verdict_id
       expected: uuid
       clause_id: week2_verdicts__clause_002
+      description: Prevents implicit coercion by enforcing declared type for `verdict_id`.
     - type: type
       field: trace_id
       expected: uuid
       clause_id: week2_verdicts__clause_003
+      description: Prevents implicit coercion by enforcing declared type for `trace_id`.
     - type: type
       field: intent_id
       expected: uuid
       clause_id: week2_verdicts__clause_004
+      description: Prevents implicit coercion by enforcing declared type for `intent_id`.
     - type: type
       field: created_at
       expected: datetime
       clause_id: week2_verdicts__clause_005
+      description: Prevents implicit coercion by enforcing declared type for `created_at`.
     - type: type
       field: target_ref.file
       expected: string
       clause_id: week2_verdicts__clause_006
+      description: Prevents implicit coercion by enforcing declared type for `target_ref.file`.
     - type: type
       field: target_ref.span.start_line
       expected: integer
       clause_id: week2_verdicts__clause_007
+      description: Prevents implicit coercion by enforcing declared type for `target_ref.span.start_line`.
     - type: type
       field: target_ref.span.end_line
       expected: integer
       clause_id: week2_verdicts__clause_008
+      description: Prevents implicit coercion by enforcing declared type for `target_ref.span.end_line`.
     - type: type
       field: model.provider
       expected: string
       clause_id: week2_verdicts__clause_009
+      description: Prevents implicit coercion by enforcing declared type for `model.provider`.
     - type: type
       field: model.name
       expected: string
       clause_id: week2_verdicts__clause_010
+      description: Prevents implicit coercion by enforcing declared type for `model.name`.
     - type: type
       field: scores.correctness
       expected: integer
       clause_id: week2_verdicts__clause_011
+      description: Prevents implicit coercion by enforcing declared type for `scores.correctness`.
     - type: type
       field: scores.safety
       expected: integer
       clause_id: week2_verdicts__clause_012
+      description: Prevents implicit coercion by enforcing declared type for `scores.safety`.
     - type: type
       field: scores.style
       expected: integer
       clause_id: week2_verdicts__clause_013
+      description: Prevents implicit coercion by enforcing declared type for `scores.style`.
     - type: type
       field: scores.weighted_score
       expected: number
       clause_id: week2_verdicts__clause_014
+      description: Prevents implicit coercion by enforcing declared type for `scores.weighted_score`.
     - type: type
       field: scores.weights
       expected: object
       clause_id: week2_verdicts__clause_015
+      description: Prevents implicit coercion by enforcing declared type for `scores.weights`.
     - type: type
       field: verdict.label
       expected: string
       clause_id: week2_verdicts__clause_016
+      description: Prevents implicit coercion by enforcing declared type for `verdict.label`.
     - type: type
       field: verdict.rationale
       expected: string
       clause_id: week2_verdicts__clause_017
+      description: Prevents implicit coercion by enforcing declared type for `verdict.rationale`.
     - type: type
       field: verdict.confidence
       expected: number
       clause_id: week2_verdicts__clause_018
+      description: Prevents implicit coercion by enforcing declared type for `verdict.confidence`.
     - type: not_null
       field: verdict_id
       clause_id: week2_verdicts__clause_019
+      description: Prevents missing required values for `verdict_id`.
     - type: uuid_v4
       field: verdict_id
       clause_id: week2_verdicts__clause_020
+      description: Prevents malformed identifiers by enforcing UUIDv4 format for `verdict_id`.
     - type: not_null
       field: trace_id
       clause_id: week2_verdicts__clause_021
+      description: Prevents missing required values for `trace_id`.
     - type: uuid_v4
       field: trace_id
       clause_id: week2_verdicts__clause_022
+      description: Prevents malformed identifiers by enforcing UUIDv4 format for `trace_id`.
     - type: not_null
       field: intent_id
       clause_id: week2_verdicts__clause_023
+      description: Prevents missing required values for `intent_id`.
     - type: uuid_v4
       field: intent_id
       clause_id: week2_verdicts__clause_024
+      description: Prevents malformed identifiers by enforcing UUIDv4 format for `intent_id`.
     - type: not_null
       field: created_at
       clause_id: week2_verdicts__clause_025
+      description: Prevents missing required values for `created_at`.
     - type: datetime_iso8601
       field: created_at
       clause_id: week2_verdicts__clause_026
+      description: Prevents invalid timestamps by enforcing ISO8601 datetime for `created_at`.
     - type: not_null
       field: target_ref.file
       clause_id: week2_verdicts__clause_027
+      description: Prevents missing required values for `target_ref.file`.
     - type: not_null
       field: target_ref.span.start_line
       clause_id: week2_verdicts__clause_028
+      description: Prevents missing required values for `target_ref.span.start_line`.
     - type: range
       field: target_ref.span.start_line
       min: 1
       max: null
       clause_id: week2_verdicts__clause_029
+      description: Prevents out-of-bounds numeric values for `target_ref.span.start_line`.
     - type: not_null
       field: target_ref.span.end_line
       clause_id: week2_verdicts__clause_030
+      description: Prevents missing required values for `target_ref.span.end_line`.
     - type: range
       field: target_ref.span.end_line
       min: 1
       max: null
       clause_id: week2_verdicts__clause_031
+      description: Prevents out-of-bounds numeric values for `target_ref.span.end_line`.
     - type: not_null
       field: model.provider
       clause_id: week2_verdicts__clause_032
+      description: Prevents missing required values for `model.provider`.
     - type: enum
       field: model.provider
       values:
       - openai
       - anthropic
       clause_id: week2_verdicts__clause_033
+      description: Prevents unexpected categories by enforcing accepted values for
+        `model.provider`.
     - type: not_null
       field: model.name
       clause_id: week2_verdicts__clause_034
+      description: Prevents missing required values for `model.name`.
     - type: not_null
       field: scores.correctness
       clause_id: week2_verdicts__clause_035
+      description: Prevents missing required values for `scores.correctness`.
     - type: range
       field: scores.correctness
       min: 1
       max: 5
       clause_id: week2_verdicts__clause_036
+      description: Prevents out-of-bounds numeric values for `scores.correctness`.
     - type: not_null
       field: scores.safety
       clause_id: week2_verdicts__clause_037
+      description: Prevents missing required values for `scores.safety`.
     - type: range
       field: scores.safety
       min: 1
       max: 5
       clause_id: week2_verdicts__clause_038
+      description: Prevents out-of-bounds numeric values for `scores.safety`.
     - type: not_null
       field: scores.style
       clause_id: week2_verdicts__clause_039
+      description: Prevents missing required values for `scores.style`.
     - type: range
       field: scores.style
       min: 1
       max: 5
       clause_id: week2_verdicts__clause_040
+      description: Prevents out-of-bounds numeric values for `scores.style`.
     - type: not_null
       field: scores.weighted_score
       clause_id: week2_verdicts__clause_041
+      description: Prevents missing required values for `scores.weighted_score`.
     - type: range
       field: scores.weighted_score
       min: 1.0
       max: 5.0
       clause_id: week2_verdicts__clause_042
+      description: Prevents out-of-bounds numeric values for `scores.weighted_score`.
     - type: not_null
       field: scores.weights
       clause_id: week2_verdicts__clause_043
+      description: Prevents missing required values for `scores.weights`.
     - type: not_null
       field: verdict.label
       clause_id: week2_verdicts__clause_044
+      description: Prevents missing required values for `verdict.label`.
     - type: enum
       field: verdict.label
       values:
@@ -261,17 +306,22 @@ quality:
       - REJECT
       - NEEDS_WORK
       clause_id: week2_verdicts__clause_045
+      description: Prevents unexpected categories by enforcing accepted values for
+        `verdict.label`.
     - type: not_null
       field: verdict.rationale
       clause_id: week2_verdicts__clause_046
+      description: Prevents missing required values for `verdict.rationale`.
     - type: not_null
       field: verdict.confidence
       clause_id: week2_verdicts__clause_047
+      description: Prevents missing required values for `verdict.confidence`.
     - type: range
       field: verdict.confidence
       min: 0.0
       max: 1.0
       clause_id: week2_verdicts__clause_048
+      description: Prevents out-of-bounds numeric values for `verdict.confidence`.
     - type: enum
       field: target_ref.file
       values:
@@ -284,11 +334,13 @@ quality:
       - packages/core/src/tools/write_file.ts
       - src/extension/api.ts
       - webview-ui/src/components/Dashboard.tsx
-      - packages/types/src/api.ts
       - CLAUDE.md
+      - packages/types/src/api.ts
       - nonexistent/file/path.py
       source: inferred_low_cardinality
       clause_id: week2_verdicts__clause_049
+      description: Prevents unexpected categories by enforcing accepted values for
+        `target_ref.file`.
     - type: enum
       field: model.name
       values:
@@ -296,104 +348,137 @@ quality:
       - claude-3-5-sonnet
       source: inferred_low_cardinality
       clause_id: week2_verdicts__clause_050
+      description: Prevents unexpected categories by enforcing accepted values for
+        `model.name`.
     - type: regex
       field: model.name
       pattern: ^(gpt|claude)-.+$
       source: inferred_prefix_regex
       clause_id: week2_verdicts__clause_051
+      description: Prevents format drift by enforcing regex pattern for `model.name`.
     - type: regex
       field: verdict.rationale
       pattern: ^(Auto)-.+$
       source: inferred_prefix_regex
       clause_id: week2_verdicts__clause_052
+      description: Prevents format drift by enforcing regex pattern for `verdict.rationale`.
     - type: unique
       field: verdict_id
       source: inferred_unique_ratio=1.000
       clause_id: week2_verdicts__clause_053
+      description: Prevents duplicate identifiers by enforcing uniqueness of `verdict_id`.
     - type: zscore_drift
       field: target_ref.span.start_line
       mean: 106.1
       stdev: 59.835524565261395
       max_z: 3.5
       clause_id: week2_verdicts__clause_054
+      description: Detects distribution drift for `target_ref.span.start_line` as
+        data volume scales (tunable over time).
     - type: range_inferred
       field: target_ref.span.start_line
       min: 6.0
       max: 197.0
       source: inferred_p01_p99
       clause_id: week2_verdicts__clause_055
+      description: Prevents extreme outliers for `target_ref.span.start_line` using
+        inferred p01–p99 bounds.
     - type: zscore_drift
       field: target_ref.span.end_line
       mean: 134.0875
       stdev: 60.12532614256658
       max_z: 3.5
       clause_id: week2_verdicts__clause_056
+      description: Detects distribution drift for `target_ref.span.end_line` as data
+        volume scales (tunable over time).
     - type: range_inferred
       field: target_ref.span.end_line
       min: 27.0
       max: 251.0
       source: inferred_p01_p99
       clause_id: week2_verdicts__clause_057
+      description: Prevents extreme outliers for `target_ref.span.end_line` using
+        inferred p01–p99 bounds.
     - type: zscore_drift
       field: scores.correctness
       mean: 2.9
       stdev: 1.4628738838327793
       max_z: 3.5
       clause_id: week2_verdicts__clause_058
+      description: Detects distribution drift for `scores.correctness` as data volume
+        scales (tunable over time).
     - type: range_inferred
       field: scores.correctness
       min: 1.0
       max: 5.0
       source: inferred_p01_p99
       clause_id: week2_verdicts__clause_059
+      description: Prevents extreme outliers for `scores.correctness` using inferred
+        p01–p99 bounds.
     - type: zscore_drift
       field: scores.safety
       mean: 3.1125
       stdev: 1.5165235738358966
       max_z: 3.5
       clause_id: week2_verdicts__clause_060
+      description: Detects distribution drift for `scores.safety` as data volume scales
+        (tunable over time).
     - type: range_inferred
       field: scores.safety
       min: 1.0
       max: 5.0
       source: inferred_p01_p99
       clause_id: week2_verdicts__clause_061
+      description: Prevents extreme outliers for `scores.safety` using inferred p01–p99
+        bounds.
     - type: zscore_drift
       field: scores.style
       mean: 2.925
       stdev: 1.464368464560747
       max_z: 3.5
       clause_id: week2_verdicts__clause_062
+      description: Detects distribution drift for `scores.style` as data volume scales
+        (tunable over time).
     - type: range_inferred
       field: scores.style
       min: 1.0
       max: 5.0
       source: inferred_p01_p99
       clause_id: week2_verdicts__clause_063
+      description: Prevents extreme outliers for `scores.style` using inferred p01–p99
+        bounds.
     - type: zscore_drift
       field: scores.weighted_score
       mean: 2.95625
       stdev: 0.8387257820646746
       max_z: 3.5
       clause_id: week2_verdicts__clause_064
+      description: Detects distribution drift for `scores.weighted_score` as data
+        volume scales (tunable over time).
     - type: range_inferred
       field: scores.weighted_score
       min: 1.6
       max: 4.7
       source: inferred_p01_p99
       clause_id: week2_verdicts__clause_065
+      description: Prevents extreme outliers for `scores.weighted_score` using inferred
+        p01–p99 bounds.
     - type: zscore_drift
       field: verdict.confidence
       mean: 0.5499535629751129
       stdev: 0.19026326279662348
       max_z: 3.5
       clause_id: week2_verdicts__clause_066
+      description: Detects distribution drift for `verdict.confidence` as data volume
+        scales (tunable over time).
     - type: range_inferred
       field: verdict.confidence
       min: 0.23729428845724088
       max: 0.9398587553150571
       source: inferred_p01_p99
       clause_id: week2_verdicts__clause_067
+      description: Prevents extreme outliers for `verdict.confidence` using inferred
+        p01–p99 bounds.
     - type: weighted_score_math
       correctness_field: scores.correctness
       safety_field: scores.safety
@@ -401,6 +486,7 @@ quality:
       weights_field: scores.weights
       weighted_score_field: scores.weighted_score
       clause_id: week2_verdicts__clause_068
+      description: Prevents scoring inconsistencies by enforcing weighted score computation.
 customProperties:
   lineage:
     upstream:
@@ -410,3 +496,23 @@ customProperties:
     blast_radius:
       downstream_count: 1
       impact_hint: derived from outputs/week4/lineage_snapshots.jsonl
+failure_modes:
+- Weighted score math drift (stored score diverges from components).
+- Score range violations (outside 1–5) skewing evaluation.
+- Target_ref mismatches against upstream intents (broken linkage).
+- Confidence scale drift (0–1 changed) causing gating errors.
+dbt_mapping:
+  notes: Documentation-only view of dbt tests emitted alongside this contract.
+  mappings:
+    not_null: not_null
+    unique: unique
+    enum: accepted_values
+    uuid_v4: regex_match (uuidv4)
+    datetime_iso8601: regex_match (datetime prefix)
+    range: accepted_range (generic test macro)
+    range_inferred: accepted_range (generic test macro)
+    regex: regex_match (generic test macro)
+    relationships: relationships
+    monotonic_increasing: not available in dbt schema.yml (enforced in runner)
+    event_payload_*: not available in dbt schema.yml (enforced in runner)
+    zscore_drift: not available in dbt schema.yml (enforced in runner)
