@@ -1,0 +1,10 @@
+html,
+body,
+#root {
+  height: 100%;
+}
+
+.rf__node {
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
