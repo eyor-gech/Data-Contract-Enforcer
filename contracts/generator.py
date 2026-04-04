@@ -7,6 +7,7 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import argparse
+import json
 import statistics
 from collections import Counter
 from typing import Any
@@ -309,7 +310,44 @@ def _rule_description(rule: dict[str, Any]) -> str:
     return "Prevents downstream failures by enforcing this contract clause."
 
 
-def _infer_quality_rules(rows: list[dict[str, Any]], spec: DatasetSpec) -> list[dict[str, Any]]:
+def _llm_annotation_hook(field: str, profile: dict[str, Any]) -> dict[str, Any] | None:
+    """
+    Stub hook for ambiguous columns. Must be deterministic and side-effect free by default.
+    Implementations can be swapped in production behind feature flags.
+    """
+    _ = (field, profile)
+    return None
+
+
+def _write_numeric_baseline(
+    *,
+    contract_id: str,
+    dataset: str,
+    numeric_stats: dict[str, dict[str, Any]],
+    out_path: str = os.path.join("schema_snapshots", "baselines.json"),
+) -> None:
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    payload: dict[str, Any] = {"version": "1.0.0", "contracts": {}}
+    if os.path.exists(out_path):
+        try:
+            payload = json.load(open(out_path, "r", encoding="utf-8"))
+        except Exception:
+            payload = {"version": "1.0.0", "contracts": {}}
+    contracts = payload.setdefault("contracts", {})
+    c = contracts.setdefault(contract_id, {})
+    ds = c.setdefault(dataset, {})
+    for field in sorted(numeric_stats.keys()):
+        ds[field] = numeric_stats[field]
+    with open(out_path, "w", encoding="utf-8", newline="\n") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2, sort_keys=True)
+
+
+def _infer_quality_rules(
+    rows: list[dict[str, Any]],
+    spec: DatasetSpec,
+    *,
+    numeric_baseline_out: dict[str, dict[str, Any]] | None = None,
+) -> list[dict[str, Any]]:
     quality = minimal_quality_rules(spec.dataset)
     clause_idx = 1
 
@@ -389,7 +427,23 @@ def _infer_quality_rules(rows: list[dict[str, Any]], spec: DatasetSpec) -> list[
         if f.logical_type in ("integer", "number"):
             prof = _profile_numeric(rows, f.path)
             if prof:
-                add({"type": "zscore_drift", "field": f.path, "mean": prof["mean"], "stdev": prof["stdev"], "max_z": 3.5})
+                # Persist baselines (mean/stddev) for Phase 3/runner drift checks.
+                if numeric_baseline_out is not None:
+                    numeric_baseline_out[f.path] = {
+                        "mean": float(prof["mean"]),
+                        "stdev": float(prof["stdev"]),
+                        "n": int(prof["count"]),
+                    }
+
+                rule = {"type": "zscore_drift", "field": f.path, "mean": prof["mean"], "stdev": prof["stdev"], "max_z": 3.5}
+                # Suspicious distribution detection (annotation only; no rule logic changes).
+                try:
+                    m = float(prof["mean"])
+                    if m > 0.99 or m < 0.01:
+                        rule["annotation"] = {"level": "WARN", "reason": "suspicious_mean", "mean": m}
+                except Exception:
+                    pass
+                add(rule)
 
             robust = _profile_numeric_robust(rows, f.path)
             if robust:
@@ -465,6 +519,16 @@ def _infer_quality_rules(rows: list[dict[str, Any]], spec: DatasetSpec) -> list[
             }
         )
 
+    # LLM annotation hook for ambiguous columns (metadata only).
+    for f in spec.fields:
+        if f.logical_type == "string" and not f.enum:
+            # Heuristic: ambiguous if high distinct count in sample.
+            distinct, _ = _distinct_counts(rows, f.path, max_track=1500)
+            if distinct >= 1000:
+                ann = _llm_annotation_hook(f.path, {"distinct": distinct})
+                if ann is not None:
+                    add({"type": "annotation", "field": f.path, "llm": ann})
+
     # Dedupe and re-attach.
     impl = quality[0].get("implementation")
     if isinstance(impl, dict) and isinstance(impl.get("rules"), list):
@@ -479,6 +543,7 @@ def _lineage_custom_properties(dataset_name: str) -> dict[str, Any]:
 
     upstream: set[str] = set()
     downstream: set[str] = set()
+    downstream_consumers: set[str] = set()
     for row in read_jsonl(lineage_path):
         if "_parse_error" in row:
             continue
@@ -491,10 +556,16 @@ def _lineage_custom_properties(dataset_name: str) -> dict[str, Any]:
                     upstream.add(e["from_dataset"])
                 if isinstance(e.get("to_dataset"), str):
                     downstream.add(e["to_dataset"])
+            # Direct dataset-level consumer edges.
+            frm = e.get("from_dataset")
+            to = e.get("to_dataset")
+            if frm == dataset_name and isinstance(to, str):
+                downstream_consumers.add(to)
     return {
         "lineage": {
             "upstream": sorted(upstream),
             "downstream": sorted(downstream),
+            "downstream_consumers": sorted(downstream_consumers),
             "blast_radius": {"downstream_count": len(downstream), "impact_hint": "derived from outputs/week4/lineage_snapshots.jsonl"},
         }
     }
@@ -570,7 +641,8 @@ def generate_contract(source: str, output_dir: str) -> tuple[str, str]:
     else:
         inferred = sorted(_infer_field_specs(raw_rows, dataset_name), key=lambda f: f.path)
         spec = DatasetSpec(dataset=dataset_name, fields=inferred, min_records=50)
-    quality = _infer_quality_rules(flat_rows, spec)
+    numeric_baseline: dict[str, dict[str, Any]] = {}
+    quality = _infer_quality_rules(flat_rows, spec, numeric_baseline_out=numeric_baseline)
     custom_props = _lineage_custom_properties(dataset_name)
 
     contract = dataset_to_odcs_contract(
@@ -602,6 +674,24 @@ def generate_contract(source: str, output_dir: str) -> tuple[str, str]:
 
     with open(contract_path, "w", encoding="utf-8", newline="\n") as f:
         yaml.safe_dump(contract, f, sort_keys=False, allow_unicode=True)
+
+    # Persistent baseline writer (Phase 3).
+    try:
+        _write_numeric_baseline(
+            contract_id=str(contract.get("id") or ""),
+            dataset=dataset_name,
+            numeric_stats=numeric_baseline,
+        )
+    except Exception:
+        pass
+
+    # Phase 3: schema snapshot storage (additive; never blocks generation).
+    try:
+        from contracts.schema_analyzer import snapshot_contract
+
+        snapshot_contract(contract_path)
+    except Exception:
+        pass
 
     # Map quality rules into dbt tests.
     impl = quality[0].get("implementation") if quality and isinstance(quality[0], dict) else {}
