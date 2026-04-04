@@ -15,26 +15,28 @@
 
 ### outputs/ Directories
 
-- `C:\Users\Eyor.G\Documents\Cloned\Week 1\outputs`
-- `C:\Users\Eyor.G\Documents\Cloned\Week 4\outputs`
-- `C:\Users\Eyor.G\Documents\Cloned\Week 5\outputs`
 - `C:\Users\Eyor.G\Documents\Tenx\Data-Contract-Enforcer\outputs`
+- `C:\\Users\\Eyor.G\\Documents\\Cloned\Week 1\outputs`
+- `C:\\Users\\Eyor.G\\Documents\\Cloned\Week 4\outputs`
+- `C:\\Users\\Eyor.G\\Documents\\Cloned\Week 5\outputs`
 
 ### .jsonl Files
 
-- `C:\Users\Eyor.G\Documents\Cloned\Week 1\.orchestration\agent_trace.jsonl`
-- `C:\Users\Eyor.G\Documents\Cloned\Week 1\agent_trace.jsonl`
-- `C:\Users\Eyor.G\Documents\Cloned\Week 1\agent_trace_intents.jsonl`
-- `C:\Users\Eyor.G\Documents\Cloned\Week 1\outputs\week1\intent_records.jsonl`
-- `C:\Users\Eyor.G\Documents\Cloned\Week 3\.refinery\extraction_ledger.jsonl`
-- `C:\Users\Eyor.G\Documents\Cloned\Week 4\.cartography\airflow-dbt-demo-master\.cartography\cartography_trace.jsonl`
-- `C:\Users\Eyor.G\Documents\Cloned\Week 4\.cartography\jaffle-shop\.cartography\cartography_trace.jsonl`
-- `C:\Users\Eyor.G\Documents\Cloned\Week 4\outputs\week4\lineage_snapshots.jsonl`
-- `C:\Users\Eyor.G\Documents\Cloned\Week 5\events.jsonl`
-- `C:\Users\Eyor.G\Documents\Cloned\Week 5\outputs\week5\events.jsonl`
+- `C:\Users\Eyor.G\Documents\Tenx\Data-Contract-Enforcer\outputs\quarantine\traces_runs_inputs_invalid.jsonl`
 - `C:\Users\Eyor.G\Documents\Tenx\Data-Contract-Enforcer\outputs\traces\runs.jsonl`
 - `C:\Users\Eyor.G\Documents\Tenx\Data-Contract-Enforcer\outputs\week1\intent_records.jsonl`
 - `C:\Users\Eyor.G\Documents\Tenx\Data-Contract-Enforcer\outputs\week2\verdicts.jsonl`
 - `C:\Users\Eyor.G\Documents\Tenx\Data-Contract-Enforcer\outputs\week3\extractions.jsonl`
 - `C:\Users\Eyor.G\Documents\Tenx\Data-Contract-Enforcer\outputs\week4\lineage_snapshots.jsonl`
 - `C:\Users\Eyor.G\Documents\Tenx\Data-Contract-Enforcer\outputs\week5\events.jsonl`
+- `C:\Users\Eyor.G\Documents\Tenx\Data-Contract-Enforcer\violation_log\violations.jsonl`
+- `C:\\Users\\Eyor.G\\Documents\\Cloned\Week 1\.orchestration\agent_trace.jsonl`
+- `C:\\Users\\Eyor.G\\Documents\\Cloned\Week 1\agent_trace.jsonl`
+- `C:\\Users\\Eyor.G\\Documents\\Cloned\Week 1\agent_trace_intents.jsonl`
+- `C:\\Users\\Eyor.G\\Documents\\Cloned\Week 1\outputs\week1\intent_records.jsonl`
+- `C:\\Users\\Eyor.G\\Documents\\Cloned\Week 3\.refinery\extraction_ledger.jsonl`
+- `C:\\Users\\Eyor.G\\Documents\\Cloned\Week 4\.cartography\airflow-dbt-demo-master\.cartography\cartography_trace.jsonl`
+- `C:\\Users\\Eyor.G\\Documents\\Cloned\Week 4\.cartography\jaffle-shop\.cartography\cartography_trace.jsonl`
+- `C:\\Users\\Eyor.G\\Documents\\Cloned\Week 4\outputs\week4\lineage_snapshots.jsonl`
+- `C:\\Users\\Eyor.G\\Documents\\Cloned\Week 5\events.jsonl`
+- `C:\\Users\\Eyor.G\\Documents\\Cloned\Week 5\outputs\week5\events.jsonl`
