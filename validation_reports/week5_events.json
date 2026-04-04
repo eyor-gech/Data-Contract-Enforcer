@@ -1,4 +1,401 @@
 {
+  "report_id": "2f8021d5-8836-4498-b5d0-be64fcd464b4",
+  "contract_id": "cbcbfea8-1b9c-4859-bb8e-b29801af93db",
+  "snapshot_id": "20260402T094730.557423Z.yaml",
+  "run_timestamp": "2026-04-04T06:49:29.671087Z",
+  "total_checks": 38,
+  "passed": 33,
+  "failed": 5,
+  "warned": 0,
+  "errored": 0,
+  "results": [
+    {
+      "check_id": "week5_events__clause_001",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {},
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_002",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "uuid"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_003",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "uuid"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_004",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "integer"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_005",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "string"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_006",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "string"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_007",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "integer"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_008",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "object"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_009",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "string"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_010",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "string"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_011",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "string"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_012",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "datetime"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_013",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_014",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "pattern": null
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_015",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_016",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "pattern": null
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_017",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_018",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "actual_value": null,
+      "expected": {
+        "min": 1,
+        "max": null
+      },
+      "message": "value outside allowed numeric bounds"
+    },
+    {
+      "check_id": "week5_events__clause_019",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_020",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_021",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_022",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "min": 1,
+        "max": null
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_023",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_024",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_025",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_026",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_027",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {},
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_028",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "values": [
+          "DocumentAdded",
+          "DocumentUploaded",
+          "ApplicationSubmitted",
+          "DocumentUploadRequested",
+          "PackageCreated",
+          "AgentNodeExecuted",
+          "AgentToolCalled",
+          "DocumentFormatValidated",
+          "ExtractionCompleted",
+          "ExtractionStarted",
+          "AgentSessionStarted",
+          "AgentInputValidated",
+          "AgentOutputWritten",
+          "AgentSessionCompleted",
+          "CreditAnalysisRequested",
+          "PackageReadyForAnalysis",
+          "QualityAssessmentCompleted"
+        ]
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_029",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "pattern": "^(docpkg|loan|agent)-.+$"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_030",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "pattern": "^(corr)-.+$"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_031",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {},
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_032",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {},
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_033",
+      "status": "FAIL",
+      "severity": "MEDIUM",
+      "actual_value": null,
+      "expected": {
+        "min": 3.0,
+        "max": 198.0
+      },
+      "message": "value outside allowed numeric bounds"
+    },
+    {
+      "check_id": "week5_events__clause_034",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {},
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_035",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "min": 1.0,
+        "max": 1.0
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week5_events__clause_036",
+      "status": "FAIL",
+      "severity": "HIGH",
+      "actual_value": null,
+      "expected": {},
+      "message": "sequence is not monotonic increasing"
+    },
+    {
+      "check_id": "week5_events__clause_037",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "actual_value": null,
+      "expected": {},
+      "message": "event payload missing required fields"
+    },
+    {
+      "check_id": "week5_events__clause_038",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "actual_value": null,
+      "expected": {},
+      "message": "requested_amount_usd must be > 0"
+    }
+  ],
   "status": "FAIL",
   "violations": [
     {

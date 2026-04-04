@@ -1,4 +1,560 @@
 {
+  "report_id": "e1c9c0d0-a080-43c5-872a-771e11b5f69d",
+  "contract_id": "7fd02684-e381-45a7-b623-71c9f752f9ab",
+  "snapshot_id": "20260404T061141.195846Z.yaml",
+  "run_timestamp": "2026-04-04T06:49:29.112328Z",
+  "total_checks": 54,
+  "passed": 47,
+  "failed": 7,
+  "warned": 0,
+  "errored": 0,
+  "results": [
+    {
+      "check_id": "week3_extractions__clause_001",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {},
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_002",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "uuid"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_003",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "uuid"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_004",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "datetime"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_005",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "uuid"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_006",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "string"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_007",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "integer"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_008",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "string"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_009",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "number"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_010",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "number"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_011",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "number"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_012",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "number"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_013",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "boolean"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_014",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "boolean"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_015",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "string"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_016",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "expected": "array"
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_017",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_018",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "pattern": null
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_019",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_020",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "pattern": null
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_021",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_022",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {},
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_023",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_024",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "pattern": null
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_025",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_026",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_027",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "actual_value": null,
+      "expected": {
+        "min": 1,
+        "max": null
+      },
+      "message": "value outside allowed numeric bounds"
+    },
+    {
+      "check_id": "week3_extractions__clause_028",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_029",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "values": [
+          "vision",
+          "ocr",
+          "hybrid"
+        ]
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_030",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_031",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "actual_value": null,
+      "expected": {
+        "min": 0.0,
+        "max": 1.0
+      },
+      "message": "value outside allowed numeric bounds"
+    },
+    {
+      "check_id": "week3_extractions__clause_032",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_033",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "min": 0.0,
+        "max": 1.0
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_034",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_035",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "min": 0.0,
+        "max": null
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_036",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_037",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "min": 0.0,
+        "max": null
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_038",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_039",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_040",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "required": true
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_041",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "values": [
+          "Annual_Report_JUNE-2023",
+          "tax_expenditure_ethiopia_2021_22",
+          "20191010_Pharmaceutical-Manufacturing-Opportunites-in-Ethiopia_VF",
+          "Consumer Price Index August 2025",
+          "Consumer Price Index July 2025",
+          "2013-E.C-Audit-finding-information"
+        ]
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_042",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {},
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_043",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {},
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_044",
+      "status": "FAIL",
+      "severity": "MEDIUM",
+      "actual_value": null,
+      "expected": {
+        "min": 1.0,
+        "max": 94.0
+      },
+      "message": "value outside allowed numeric bounds"
+    },
+    {
+      "check_id": "week3_extractions__clause_045",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {},
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_046",
+      "status": "FAIL",
+      "severity": "MEDIUM",
+      "actual_value": null,
+      "expected": {
+        "min": 0.2,
+        "max": 1.0
+      },
+      "message": "value outside allowed numeric bounds"
+    },
+    {
+      "check_id": "week3_extractions__clause_047",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {},
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_048",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "min": 0.7,
+        "max": 0.7
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_049",
+      "status": "FAIL",
+      "severity": "MEDIUM",
+      "actual_value": null,
+      "expected": {},
+      "message": "statistical drift detected (z-score)"
+    },
+    {
+      "check_id": "week3_extractions__clause_050",
+      "status": "FAIL",
+      "severity": "MEDIUM",
+      "actual_value": null,
+      "expected": {
+        "min": 3180.9909000294283,
+        "max": 30567.873699998017
+      },
+      "message": "value outside allowed numeric bounds"
+    },
+    {
+      "check_id": "week3_extractions__clause_051",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {},
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_052",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {
+        "min": 0.0,
+        "max": 0.0
+      },
+      "message": "Contract check passed."
+    },
+    {
+      "check_id": "week3_extractions__clause_053",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "actual_value": null,
+      "expected": {
+        "to_dataset": "week4_lineage_snapshots",
+        "field": "doc_id",
+        "ref_field": null
+      },
+      "message": "referential integrity failure"
+    },
+    {
+      "check_id": "week3_extractions__clause_054",
+      "status": "PASS",
+      "severity": "LOW",
+      "actual_value": null,
+      "expected": {},
+      "message": "Contract check passed."
+    }
+  ],
   "status": "FAIL",
   "violations": [
     {

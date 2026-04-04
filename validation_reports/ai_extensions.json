@@ -1,0 +1,39 @@
+{
+  "ai_extensions_version": "1.0.0",
+  "generated_at": "2026-04-04T06:11:56.490787Z",
+  "results": {
+    "embedding_drift": {
+      "check": "embedding_drift_week3",
+      "status": "FAIL",
+      "drift_threshold": 0.15,
+      "sample_n": 200,
+      "mean_cosine_distance": 0.18633072078227997,
+      "p95_cosine_distance": 0.3356638550758362
+    },
+    "prompt_inputs": {
+      "check": "prompt_input_schema",
+      "invalid_count": 0,
+      "quarantine_path": "outputs\\quarantine\\traces_runs_inputs_invalid.jsonl"
+    },
+    "llm_outputs": {
+      "check": "llm_output_enforcement_week2",
+      "status": "PASS",
+      "total_records": 80,
+      "schema_invalid": 1,
+      "weighted_math_invalid": 2,
+      "target_ref_link_invalid": 1,
+      "output_schema_violation_rate": 0.0125,
+      "violation_rate_trend_last5": null,
+      "baseline_output_schema_violation_rate": 0.0125,
+      "threshold_rate": 0.018750000000000003,
+      "history_path": "validation_reports\\week2_violation_rate_history.jsonl",
+      "samples": [
+        {
+          "line_no": 2,
+          "verdict_id": "bafd17a1-a962-4743-83e0-e5ca41876bec",
+          "error": "7 is greater than the maximum of 5"
+        }
+      ]
+    }
+  }
+}
