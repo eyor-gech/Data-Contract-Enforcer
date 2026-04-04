@@ -44,6 +44,7 @@ class FieldSnapshot:
     logical_type: str
     required: bool
     array_item_type: str | None = None
+    enum_values: list[str] | None = None
     minimum: float | int | None = None
     maximum: float | int | None = None
 
@@ -64,6 +65,11 @@ def _extract_schema_fields(contract: dict[str, Any]) -> list[FieldSnapshot]:
         required = p.get("required")
         minimum = p.get("min") if isinstance(p.get("min"), (int, float)) else None
         maximum = p.get("max") if isinstance(p.get("max"), (int, float)) else None
+        enum_values = None
+        vv = p.get("validValues")
+        if isinstance(vv, list) and vv:
+            ev = [str(x) for x in vv if isinstance(x, (str, int, float, bool))]
+            enum_values = sorted(set([str(x) for x in ev if str(x)])) if ev else None
         if not isinstance(name, str) or not isinstance(logical_type, str):
             continue
         array_item_type = None
@@ -76,6 +82,7 @@ def _extract_schema_fields(contract: dict[str, Any]) -> list[FieldSnapshot]:
                 logical_type=logical_type,
                 required=bool(required),
                 array_item_type=array_item_type,
+                enum_values=enum_values,
                 minimum=minimum,
                 maximum=maximum,
             )
@@ -178,6 +185,336 @@ def _tokenize_field(name: str) -> set[str]:
     return set(parts)
 
 
+def _taxonomy_definitions() -> dict[str, dict[str, Any]]:
+    """
+    Full change taxonomy encoded for report consumers.
+    """
+    return {
+        "FIELD_ADDED_NULLABLE": {"compatibility": "COMPATIBLE", "severity": "LOW"},
+        "FIELD_ADDED_REQUIRED": {"compatibility": "BREAKING", "severity": "HIGH"},
+        "FIELD_REMOVED": {"compatibility": "BREAKING", "severity": "HIGH"},
+        "FIELD_RENAMED": {"compatibility": "BREAKING", "severity": "HIGH"},
+        "TYPE_WIDENED": {"compatibility": "COMPATIBLE", "severity": "LOW"},
+        "TYPE_NARROWED": {"compatibility": "BREAKING", "severity": "CRITICAL"},
+        "REQUIREDNESS_TIGHTENED": {"compatibility": "BREAKING", "severity": "HIGH"},
+        "REQUIREDNESS_LOOSENED": {"compatibility": "COMPATIBLE", "severity": "LOW"},
+        "ENUM_VALUE_ADDED": {"compatibility": "COMPATIBLE", "severity": "LOW"},
+        "ENUM_VALUE_REMOVED": {"compatibility": "BREAKING", "severity": "HIGH"},
+        "RANGE_NARROWED": {"compatibility": "BREAKING", "severity": "HIGH"},
+        "RANGE_WIDENED": {"compatibility": "COMPATIBLE", "severity": "LOW"},
+        "ARRAY_ITEM_TYPE_CHANGED": {"compatibility": "BREAKING", "severity": "HIGH"},
+    }
+
+
+def _rollback_steps_for_change(change: dict[str, Any]) -> list[str]:
+    ctype = str(change.get("change_type") or "")
+    field = str(change.get("field") or "")
+    if ctype == "FIELD_REMOVED":
+        return [
+            f"Reintroduce field `{field}` in the producer and dual-write if needed.",
+            "Regenerate the contract and re-run ValidationRunner on staging.",
+            "Deploy consumer fixes, then remove the field only after deprecation window.",
+        ]
+    if ctype == "FIELD_ADDED_REQUIRED":
+        return [
+            f"Make `{field}` nullable (or optional) in producer temporarily.",
+            "Backfill historical data for the new field.",
+            "After backfill + consumer migration, enforce requiredness and regenerate contract.",
+        ]
+    if ctype == "FIELD_RENAMED":
+        to_f = str((change.get("to") or {}).get("name") or "")
+        return [
+            f"Dual-write `{field}` and `{to_f}` for one release cycle.",
+            "Update consumers to read the new field name, then remove the old field.",
+            "Regenerate contract snapshots and validate downstream health metrics.",
+        ]
+    if ctype in ("TYPE_NARROWED", "RANGE_NARROWED", "ARRAY_ITEM_TYPE_CHANGED"):
+        return [
+            f"Revert field `{field}` to prior type/shape in the producer (compatibility restore).",
+            "If new semantics are required, introduce a new field name/versioned column instead of narrowing.",
+            "Regenerate contract and confirm consumer impact reports are cleared.",
+        ]
+    if ctype == "ENUM_VALUE_REMOVED":
+        removed = (change.get("to") or {}).get("removed_values") if isinstance(change.get("to"), dict) else None
+        rv = ", ".join([str(x) for x in (removed or [])][:10]) if isinstance(removed, list) else ""
+        return [
+            f"Re-add removed enum values for `{field}` ({rv}) or map them to a supported value at the producer.",
+            "Update consumers to handle the new mapping; deploy behind a flag if needed.",
+            "Regenerate contract and validate against historical backfill.",
+        ]
+    # Default rollback for compatible changes (still valuable operationally)
+    return [
+        "Re-deploy prior producer version that writes previous schema.",
+        "Re-run generator to restore prior contracts and snapshots.",
+        "Re-validate and confirm violation rates return to baseline.",
+    ]
+
+
+def _detect_enum_value_changes(
+    a_fields: dict[str, dict[str, Any]],
+    b_fields: dict[str, dict[str, Any]],
+) -> list[dict[str, Any]]:
+    out: list[dict[str, Any]] = []
+    for field in sorted(set(a_fields.keys()) & set(b_fields.keys())):
+        av = a_fields[field].get("enum_values")
+        bv = b_fields[field].get("enum_values")
+        if not isinstance(av, list) and not isinstance(bv, list):
+            continue
+        a_set = set([str(x) for x in av]) if isinstance(av, list) else set()
+        b_set = set([str(x) for x in bv]) if isinstance(bv, list) else set()
+        added = sorted(b_set - a_set)
+        removed = sorted(a_set - b_set)
+        if added or removed:
+            out.append({"field": field, "added_values": added, "removed_values": removed})
+    return out
+
+
+def _detect_range_changes(
+    a_fields: dict[str, dict[str, Any]],
+    b_fields: dict[str, dict[str, Any]],
+) -> list[dict[str, Any]]:
+    out: list[dict[str, Any]] = []
+    for field in sorted(set(a_fields.keys()) & set(b_fields.keys())):
+        a_min = a_fields[field].get("minimum")
+        a_max = a_fields[field].get("maximum")
+        b_min = b_fields[field].get("minimum")
+        b_max = b_fields[field].get("maximum")
+        if (a_min, a_max) == (b_min, b_max):
+            continue
+        if any(isinstance(x, (int, float)) for x in (a_min, a_max, b_min, b_max)):
+            out.append({"field": field, "from": {"min": a_min, "max": a_max}, "to": {"min": b_min, "max": b_max}})
+    return out
+
+
+def _detect_array_item_type_changes(
+    a_fields: dict[str, dict[str, Any]],
+    b_fields: dict[str, dict[str, Any]],
+) -> list[dict[str, Any]]:
+    out: list[dict[str, Any]] = []
+    for field in sorted(set(a_fields.keys()) & set(b_fields.keys())):
+        if str(a_fields[field].get("logical_type")) != "array" or str(b_fields[field].get("logical_type")) != "array":
+            continue
+        ai = a_fields[field].get("array_item_type")
+        bi = b_fields[field].get("array_item_type")
+        if ai != bi:
+            out.append({"field": field, "from": {"itemsLogicalType": ai}, "to": {"itemsLogicalType": bi}})
+    return out
+
+
+def _build_change_taxonomy(
+    *,
+    a_fields: dict[str, dict[str, Any]],
+    b_fields: dict[str, dict[str, Any]],
+    removed: list[str],
+    added: list[str],
+    changed: list[dict[str, Any]],
+    renames: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """
+    Emit explicit taxonomy entries with compatibility, severity, and per-change rollback plans.
+    """
+    defs = _taxonomy_definitions()
+    out: list[dict[str, Any]] = []
+
+    # Removed fields
+    for f in removed:
+        base = defs["FIELD_REMOVED"]
+        entry = {
+            "change_type": "FIELD_REMOVED",
+            "field": f,
+            "compatibility": base["compatibility"],
+            "severity": base["severity"],
+            "from": {"name": f, "logical_type": a_fields.get(f, {}).get("logical_type"), "required": a_fields.get(f, {}).get("required")},
+            "to": None,
+        }
+        entry["rollback_plan"] = _rollback_steps_for_change(entry)
+        out.append(entry)
+
+    # Added fields
+    for f in added:
+        req = bool(b_fields.get(f, {}).get("required"))
+        ctype = "FIELD_ADDED_REQUIRED" if req else "FIELD_ADDED_NULLABLE"
+        base = defs[ctype]
+        entry = {
+            "change_type": ctype,
+            "field": f,
+            "compatibility": base["compatibility"],
+            "severity": base["severity"],
+            "from": None,
+            "to": {"name": f, "logical_type": b_fields.get(f, {}).get("logical_type"), "required": req},
+        }
+        entry["rollback_plan"] = _rollback_steps_for_change(entry)
+        out.append(entry)
+
+    # Renames (heuristic)
+    for r in renames:
+        frm = str(r.get("from") or "")
+        to = str(r.get("to") or "")
+        if not frm or not to:
+            continue
+        base = defs["FIELD_RENAMED"]
+        entry = {
+            "change_type": "FIELD_RENAMED",
+            "field": frm,
+            "compatibility": base["compatibility"],
+            "severity": base["severity"],
+            "confidence": r.get("confidence"),
+            "from": {"name": frm, "logical_type": a_fields.get(frm, {}).get("logical_type"), "required": a_fields.get(frm, {}).get("required")},
+            "to": {"name": to, "logical_type": b_fields.get(to, {}).get("logical_type"), "required": b_fields.get(to, {}).get("required")},
+        }
+        entry["rollback_plan"] = _rollback_steps_for_change(entry)
+        out.append(entry)
+
+    # Type/requiredness changes
+    for c in changed:
+        field = str(c.get("field") or "")
+        if not field:
+            continue
+        ft = str((c.get("from") or {}).get("logical_type") or "")
+        tt = str((c.get("to") or {}).get("logical_type") or "")
+        fr = bool((c.get("from") or {}).get("required"))
+        tr = bool((c.get("to") or {}).get("required"))
+
+        if ft and tt and ft != tt:
+            # Explicit narrow-type detection: confidence probability -> percent scale is CRITICAL.
+            if (
+                "confidence" in field.lower()
+                and ft == "number"
+                and tt == "integer"
+                and isinstance(a_fields.get(field, {}).get("maximum"), (int, float))
+                and isinstance(b_fields.get(field, {}).get("maximum"), (int, float))
+                and float(a_fields[field]["maximum"]) <= 1.0
+                and float(b_fields[field]["maximum"]) >= 100.0
+            ):
+                entry = {
+                    "change_type": "TYPE_NARROWED",
+                    "field": field,
+                    "compatibility": "BREAKING",
+                    "severity": "CRITICAL",
+                    "critical_rule": "confidence_scale_narrowing",
+                    "from": {"logical_type": ft, "required": fr, "max": a_fields.get(field, {}).get("maximum")},
+                    "to": {"logical_type": tt, "required": tr, "max": b_fields.get(field, {}).get("maximum")},
+                }
+                entry["rollback_plan"] = _rollback_steps_for_change(entry)
+                out.append(entry)
+            else:
+                if _type_rank(tt) > _type_rank(ft):
+                    base = defs["TYPE_WIDENED"]
+                    ctype = "TYPE_WIDENED"
+                else:
+                    base = defs["TYPE_NARROWED"]
+                    ctype = "TYPE_NARROWED"
+                entry = {
+                    "change_type": ctype,
+                    "field": field,
+                    "compatibility": base["compatibility"],
+                    "severity": base["severity"],
+                    "from": {"logical_type": ft, "required": fr},
+                    "to": {"logical_type": tt, "required": tr},
+                }
+                entry["rollback_plan"] = _rollback_steps_for_change(entry)
+                out.append(entry)
+
+        if fr != tr:
+            if tr and not fr:
+                base = defs["REQUIREDNESS_TIGHTENED"]
+                ctype = "REQUIREDNESS_TIGHTENED"
+            else:
+                base = defs["REQUIREDNESS_LOOSENED"]
+                ctype = "REQUIREDNESS_LOOSENED"
+            entry = {
+                "change_type": ctype,
+                "field": field,
+                "compatibility": base["compatibility"],
+                "severity": base["severity"],
+                "from": {"required": fr},
+                "to": {"required": tr},
+            }
+            entry["rollback_plan"] = _rollback_steps_for_change(entry)
+            out.append(entry)
+
+    # Enum value changes
+    for e in _detect_enum_value_changes(a_fields, b_fields):
+        field = str(e.get("field") or "")
+        if not field:
+            continue
+        if e.get("removed_values"):
+            base = defs["ENUM_VALUE_REMOVED"]
+            entry = {
+                "change_type": "ENUM_VALUE_REMOVED",
+                "field": field,
+                "compatibility": base["compatibility"],
+                "severity": base["severity"],
+                "from": {"enum_values": a_fields.get(field, {}).get("enum_values")},
+                "to": {"enum_values": b_fields.get(field, {}).get("enum_values"), "removed_values": e.get("removed_values")},
+            }
+            entry["rollback_plan"] = _rollback_steps_for_change(entry)
+            out.append(entry)
+        if e.get("added_values"):
+            base = defs["ENUM_VALUE_ADDED"]
+            entry = {
+                "change_type": "ENUM_VALUE_ADDED",
+                "field": field,
+                "compatibility": base["compatibility"],
+                "severity": base["severity"],
+                "from": {"enum_values": a_fields.get(field, {}).get("enum_values")},
+                "to": {"enum_values": b_fields.get(field, {}).get("enum_values"), "added_values": e.get("added_values")},
+            }
+            entry["rollback_plan"] = _rollback_steps_for_change(entry)
+            out.append(entry)
+
+    # Range changes
+    for r in _detect_range_changes(a_fields, b_fields):
+        field = str(r.get("field") or "")
+        if not field:
+            continue
+        a_min = (r.get("from") or {}).get("min")
+        a_max = (r.get("from") or {}).get("max")
+        b_min = (r.get("to") or {}).get("min")
+        b_max = (r.get("to") or {}).get("max")
+        narrowed = False
+        try:
+            if isinstance(a_min, (int, float)) and isinstance(b_min, (int, float)) and b_min > a_min:
+                narrowed = True
+            if isinstance(a_max, (int, float)) and isinstance(b_max, (int, float)) and b_max < a_max:
+                narrowed = True
+        except Exception:
+            narrowed = False
+        ctype = "RANGE_NARROWED" if narrowed else "RANGE_WIDENED"
+        base = defs[ctype]
+        entry = {
+            "change_type": ctype,
+            "field": field,
+            "compatibility": base["compatibility"],
+            "severity": base["severity"],
+            "from": {"min": a_min, "max": a_max},
+            "to": {"min": b_min, "max": b_max},
+        }
+        entry["rollback_plan"] = _rollback_steps_for_change(entry)
+        out.append(entry)
+
+    # Array item type changes
+    for a in _detect_array_item_type_changes(a_fields, b_fields):
+        field = str(a.get("field") or "")
+        if not field:
+            continue
+        base = defs["ARRAY_ITEM_TYPE_CHANGED"]
+        entry = {
+            "change_type": "ARRAY_ITEM_TYPE_CHANGED",
+            "field": field,
+            "compatibility": base["compatibility"],
+            "severity": base["severity"],
+            "from": a.get("from"),
+            "to": a.get("to"),
+        }
+        entry["rollback_plan"] = _rollback_steps_for_change(entry)
+        out.append(entry)
+
+    # Stable ordering for determinism
+    out.sort(key=lambda x: (str(x.get("compatibility") or ""), str(x.get("severity") or ""), str(x.get("change_type") or ""), str(x.get("field") or "")))
+    return out
+
+
 def diff_snapshots(a_path: str, b_path: str) -> dict[str, Any]:
     a = _load_yaml(a_path)
     b = _load_yaml(b_path)
@@ -215,12 +552,31 @@ def diff_snapshots(a_path: str, b_path: str) -> dict[str, Any]:
                 renames.append({"from": r, "to": ad, "confidence": round(j, 3)})
 
     compatibility, reasons = classify_compatibility(a_fields, b_fields, removed, added, changed, renames)
+    taxonomy = _build_change_taxonomy(
+        a_fields=a_fields,
+        b_fields=b_fields,
+        removed=removed,
+        added=added,
+        changed=changed,
+        renames=renames,
+    )
 
     return {
         "from_snapshot": a_path,
         "to_snapshot": b_path,
         "changes": {"added": added, "removed": removed, "changed": changed, "renames": renames},
         "compatibility": {"verdict": compatibility, "reasons": reasons},
+        "change_taxonomy": {
+            "taxonomy_version": "1.0.0",
+            "definitions": _taxonomy_definitions(),
+            "detected": taxonomy,
+            "summary": {
+                "total": int(len(taxonomy)),
+                "breaking": int(sum(1 for t in taxonomy if str(t.get("compatibility") or "") == "BREAKING")),
+                "compatible": int(sum(1 for t in taxonomy if str(t.get("compatibility") or "") == "COMPATIBLE")),
+                "critical": int(sum(1 for t in taxonomy if str(t.get("severity") or "") == "CRITICAL")),
+            },
+        },
         "diff_text": _unified_diff_text(a_path, b_path),
     }
 
@@ -331,7 +687,7 @@ def _consumer_impact(
     subs = _load_registry(registry_path)
     # build graph
     children: dict[str, set[str]] = {}
-    breaking_by_edge: dict[tuple[str, str], list[str]] = {}
+    meta_by_edge: dict[tuple[str, str], dict[str, Any]] = {}
     for s in subs:
         if not isinstance(s, dict):
             continue
@@ -339,8 +695,7 @@ def _consumer_impact(
         to = s.get("to")
         if isinstance(frm, str) and isinstance(to, str):
             children.setdefault(frm, set()).add(to)
-            bf = s.get("breaking_fields")
-            breaking_by_edge[(frm, to)] = bf if isinstance(bf, list) else []
+            meta_by_edge[(frm, to)] = s
 
     # augment with lineage edges if present
     if os.path.exists(lineage_path):
@@ -381,15 +736,43 @@ def _consumer_impact(
             if ch in seen:
                 continue
             seen.add(ch)
-            edge_breaking = breaking_by_edge.get((cur, ch), [])
+            edge_meta = meta_by_edge.get((cur, ch), {}) if isinstance(meta_by_edge.get((cur, ch)), dict) else {}
+            edge_breaking = edge_meta.get("breaking_fields") if isinstance(edge_meta, dict) else []
+            edge_breaking = edge_breaking if isinstance(edge_breaking, list) else []
             # intersect
             fields = sorted(set(affected_fields) & set([str(x) for x in edge_breaking]))
+            breaking_reasons = edge_meta.get("breaking_reasons") if isinstance(edge_meta, dict) else None
+            reasons_matched: dict[str, str] = {}
+            if isinstance(breaking_reasons, dict):
+                for f in fields:
+                    r = breaking_reasons.get(f)
+                    if isinstance(r, str) and r:
+                        reasons_matched[f] = r
+
+            validation_mode = str(edge_meta.get("validation_mode") or "AUDIT").upper() if isinstance(edge_meta, dict) else "AUDIT"
+            subscriber_id = edge_meta.get("subscriber_id") if isinstance(edge_meta, dict) else None
+            contact = edge_meta.get("contact") if isinstance(edge_meta, dict) else None
+            consumed = edge_meta.get("fields_consumed") if isinstance(edge_meta, dict) else None
+            consumed = [str(x) for x in consumed] if isinstance(consumed, list) else []
+
+            if fields:
+                if validation_mode in ("ENFORCE", "STRICT"):
+                    failure_mode = "Likely hard failure: subscriber enforces breaking fields and may block pipelines until migration completes."
+                else:
+                    failure_mode = "Likely degraded behavior: subscriber may accept data but produce incorrect results or warnings."
+            else:
+                failure_mode = "Potential soft risk: schema changed but does not match declared breaking fields; monitor for latent coupling."
             impacted.append(
                 {
                     "consumer": ch,
                     "contamination_depth": int(depth + 1),
+                    "subscriber_id": subscriber_id,
+                    "validation_mode": validation_mode,
+                    "contact": contact,
+                    "fields_consumed": consumed,
                     "breaking_fields_matched": fields,
-                    "failure_mode": "Consumer may fail validation or produce incorrect results if affected fields change without migration.",
+                    "breaking_reasons_matched": reasons_matched,
+                    "failure_mode": failure_mode,
                 }
             )
             q.append((ch, depth + 1))
@@ -414,6 +797,8 @@ def generate_migration_report(contract_path: str, a_snapshot: str, b_snapshot: s
     consumers = _consumer_impact(dataset=str(dataset or "unknown"), affected_fields=affected_fields)
 
     verdict = d["compatibility"]["verdict"]
+    taxonomy = (d.get("change_taxonomy") or {}) if isinstance(d.get("change_taxonomy"), dict) else {}
+    detected = taxonomy.get("detected") if isinstance(taxonomy.get("detected"), list) else []
     checklist = [
         "Freeze downstream consumers and announce change window.",
         "Add producer-side dual-write (old+new fields) if possible.",
@@ -430,16 +815,24 @@ def generate_migration_report(contract_path: str, a_snapshot: str, b_snapshot: s
     ]
 
     report = {
-        "report_version": "1.0.0",
+        "report_version": "1.1.0",
         "generated_at": _utc_now_compact(),
         "contract_path": contract_path,
         "snapshots": {"from": a_snapshot, "to": b_snapshot},
         "compatibility": d["compatibility"],
+        "change_taxonomy": taxonomy,
         "lineage_blast_radius": lineage,
-        "per_consumer_impact": consumers,
+        "per_consumer_failure_analysis": consumers,
         "exact_diff": d["diff_text"],
         "migration_checklist": checklist,
-        "rollback_plan": rollback,
+        "rollback_plan": {
+            "overall": rollback,
+            "per_change": [
+                {"field": c.get("field"), "change_type": c.get("change_type"), "severity": c.get("severity"), "rollback_plan": c.get("rollback_plan")}
+                for c in detected
+                if isinstance(c, dict)
+            ],
+        },
     }
 
     _safe_mkdir(out_dir)
