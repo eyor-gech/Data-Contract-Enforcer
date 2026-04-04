@@ -1,0 +1,710 @@
+snapshot_version: 1.0.0
+captured_at: 20260402T092628Z
+contract:
+  id: 6633b9ad-fdee-4e3c-a406-b5e479b029e9
+  name: week2_verdicts_contract
+  version: 1.0.0
+  domain: tenx
+  dataProduct: week7_data_contract_enforcer
+schema:
+  fields:
+  - name: created_at
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: intent_id
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: model.name
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: model.provider
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: scores.correctness
+    logical_type: integer
+    required: true
+    array_item_type: null
+  - name: scores.safety
+    logical_type: integer
+    required: true
+    array_item_type: null
+  - name: scores.style
+    logical_type: integer
+    required: true
+    array_item_type: null
+  - name: scores.weighted_score
+    logical_type: number
+    required: true
+    array_item_type: null
+  - name: scores.weights
+    logical_type: object
+    required: true
+    array_item_type: null
+  - name: target_ref.file
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: target_ref.span.end_line
+    logical_type: integer
+    required: true
+    array_item_type: null
+  - name: target_ref.span.start_line
+    logical_type: integer
+    required: true
+    array_item_type: null
+  - name: trace_id
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: verdict.confidence
+    logical_type: number
+    required: true
+    array_item_type: null
+  - name: verdict.label
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: verdict.rationale
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: verdict_id
+    logical_type: string
+    required: true
+    array_item_type: null
+  quality_rule_fingerprint:
+  - type: datetime_iso8601
+    field: created_at
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: enum
+    field: model.name
+    expected: null
+    min: null
+    max: null
+    values:
+    - gpt-4.1-mini
+    - claude-3-5-sonnet
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: enum
+    field: model.provider
+    expected: null
+    min: null
+    max: null
+    values:
+    - openai
+    - anthropic
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: enum
+    field: target_ref.file
+    expected: null
+    min: null
+    max: null
+    values:
+    - src/pipeline/run.py
+    - packages/core/src/tools/concurrency_test.ts
+    - src/module_1.py
+    - packages/core/src/hooks/hook_engine.ts
+    - src/module_2.py
+    - packages/core/src/tools/governor_test.ts
+    - packages/core/src/tools/write_file.ts
+    - src/extension/api.ts
+    - webview-ui/src/components/Dashboard.tsx
+    - CLAUDE.md
+    - packages/types/src/api.ts
+    - nonexistent/file/path.py
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: enum
+    field: verdict.label
+    expected: null
+    min: null
+    max: null
+    values:
+    - APPROVE
+    - REJECT
+    - NEEDS_WORK
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: created_at
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: intent_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: model.name
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: model.provider
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: scores.correctness
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: scores.safety
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: scores.style
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: scores.weighted_score
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: scores.weights
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: target_ref.file
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: target_ref.span.end_line
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: target_ref.span.start_line
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: trace_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: verdict.confidence
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: verdict.label
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: verdict.rationale
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: verdict_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range
+    field: scores.correctness
+    expected: null
+    min: 1
+    max: 5
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range
+    field: scores.safety
+    expected: null
+    min: 1
+    max: 5
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range
+    field: scores.style
+    expected: null
+    min: 1
+    max: 5
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range
+    field: scores.weighted_score
+    expected: null
+    min: 1.0
+    max: 5.0
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range
+    field: target_ref.span.end_line
+    expected: null
+    min: 1
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range
+    field: target_ref.span.start_line
+    expected: null
+    min: 1
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range
+    field: verdict.confidence
+    expected: null
+    min: 0.0
+    max: 1.0
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range_inferred
+    field: scores.correctness
+    expected: null
+    min: 1.0
+    max: 5.0
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range_inferred
+    field: scores.safety
+    expected: null
+    min: 1.0
+    max: 5.0
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range_inferred
+    field: scores.style
+    expected: null
+    min: 1.0
+    max: 5.0
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range_inferred
+    field: scores.weighted_score
+    expected: null
+    min: 1.6
+    max: 4.7
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range_inferred
+    field: target_ref.span.end_line
+    expected: null
+    min: 27.0
+    max: 251.0
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range_inferred
+    field: target_ref.span.start_line
+    expected: null
+    min: 6.0
+    max: 197.0
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range_inferred
+    field: verdict.confidence
+    expected: null
+    min: 0.23729428845724088
+    max: 0.9398587553150571
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: regex
+    field: model.name
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: ^(gpt|claude)-.+$
+    required_fields: null
+    group_by: null
+  - type: regex
+    field: verdict.rationale
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: ^(Auto)-.+$
+    required_fields: null
+    group_by: null
+  - type: row_count_min
+    field: null
+    expected: null
+    min: 50
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: created_at
+    expected: datetime
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: intent_id
+    expected: uuid
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: model.name
+    expected: string
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: model.provider
+    expected: string
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: scores.correctness
+    expected: integer
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: scores.safety
+    expected: integer
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: scores.style
+    expected: integer
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: scores.weighted_score
+    expected: number
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: scores.weights
+    expected: object
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: target_ref.file
+    expected: string
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: target_ref.span.end_line
+    expected: integer
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: target_ref.span.start_line
+    expected: integer
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: trace_id
+    expected: uuid
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: verdict.confidence
+    expected: number
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: verdict.label
+    expected: string
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: verdict.rationale
+    expected: string
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: verdict_id
+    expected: uuid
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: unique
+    field: verdict_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: uuid_v4
+    field: intent_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: uuid_v4
+    field: trace_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: uuid_v4
+    field: verdict_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: weighted_score_math
+    field: null
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: zscore_drift
+    field: scores.correctness
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: zscore_drift
+    field: scores.safety
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: zscore_drift
+    field: scores.style
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: zscore_drift
+    field: scores.weighted_score
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: zscore_drift
+    field: target_ref.span.end_line
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: zscore_drift
+    field: target_ref.span.start_line
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: zscore_drift
+    field: verdict.confidence
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null

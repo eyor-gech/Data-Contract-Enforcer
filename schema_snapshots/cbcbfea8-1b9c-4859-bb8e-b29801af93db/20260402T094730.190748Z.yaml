@@ -1,0 +1,414 @@
+snapshot_version: 1.0.0
+captured_at: 20260402T094730.190748Z
+contract:
+  id: cbcbfea8-1b9c-4859-bb8e-b29801af93db
+  name: week5_events_contract
+  version: 1.0.0
+  domain: tenx
+  dataProduct: week7_data_contract_enforcer
+schema:
+  fields:
+  - name: event_id
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: event_type
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: event_version
+    logical_type: integer
+    required: true
+    array_item_type: null
+  - name: global_position
+    logical_type: integer
+    required: true
+    array_item_type: null
+  - name: metadata.causation_id
+    logical_type: string
+    required: false
+    array_item_type: null
+  - name: metadata.correlation_id
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: metadata.generated_by
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: payload
+    logical_type: object
+    required: true
+    array_item_type: null
+  - name: recorded_at
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: stream_id
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: trace_id
+    logical_type: string
+    required: true
+    array_item_type: null
+  quality_rule_fingerprint:
+  - type: datetime_iso8601
+    field: recorded_at
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: enum
+    field: event_type
+    expected: null
+    min: null
+    max: null
+    values:
+    - DocumentAdded
+    - DocumentUploaded
+    - ApplicationSubmitted
+    - DocumentUploadRequested
+    - PackageCreated
+    - AgentNodeExecuted
+    - AgentToolCalled
+    - DocumentFormatValidated
+    - ExtractionCompleted
+    - ExtractionStarted
+    - AgentSessionStarted
+    - AgentInputValidated
+    - AgentOutputWritten
+    - AgentSessionCompleted
+    - CreditAnalysisRequested
+    - PackageReadyForAnalysis
+    - QualityAssessmentCompleted
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: event_payload_positive_amount
+    field: null
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: event_payload_required
+    field: null
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: monotonic_increasing
+    field: global_position
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: event_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: event_type
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: event_version
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: global_position
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: metadata.correlation_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: metadata.generated_by
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: payload
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: recorded_at
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: stream_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: trace_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range
+    field: event_version
+    expected: null
+    min: 1
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range
+    field: global_position
+    expected: null
+    min: 1
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range_inferred
+    field: event_version
+    expected: null
+    min: 1.0
+    max: 1.0
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range_inferred
+    field: global_position
+    expected: null
+    min: 3.0
+    max: 198.0
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: regex
+    field: metadata.correlation_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: ^(corr)-.+$
+    required_fields: null
+    group_by: null
+  - type: regex
+    field: stream_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: ^(docpkg|loan|agent)-.+$
+    required_fields: null
+    group_by: null
+  - type: row_count_min
+    field: null
+    expected: null
+    min: 50
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: event_id
+    expected: uuid
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: event_type
+    expected: string
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: event_version
+    expected: integer
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: global_position
+    expected: integer
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: metadata.causation_id
+    expected: string
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: metadata.correlation_id
+    expected: string
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: metadata.generated_by
+    expected: string
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: payload
+    expected: object
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: recorded_at
+    expected: datetime
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: stream_id
+    expected: string
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: trace_id
+    expected: uuid
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: unique
+    field: event_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: uuid_v4
+    field: event_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: uuid_v4
+    field: trace_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: zscore_drift
+    field: event_version
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: zscore_drift
+    field: global_position
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null

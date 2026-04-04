@@ -1,0 +1,612 @@
+snapshot_version: 1.0.0
+captured_at: 20260402T092628Z
+contract:
+  id: 3b1a7b04-64a3-419d-b0bc-331d8b86b663
+  name: traces_runs_contract
+  version: 1.0.0
+  domain: tenx
+  dataProduct: week7_data_contract_enforcer
+schema:
+  fields:
+  - name: completion_tokens
+    logical_type: integer
+    required: true
+    array_item_type: null
+  - name: cost_usd
+    logical_type: number
+    required: true
+    array_item_type: null
+  - name: end_time
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: error
+    logical_type: object
+    required: false
+    array_item_type: null
+  - name: inputs
+    logical_type: object
+    required: true
+    array_item_type: null
+  - name: latency_ms
+    logical_type: number
+    required: true
+    array_item_type: null
+  - name: name
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: outputs
+    logical_type: object
+    required: true
+    array_item_type: null
+  - name: project
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: prompt_tokens
+    logical_type: integer
+    required: true
+    array_item_type: null
+  - name: provider
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: run_id
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: start_time
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: status
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: total_tokens
+    logical_type: integer
+    required: true
+    array_item_type: null
+  - name: trace_id
+    logical_type: string
+    required: true
+    array_item_type: null
+  quality_rule_fingerprint:
+  - type: datetime_iso8601
+    field: end_time
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: datetime_iso8601
+    field: start_time
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: enum
+    field: name
+    expected: null
+    min: null
+    max: null
+    values:
+    - agent_step_0
+    - agent_step_1
+    - agent_step_10
+    - agent_step_11
+    - agent_step_2
+    - agent_step_3
+    - agent_step_4
+    - agent_step_5
+    - agent_step_6
+    - agent_step_7
+    - agent_step_8
+    - agent_step_9
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: enum
+    field: provider
+    expected: null
+    min: null
+    max: null
+    values:
+    - langsmith
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: enum
+    field: status
+    expected: null
+    min: null
+    max: null
+    values:
+    - success
+    - error
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: completion_tokens
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: cost_usd
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: end_time
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: inputs
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: latency_ms
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: name
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: outputs
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: project
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: prompt_tokens
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: provider
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: run_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: start_time
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: status
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: total_tokens
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: trace_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range
+    field: completion_tokens
+    expected: null
+    min: 0
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range
+    field: cost_usd
+    expected: null
+    min: 0.0
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range
+    field: latency_ms
+    expected: null
+    min: 0.0
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range
+    field: prompt_tokens
+    expected: null
+    min: 0
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range
+    field: total_tokens
+    expected: null
+    min: 0
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range_inferred
+    field: completion_tokens
+    expected: null
+    min: 15.0
+    max: 395.0
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range_inferred
+    field: cost_usd
+    expected: null
+    min: 0.00027
+    max: 0.002367
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range_inferred
+    field: latency_ms
+    expected: null
+    min: 93.0
+    max: 1983.0
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range_inferred
+    field: prompt_tokens
+    expected: null
+    min: 57.0
+    max: 487.0
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range_inferred
+    field: total_tokens
+    expected: null
+    min: 116.0
+    max: 843.0
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: regex
+    field: project
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: ^(tenx)-.+$
+    required_fields: null
+    group_by: null
+  - type: row_count_min
+    field: null
+    expected: null
+    min: 50
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: time_order
+    field: null
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: token_math
+    field: null
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: completion_tokens
+    expected: integer
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: cost_usd
+    expected: number
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: end_time
+    expected: datetime
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: error
+    expected: object
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: inputs
+    expected: object
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: latency_ms
+    expected: number
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: name
+    expected: string
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: outputs
+    expected: object
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: project
+    expected: string
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: prompt_tokens
+    expected: integer
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: provider
+    expected: string
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: run_id
+    expected: uuid
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: start_time
+    expected: datetime
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: status
+    expected: string
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: total_tokens
+    expected: integer
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: trace_id
+    expected: uuid
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: unique
+    field: run_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: uuid_v4
+    field: run_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: uuid_v4
+    field: trace_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: zscore_drift
+    field: completion_tokens
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: zscore_drift
+    field: cost_usd
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: zscore_drift
+    field: latency_ms
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: zscore_drift
+    field: prompt_tokens
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: zscore_drift
+    field: total_tokens
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null

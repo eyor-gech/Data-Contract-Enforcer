@@ -1,0 +1,34 @@
+{
+  "contracts": {
+    "7fd02684-e381-45a7-b623-71c9f752f9ab": {
+      "week3_extractions": {
+        "confidence": {
+          "mean": 0.5529999999999999,
+          "n": 200,
+          "stdev": 0.39848588431712356
+        },
+        "cost_usd": {
+          "mean": 0.0,
+          "n": 200,
+          "stdev": 0.0
+        },
+        "page_number": {
+          "mean": 33.955,
+          "n": 200,
+          "stdev": 26.985236241322774
+        },
+        "processing_time_ms": {
+          "mean": 8596.84737550182,
+          "n": 200,
+          "stdev": 6355.05497008448
+        },
+        "threshold": {
+          "mean": 0.7,
+          "n": 200,
+          "stdev": 0.0
+        }
+      }
+    }
+  },
+  "version": "1.0.0"
+}

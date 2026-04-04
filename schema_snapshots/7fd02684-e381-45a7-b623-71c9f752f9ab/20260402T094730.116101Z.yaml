@@ -1,0 +1,566 @@
+snapshot_version: 1.0.0
+captured_at: 20260402T094730.116101Z
+contract:
+  id: 7fd02684-e381-45a7-b623-71c9f752f9ab
+  name: week3_extractions_contract
+  version: 1.0.0
+  domain: tenx
+  dataProduct: week7_data_contract_enforcer
+schema:
+  fields:
+  - name: confidence
+    logical_type: number
+    required: true
+    array_item_type: null
+  - name: cost_usd
+    logical_type: number
+    required: true
+    array_item_type: null
+  - name: created_at
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: doc_id
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: doc_key
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: extraction_id
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: flags.escalated
+    logical_type: boolean
+    required: true
+    array_item_type: null
+  - name: flags.flagged_for_review
+    logical_type: boolean
+    required: true
+    array_item_type: null
+  - name: labels
+    logical_type: array
+    required: true
+    array_item_type: null
+  - name: page_number
+    logical_type: integer
+    required: true
+    array_item_type: null
+  - name: processing_time_ms
+    logical_type: number
+    required: true
+    array_item_type: null
+  - name: strategy.name
+    logical_type: string
+    required: true
+    array_item_type: null
+  - name: text
+    logical_type: string
+    required: false
+    array_item_type: null
+  - name: threshold
+    logical_type: number
+    required: true
+    array_item_type: null
+  - name: trace_id
+    logical_type: string
+    required: true
+    array_item_type: null
+  quality_rule_fingerprint:
+  - type: datetime_iso8601
+    field: created_at
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: enum
+    field: doc_key
+    expected: null
+    min: null
+    max: null
+    values:
+    - Annual_Report_JUNE-2023
+    - tax_expenditure_ethiopia_2021_22
+    - 20191010_Pharmaceutical-Manufacturing-Opportunites-in-Ethiopia_VF
+    - Consumer Price Index August 2025
+    - Consumer Price Index July 2025
+    - 2013-E.C-Audit-finding-information
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: enum
+    field: strategy.name
+    expected: null
+    min: null
+    max: null
+    values:
+    - vision
+    - ocr
+    - hybrid
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: if_confidence_below_threshold_flag
+    field: null
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: confidence
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: cost_usd
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: created_at
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: doc_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: doc_key
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: extraction_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: flags.escalated
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: flags.flagged_for_review
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: labels
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: page_number
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: processing_time_ms
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: strategy.name
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: threshold
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: not_null
+    field: trace_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range
+    field: confidence
+    expected: null
+    min: 0.0
+    max: 1.0
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range
+    field: cost_usd
+    expected: null
+    min: 0.0
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range
+    field: page_number
+    expected: null
+    min: 1
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range
+    field: processing_time_ms
+    expected: null
+    min: 0.0
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range
+    field: threshold
+    expected: null
+    min: 0.0
+    max: 1.0
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range_inferred
+    field: confidence
+    expected: null
+    min: 0.2
+    max: 1.0
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range_inferred
+    field: cost_usd
+    expected: null
+    min: 0.0
+    max: 0.0
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range_inferred
+    field: page_number
+    expected: null
+    min: 1.0
+    max: 94.0
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range_inferred
+    field: processing_time_ms
+    expected: null
+    min: 3180.9909000294283
+    max: 30567.873699998017
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: range_inferred
+    field: threshold
+    expected: null
+    min: 0.7
+    max: 0.7
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: relationships
+    field: doc_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: row_count_min
+    field: null
+    expected: null
+    min: 50
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: confidence
+    expected: number
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: cost_usd
+    expected: number
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: created_at
+    expected: datetime
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: doc_id
+    expected: uuid
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: doc_key
+    expected: string
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: extraction_id
+    expected: uuid
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: flags.escalated
+    expected: boolean
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: flags.flagged_for_review
+    expected: boolean
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: labels
+    expected: array
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: page_number
+    expected: integer
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: processing_time_ms
+    expected: number
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: strategy.name
+    expected: string
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: text
+    expected: string
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: threshold
+    expected: number
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: type
+    field: trace_id
+    expected: uuid
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: unique
+    field: extraction_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: uuid_v4
+    field: doc_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: uuid_v4
+    field: extraction_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: uuid_v4
+    field: trace_id
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: zscore_drift
+    field: confidence
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: zscore_drift
+    field: cost_usd
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: zscore_drift
+    field: page_number
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: zscore_drift
+    field: processing_time_ms
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
+  - type: zscore_drift
+    field: threshold
+    expected: null
+    min: null
+    max: null
+    values: null
+    pattern: null
+    required_fields: null
+    group_by: null
