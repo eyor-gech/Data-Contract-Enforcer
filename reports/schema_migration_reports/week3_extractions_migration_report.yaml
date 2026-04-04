@@ -1,5 +1,5 @@
-report_version: 1.0.0
-generated_at: 20260404T062449.730586Z
+report_version: 1.1.0
+generated_at: 20260404T081436.786147Z
 contract_path: generated_contracts/week3_extractions.yaml
 snapshots:
   from: schema_snapshots\7fd02684-e381-45a7-b623-71c9f752f9ab\20260402T094730.492585Z.yaml
@@ -7,6 +7,124 @@ snapshots:
 compatibility:
   verdict: COMPATIBLE
   reasons: []
+change_taxonomy:
+  taxonomy_version: 1.0.0
+  definitions:
+    FIELD_ADDED_NULLABLE:
+      compatibility: COMPATIBLE
+      severity: LOW
+    FIELD_ADDED_REQUIRED:
+      compatibility: BREAKING
+      severity: HIGH
+    FIELD_REMOVED:
+      compatibility: BREAKING
+      severity: HIGH
+    FIELD_RENAMED:
+      compatibility: BREAKING
+      severity: HIGH
+    TYPE_WIDENED:
+      compatibility: COMPATIBLE
+      severity: LOW
+    TYPE_NARROWED:
+      compatibility: BREAKING
+      severity: CRITICAL
+    REQUIREDNESS_TIGHTENED:
+      compatibility: BREAKING
+      severity: HIGH
+    REQUIREDNESS_LOOSENED:
+      compatibility: COMPATIBLE
+      severity: LOW
+    ENUM_VALUE_ADDED:
+      compatibility: COMPATIBLE
+      severity: LOW
+    ENUM_VALUE_REMOVED:
+      compatibility: BREAKING
+      severity: HIGH
+    RANGE_NARROWED:
+      compatibility: BREAKING
+      severity: HIGH
+    RANGE_WIDENED:
+      compatibility: COMPATIBLE
+      severity: LOW
+    ARRAY_ITEM_TYPE_CHANGED:
+      compatibility: BREAKING
+      severity: HIGH
+  detected:
+  - change_type: RANGE_WIDENED
+    field: confidence
+    compatibility: COMPATIBLE
+    severity: LOW
+    from:
+      min: null
+      max: null
+    to:
+      min: 0.0
+      max: 1.0
+    rollback_plan: &id001
+    - Re-deploy prior producer version that writes previous schema.
+    - Re-run generator to restore prior contracts and snapshots.
+    - Re-validate and confirm violation rates return to baseline.
+  - change_type: RANGE_WIDENED
+    field: cost_usd
+    compatibility: COMPATIBLE
+    severity: LOW
+    from:
+      min: null
+      max: null
+    to:
+      min: 0.0
+      max: null
+    rollback_plan: &id002
+    - Re-deploy prior producer version that writes previous schema.
+    - Re-run generator to restore prior contracts and snapshots.
+    - Re-validate and confirm violation rates return to baseline.
+  - change_type: RANGE_WIDENED
+    field: page_number
+    compatibility: COMPATIBLE
+    severity: LOW
+    from:
+      min: null
+      max: null
+    to:
+      min: 1
+      max: null
+    rollback_plan: &id003
+    - Re-deploy prior producer version that writes previous schema.
+    - Re-run generator to restore prior contracts and snapshots.
+    - Re-validate and confirm violation rates return to baseline.
+  - change_type: RANGE_WIDENED
+    field: processing_time_ms
+    compatibility: COMPATIBLE
+    severity: LOW
+    from:
+      min: null
+      max: null
+    to:
+      min: 0.0
+      max: null
+    rollback_plan: &id004
+    - Re-deploy prior producer version that writes previous schema.
+    - Re-run generator to restore prior contracts and snapshots.
+    - Re-validate and confirm violation rates return to baseline.
+  - change_type: RANGE_WIDENED
+    field: threshold
+    compatibility: COMPATIBLE
+    severity: LOW
+    from:
+      min: null
+      max: null
+    to:
+      min: 0.0
+      max: 1.0
+    rollback_plan: &id005
+    - Re-deploy prior producer version that writes previous schema.
+    - Re-run generator to restore prior contracts and snapshots.
+    - Re-validate and confirm violation rates return to baseline.
+  summary:
+    total: 5
+    breaking: 0
+    compatible: 5
+    critical: 0
 lineage_blast_radius:
   upstream:
   - week3_extractions
@@ -17,17 +135,44 @@ lineage_blast_radius:
   blast_radius:
     downstream_count: 1
     impact_hint: derived from outputs/week4/lineage_snapshots.jsonl
-per_consumer_impact:
+per_consumer_failure_analysis:
 - consumer: week4_lineage_snapshots
   contamination_depth: 1
+  subscriber_id: week4_lineage_snapshots
+  validation_mode: ENFORCE
+  contact: oncall:data-platform
+  fields_consumed:
+  - doc_id
+  - confidence
+  - threshold
   breaking_fields_matched: []
-  failure_mode: Consumer may fail validation or produce incorrect results if affected
-    fields change without migration.
+  breaking_reasons_matched: {}
+  failure_mode: 'Potential soft risk: schema changed but does not match declared breaking
+    fields; monitor for latent coupling.'
+- consumer: week5_events
+  contamination_depth: 2
+  subscriber_id: week5_events
+  validation_mode: WARN
+  contact: oncall:data-platform
+  fields_consumed:
+  - edges
+  - nodes
+  breaking_fields_matched: []
+  breaking_reasons_matched: {}
+  failure_mode: 'Potential soft risk: schema changed but does not match declared breaking
+    fields; monitor for latent coupling.'
 - consumer: week7_enforcer
   contamination_depth: 2
+  subscriber_id: week7_enforcer
+  validation_mode: ENFORCE
+  contact: oncall:data-platform
+  fields_consumed:
+  - edges
+  - nodes
   breaking_fields_matched: []
-  failure_mode: Consumer may fail validation or produce incorrect results if affected
-    fields change without migration.
+  breaking_reasons_matched: {}
+  failure_mode: 'Potential soft risk: schema changed but does not match declared breaking
+    fields; monitor for latent coupling.'
 exact_diff: "--- schema_snapshots\\7fd02684-e381-45a7-b623-71c9f752f9ab\\20260402T094730.492585Z.yaml\n\
   +++ schema_snapshots\\7fd02684-e381-45a7-b623-71c9f752f9ab\\20260404T061141.195846Z.yaml\n\
   @@ -1,5 +1,5 @@\n snapshot_version: 1.0.0\n-captured_at: 20260402T094730.492585Z\n\
@@ -67,7 +212,29 @@ migration_checklist:
 - Validate using ValidationRunner + AI extensions on staging.
 - Promote to production and monitor violation rates.
 rollback_plan:
-- Re-deploy prior producer version that writes previous schema.
-- Re-run generator to restore prior contracts.
-- Re-validate and confirm violation rates return to baseline.
-- Backfill/replay events from last known good offset if needed.
+  overall:
+  - Re-deploy prior producer version that writes previous schema.
+  - Re-run generator to restore prior contracts.
+  - Re-validate and confirm violation rates return to baseline.
+  - Backfill/replay events from last known good offset if needed.
+  per_change:
+  - field: confidence
+    change_type: RANGE_WIDENED
+    severity: LOW
+    rollback_plan: *id001
+  - field: cost_usd
+    change_type: RANGE_WIDENED
+    severity: LOW
+    rollback_plan: *id002
+  - field: page_number
+    change_type: RANGE_WIDENED
+    severity: LOW
+    rollback_plan: *id003
+  - field: processing_time_ms
+    change_type: RANGE_WIDENED
+    severity: LOW
+    rollback_plan: *id004
+  - field: threshold
+    change_type: RANGE_WIDENED
+    severity: LOW
+    rollback_plan: *id005
