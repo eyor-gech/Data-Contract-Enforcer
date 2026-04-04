@@ -1,0 +1,341 @@
+diff --git a/contracts/runner.py b/contracts/runner.py
+index 24d9671..b908f64 100644
+--- a/contracts/runner.py
++++ b/contracts/runner.py
+@@ -13,7 +13,62 @@ from typing import Any
+ 
+ import yaml
+ 
+-from contracts.utils import Violation, is_uuid_v4, parse_iso8601, read_jsonl, safe_float, safe_int, safe_mkdir
++from contracts.utils import Violation, is_uuid_v4, now_utc_iso, parse_iso8601, read_jsonl, safe_float, safe_int, safe_mkdir, stable_uuid_v4
++
++
++def _load_numeric_baseline() -> dict[str, Any]:
++    path = os.path.join("schema_snapshots", "baselines.json")
++    if not os.path.exists(path):
++        return {}
++    try:
++        with open(path, "r", encoding="utf-8") as f:
++            obj = json.load(f)
++            return obj if isinstance(obj, dict) else {}
++    except Exception:
++        return {}
++
++
++def _baseline_stats_for(contract_id: str, dataset: str) -> dict[str, dict[str, Any]]:
++    b = _load_numeric_baseline()
++    contracts = b.get("contracts")
++    if not isinstance(contracts, dict):
++        return {}
++    c = contracts.get(contract_id)
++    if not isinstance(c, dict):
++        return {}
++    ds = c.get(dataset)
++    if not isinstance(ds, dict):
++        return {}
++    out: dict[str, dict[str, Any]] = {}
++    for k, v in ds.items():
++        if isinstance(k, str) and isinstance(v, dict):
++            out[k] = v
++    return out
++
++
++def _latest_snapshot_id(contract_id: str) -> str | None:
++    d = os.path.join("schema_snapshots", contract_id)
++    if not os.path.isdir(d):
++        return None
++    snaps = sorted([f for f in os.listdir(d) if f.endswith(".yaml")])
++    return snaps[-1] if snaps else None
++
++
++def _expected_from_rule(rule: dict[str, Any]) -> Any:
++    rtype = str(rule.get("type") or "")
++    if rtype in ("range", "range_inferred"):
++        return {"min": rule.get("min"), "max": rule.get("max")}
++    if rtype == "enum":
++        return {"values": rule.get("values")}
++    if rtype in ("uuid_v4", "regex"):
++        return {"pattern": rule.get("pattern")}
++    if rtype in ("not_null",):
++        return {"required": True}
++    if rtype in ("relationships",):
++        return {"to_dataset": rule.get("to_dataset"), "field": rule.get("field"), "ref_field": rule.get("ref_field")}
++    if "expected" in rule:
++        return {"expected": rule.get("expected")}
++    return {}
+ 
+ 
+ def _read_jsonl_with_line_no(path: str) -> tuple[list[tuple[int, dict[str, Any]]], int]:
+@@ -66,6 +121,20 @@ def _quality_rules(contract: dict[str, Any]) -> list[dict[str, Any]]:
+     return []
+ 
+ 
++def _contract_required_fields(contract: dict[str, Any]) -> list[str]:
++    schema = contract.get("schema")
++    if not (isinstance(schema, list) and schema and isinstance(schema[0], dict)):
++        return []
++    props = schema[0].get("properties")
++    if not isinstance(props, list):
++        return []
++    out: list[str] = []
++    for p in props:
++        if isinstance(p, dict) and p.get("required") is True and isinstance(p.get("name"), str):
++            out.append(p["name"])
++    return sorted(set(out))
++
++
+ def _severity_for_rule(rule_type: str) -> str:
+     if rule_type in ("uuid_v4", "datetime_iso8601"):
+         return "HIGH"
+@@ -721,6 +790,62 @@ def _relationship_reference_values(to_dataset: str, to_field: str) -> set[str] |
+     return doc_ids
+ 
+ 
++def _baseline_drift_checks(
++    dataset: str,
++    indexed_rows: list[tuple[int, dict[str, Any]]],
++    baseline: dict[str, dict[str, Any]],
++) -> list[Violation]:
++    """
++    Baseline drift is a dataset-level statistical check.
++    WARNING at 2σ (MEDIUM), FAIL at 3σ (HIGH).
++    """
++    if not baseline:
++        return []
++    sums: dict[str, float] = defaultdict(float)
++    counts: dict[str, int] = defaultdict(int)
++    for _, row in indexed_rows:
++        for field in baseline.keys():
++            v = safe_float(_get_path(row, field))
++            if v is None:
++                continue
++            sums[field] += float(v)
++            counts[field] += 1
++
++    vios: list[Violation] = []
++    for field in sorted(baseline.keys()):
++        b = baseline.get(field) or {}
++        mean0 = safe_float(b.get("mean"))
++        std0 = safe_float(b.get("stdev"))
++        if mean0 is None or std0 is None or std0 <= 1e-12:
++            continue
++        n = counts.get(field, 0)
++        if n <= 0:
++            continue
++        mean1 = sums[field] / n
++        z = abs((mean1 - mean0) / std0)
++        if z < 2.0:
++            continue
++        severity = "MEDIUM" if z < 3.0 else "HIGH"
++        msg = (
++            f"Baseline drift detected: z={z:.3f} (warn>=2, fail>=3); "
++            f"baseline_mean={mean0:.6f}, current_mean={mean1:.6f}, baseline_std={std0:.6f}"
++        )
++        vios.append(
++            Violation(
++                vtype="STATISTICAL",
++                field=field,
++                severity=severity,
++                count=1,
++                root_cause=dataset,
++                lineage_path=_blame_chain(dataset),
++                clause_id=f"baseline_drift:{field}",
++                message=msg,
++                samples=[{"baseline_mean": mean0, "current_mean": mean1, "baseline_std": std0, "z": z, "n": n}],
++            )
++        )
++    return vios
++
++
+ def _semantic_checks(dataset: str, rows: list[dict[str, Any]]) -> list[Violation]:
+     aux = _load_aux_paths()
+     vios: list[Violation] = []
+@@ -913,7 +1038,9 @@ def run_validation(contract_path: str, data_path: str, report_path: str | None =
+         contract = {"_parse_error": str(e)}
+ 
+     dataset = _contract_dataset_name(contract) if isinstance(contract, dict) else "unknown_dataset"
++    contract_id = str(contract.get("id") or "") if isinstance(contract, dict) else ""
+     rules = _quality_rules(contract) if isinstance(contract, dict) else []
++    required_fields = _contract_required_fields(contract) if isinstance(contract, dict) else []
+ 
+     indexed_rows, parse_errors = _read_jsonl_with_line_no(data_path)
+     rows_only: list[dict[str, Any]] = [r for _, r in indexed_rows]
+@@ -921,6 +1048,31 @@ def run_validation(contract_path: str, data_path: str, report_path: str | None =
+     violations: list[Violation] = []
+     failed_row_lines: set[int] = set()
+ 
++    # Missing-column detection (no crash): if a required field is absent in ~all rows, emit explicit error.
++    try:
++        if required_fields and rows_only:
++            for field in required_fields:
++                present = 0
++                for row in rows_only[:2000]:
++                    if _get_path(row, field) is not None:
++                        present += 1
++                if present == 0:
++                    violations.append(
++                        Violation(
++                            vtype="SCHEMA",
++                            field=field,
++                            severity="CRITICAL",
++                            count=1,
++                            root_cause=dataset,
++                            lineage_path=_blame_chain(dataset),
++                            clause_id=f"missing_column:{field}",
++                            message="Required column is missing from dataset records (absent in sampled rows).",
++                            samples=[{"sampled_rows": min(len(rows_only), 2000)}],
++                        )
++                    )
++    except Exception:
++        pass
++
+     # dataset row count
+     try:
+         for rule in rules:
+@@ -961,6 +1113,13 @@ def run_validation(contract_path: str, data_path: str, report_path: str | None =
+             )
+         )
+ 
++    # Baseline statistical drift detection (Phase 3): warning at 2σ, fail at 3σ.
++    try:
++        baseline = _baseline_stats_for(contract_id, dataset) if contract_id else {}
++        violations.extend(_baseline_drift_checks(dataset, indexed_rows, baseline))
++    except Exception:
++        pass
++
+     total = len(rows_only)
+     failed_records = min(total, len(failed_row_lines)) if total else 0
+     pass_rate = float((total - failed_records) / total) if total else 0.0
+@@ -971,7 +1130,105 @@ def run_validation(contract_path: str, data_path: str, report_path: str | None =
+     rows_affected = int(failed_records)
+     failure_rate = float(rows_affected / total) if total else 0.0
+ 
++    # Mastered report object (additive; legacy keys preserved below).
++    run_timestamp = now_utc_iso()
++    snapshot_id = _latest_snapshot_id(contract_id) if contract_id else None
++    report_id = stable_uuid_v4(f"{contract_id}:{snapshot_id or ''}:{run_timestamp}")
++
++    v_by_clause: dict[str, list[Violation]] = defaultdict(list)
++    for v in violations:
++        if v.clause_id:
++            v_by_clause[str(v.clause_id)].append(v)
++
++    results: list[dict[str, Any]] = []
++    # Structural/error checks
++    if parse_errors:
++        results.append(
++            {
++                "check_id": "parse_errors",
++                "status": "ERROR",
++                "severity": "CRITICAL",
++                "actual_value": int(parse_errors),
++                "expected": 0,
++                "message": "JSONL parse errors detected; upstream producer emitted invalid JSON.",
++            }
++        )
++
++    for cid, vs in sorted(v_by_clause.items(), key=lambda t: t[0]):
++        if cid.startswith("missing_column:"):
++            v0 = vs[0]
++            results.append(
++                {
++                    "check_id": cid,
++                    "status": "ERROR",
++                    "severity": v0.severity,
++                    "actual_value": "missing",
++                    "expected": "present",
++                    "message": v0.message or "Required column missing.",
++                }
++            )
++
++    # Rule-based checks (contract rules)
++    for rule in rules:
++        cid = str(rule.get("clause_id") or f"{rule.get('type')}:{rule.get('field')}")
++        if cid in v_by_clause and not cid.startswith("missing_column:"):
++            v0 = v_by_clause[cid][0]
++            st = "WARN" if (cid.startswith("baseline_drift:") and str(v0.severity).upper() == "MEDIUM") else "FAIL"
++            results.append(
++                {
++                    "check_id": cid,
++                    "status": st,
++                    "severity": v0.severity,
++                    "actual_value": None,
++                    "expected": _expected_from_rule(rule),
++                    "message": v0.message or "Contract check failed.",
++                }
++            )
++        else:
++            results.append(
++                {
++                    "check_id": cid,
++                    "status": "PASS",
++                    "severity": "LOW",
++                    "actual_value": None,
++                    "expected": _expected_from_rule(rule),
++                    "message": "Contract check passed.",
++                }
++            )
++
++    # Drift checks (baseline drift violations are not contract rules)
++    for cid, vs in sorted(v_by_clause.items(), key=lambda t: t[0]):
++        if cid.startswith("baseline_drift:"):
++            v0 = vs[0]
++            st = "WARN" if str(v0.severity).upper() == "MEDIUM" else "FAIL"
++            results.append(
++                {
++                    "check_id": cid,
++                    "status": st,
++                    "severity": v0.severity,
++                    "actual_value": {"observed": "mean_shift"},
++                    "expected": {"warn_at_sigma": 2, "fail_at_sigma": 3},
++                    "message": v0.message or "Baseline drift detected.",
++                }
++            )
++
++    total_checks = len(results)
++    passed = sum(1 for r in results if r.get("status") == "PASS")
++    warned = sum(1 for r in results if r.get("status") == "WARN")
++    failed = sum(1 for r in results if r.get("status") == "FAIL")
++    errored = sum(1 for r in results if r.get("status") == "ERROR")
++
+     report = {
++        "report_id": report_id,
++        "contract_id": contract_id,
++        "snapshot_id": snapshot_id,
++        "run_timestamp": run_timestamp,
++        "total_checks": int(total_checks),
++        "passed": int(passed),
++        "failed": int(failed),
++        "warned": int(warned),
++        "errored": int(errored),
++        "results": results,
+         "status": status,
+         "violations": [
+             {
+@@ -1015,10 +1272,26 @@ def main() -> int:
+     parser.add_argument("--contract", required=True)
+     parser.add_argument("--data", required=True)
+     parser.add_argument("--report", required=False)
++    parser.add_argument(
++        "--mode",
++        default="STRICT",
++        choices=["AUDIT", "WARN", "ENFORCE", "STRICT"],
++        help="AUDIT=log only; WARN=block on CRITICAL; ENFORCE=block on CRITICAL+HIGH; STRICT=block on any violation (default).",
++    )
+     args = parser.parse_args()
+     try:
+         report = run_validation(args.contract, args.data, args.report)
+         print(json.dumps(report.get("summary", {}), ensure_ascii=False))
++        mode = str(args.mode or "STRICT").upper()
++        vios = report.get("violations") or []
++        severities = {str(v.get("severity") or "").upper() for v in vios if isinstance(v, dict)}
++        if mode == "AUDIT":
++            return 0
++        if mode == "WARN":
++            return 1 if "CRITICAL" in severities else 0
++        if mode == "ENFORCE":
++            return 1 if ("CRITICAL" in severities or "HIGH" in severities) else 0
++        # STRICT: preserve legacy behavior (any violation fails).
+         return 0 if report.get("status") == "PASS" else 1
+     except Exception as e:
+         safe_mkdir("validation_reports")

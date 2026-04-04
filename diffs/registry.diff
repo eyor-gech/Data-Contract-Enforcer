@@ -1,0 +1,125 @@
+diff --git a/contract_registry/subscriptions.yaml b/contract_registry/subscriptions.yaml
+new file mode 100644
+index 0000000..ed7d876
+--- /dev/null
++++ b/contract_registry/subscriptions.yaml
+@@ -0,0 +1,119 @@
++version: 2
++description: "Dataset dependency registry for Week 7 enforcer. Used for attribution, consumer impact, and schema evolution reports."
++
++subscriptions:
++  # Week 1 -> Week 2
++  - contract_id: 6633b9ad-fdee-4e3c-a406-b5e479b029e9
++    subscriber_id: week2_verdicts
++    from: week1_intent_records
++    to: week2_verdicts
++    fields_consumed: [intent.code_refs, target_ref.file, trace_id]
++    breaking_fields: [intent.code_refs, target_ref.file]
++    breaking_reasons:
++      intent.code_refs: "Breaks code reference alignment across intent->verdict mapping."
++      target_ref.file: "Breaks target resolution for downstream validation."
++    validation_mode: ENFORCE
++    registered_at: "2026-04-04T00:00:00Z"
++    contact: "oncall:data-platform"
++
++  # Week 2 -> Week 3
++  - contract_id: 7fd02684-e381-45a7-b623-71c9f752f9ab
++    subscriber_id: week3_extractions
++    from: week2_verdicts
++    to: week3_extractions
++    fields_consumed: [trace_id, verdict.confidence, scores.weighted_score]
++    breaking_fields: [verdict.confidence, scores.weighted_score]
++    breaking_reasons:
++      verdict.confidence: "Schema/type drift breaks extraction routing and confidence semantics."
++      scores.weighted_score: "Weighted score drift breaks downstream prioritization."
++    validation_mode: WARN
++    registered_at: "2026-04-04T00:00:00Z"
++    contact: "oncall:data-platform"
++
++  # Week 3 -> Week 4 (required)
++  - contract_id: 7fd02684-e381-45a7-b623-71c9f752f9ab
++    subscriber_id: week4_lineage_snapshots
++    from: week3_extractions
++    to: week4_lineage_snapshots
++    fields_consumed: [doc_id, confidence, threshold]
++    breaking_fields: [doc_id, confidence, threshold]
++    breaking_reasons:
++      doc_id: "Breaks referential integrity into Cartographer nodes."
++      confidence: "Breaks probability-scale expectations and downstream filtering."
++      threshold: "Breaks low-confidence flag workflow."
++    validation_mode: ENFORCE
++    registered_at: "2026-04-04T00:00:00Z"
++    contact: "oncall:data-platform"
++
++  # Week 4 -> Week 5 (event-sourcing consumer surface)
++  - contract_id: cbcbfea8-1b9c-4859-bb8e-b29801af93db
++    subscriber_id: week5_events
++    from: week4_lineage_snapshots
++    to: week5_events
++    fields_consumed: [edges, nodes]
++    breaking_fields: [edges, nodes]
++    breaking_reasons:
++      edges: "Lineage edge drift breaks downstream attribution and replay."
++      nodes: "Node schema drift breaks entity resolution."
++    validation_mode: WARN
++    registered_at: "2026-04-04T00:00:00Z"
++    contact: "oncall:data-platform"
++
++  # Week 5 -> Week 7 (required)
++  - contract_id: cbcbfea8-1b9c-4859-bb8e-b29801af93db
++    subscriber_id: week7_enforcer
++    from: week5_events
++    to: week7_enforcer
++    fields_consumed: [global_position, event_type, payload, recorded_at]
++    breaking_fields: [global_position, event_type, payload, recorded_at]
++    breaking_reasons:
++      global_position: "Breaks monotonic ordering and replay correctness."
++      event_type: "Breaks payload schema selection."
++      payload: "Breaks event semantic validation and joins."
++      recorded_at: "Breaks temporal ordering and latency computation."
++    validation_mode: ENFORCE
++    registered_at: "2026-04-04T00:00:00Z"
++    contact: "oncall:data-platform"
++
++  # LangSmith/Tracing -> Week 7 (required)
++  - contract_id: 3b1a7b04-64a3-419d-b0bc-331d8b86b663
++    subscriber_id: week7_enforcer
++    from: traces_runs
++    to: week7_enforcer
++    fields_consumed: [total_tokens, prompt_tokens, completion_tokens, start_time, end_time]
++    breaking_fields: [total_tokens, start_time, end_time]
++    breaking_reasons:
++      total_tokens: "Breaks cost and usage accounting (token math invariants)."
++      start_time: "Breaks latency computation and SLO reporting."
++      end_time: "Breaks latency computation and timing consistency."
++    validation_mode: ENFORCE
++    registered_at: "2026-04-04T00:00:00Z"
++    contact: "oncall:ai-platform"
++
++  # Week 2 -> Week 7 (direct monitoring surface)
++  - contract_id: 6633b9ad-fdee-4e3c-a406-b5e479b029e9
++    subscriber_id: week7_enforcer
++    from: week2_verdicts
++    to: week7_enforcer
++    fields_consumed: [scores.weighted_score, verdict.confidence]
++    breaking_fields: [scores.weighted_score, verdict.confidence]
++    breaking_reasons:
++      scores.weighted_score: "Breaks health scoring for AI output quality."
++      verdict.confidence: "Breaks downstream confidence-based routing."
++    validation_mode: WARN
++    registered_at: "2026-04-04T00:00:00Z"
++    contact: "oncall:ai-platform"
++
++  # Week 4 -> Week 7 (required)
++  - contract_id: 7fd02684-e381-45a7-b623-71c9f752f9ab
++    subscriber_id: week7_enforcer
++    from: week4_lineage_snapshots
++    to: week7_enforcer
++    fields_consumed: [edges, nodes]
++    breaking_fields: [edges, nodes]
++    breaking_reasons:
++      edges: "Lineage edge drift blocks violation attribution."
++      nodes: "Lineage node drift blocks dataset mapping and impact analysis."
++    validation_mode: ENFORCE
++    registered_at: "2026-04-04T00:00:00Z"
++    contact: "oncall:data-platform"
