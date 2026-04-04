@@ -1,0 +1,32 @@
+report_version: 1.0.0
+generated_at: 20260402T093104.758774Z
+contract_path: generated_contracts\week5_events.yaml
+snapshots:
+  from: schema_snapshots\cbcbfea8-1b9c-4859-bb8e-b29801af93db\20260402T093102.805058Z.yaml
+  to: schema_snapshots\cbcbfea8-1b9c-4859-bb8e-b29801af93db\20260402T093103.176284Z.yaml
+compatibility:
+  verdict: COMPATIBLE
+  reasons: []
+lineage_blast_radius:
+  upstream: []
+  downstream: []
+  blast_radius:
+    downstream_count: 0
+    impact_hint: derived from outputs/week4/lineage_snapshots.jsonl
+exact_diff: "--- schema_snapshots\\cbcbfea8-1b9c-4859-bb8e-b29801af93db\\20260402T093102.805058Z.yaml\n\
+  +++ schema_snapshots\\cbcbfea8-1b9c-4859-bb8e-b29801af93db\\20260402T093103.176284Z.yaml\n\
+  @@ -1,5 +1,5 @@\n snapshot_version: 1.0.0\n-captured_at: 20260402T093102.805058Z\n\
+  +captured_at: 20260402T093103.176284Z\n contract:\n   id: cbcbfea8-1b9c-4859-bb8e-b29801af93db\n\
+  \   name: week5_events_contract"
+migration_checklist:
+- Freeze downstream consumers and announce change window.
+- Add producer-side dual-write (old+new fields) if possible.
+- Backfill historical records for new required fields.
+- Deploy consumer migration with feature flag.
+- Validate using ValidationRunner + AI extensions on staging.
+- Promote to production and monitor violation rates.
+rollback_plan:
+- Re-deploy prior producer version that writes previous schema.
+- Re-run generator to restore prior contracts.
+- Re-validate and confirm violation rates return to baseline.
+- Backfill/replay events from last known good offset if needed.

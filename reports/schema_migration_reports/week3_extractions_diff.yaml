@@ -1,0 +1,16 @@
+from_snapshot: C:\Users\Eyor.G\Documents\Tenx\Data-Contract-Enforcer\schema_snapshots\7fd02684-e381-45a7-b623-71c9f752f9ab\20260402T092628Z.yaml
+to_snapshot: C:\Users\Eyor.G\Documents\Tenx\Data-Contract-Enforcer\schema_snapshots\7fd02684-e381-45a7-b623-71c9f752f9ab\20260402T093103.091950Z.yaml
+changes:
+  added: []
+  removed: []
+  changed: []
+  renames: []
+compatibility:
+  verdict: COMPATIBLE
+  reasons: []
+diff_text: "--- C:\\Users\\Eyor.G\\Documents\\Tenx\\Data-Contract-Enforcer\\schema_snapshots\\\
+  7fd02684-e381-45a7-b623-71c9f752f9ab\\20260402T092628Z.yaml\n+++ C:\\Users\\Eyor.G\\\
+  Documents\\Tenx\\Data-Contract-Enforcer\\schema_snapshots\\7fd02684-e381-45a7-b623-71c9f752f9ab\\\
+  20260402T093103.091950Z.yaml\n@@ -1,5 +1,5 @@\n snapshot_version: 1.0.0\n-captured_at:\
+  \ 20260402T092628Z\n+captured_at: 20260402T093103.091950Z\n contract:\n   id: 7fd02684-e381-45a7-b623-71c9f752f9ab\n\
+  \   name: week3_extractions_contract"

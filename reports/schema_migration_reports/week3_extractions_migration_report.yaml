@@ -1,0 +1,73 @@
+report_version: 1.0.0
+generated_at: 20260404T062449.730586Z
+contract_path: generated_contracts/week3_extractions.yaml
+snapshots:
+  from: schema_snapshots\7fd02684-e381-45a7-b623-71c9f752f9ab\20260402T094730.492585Z.yaml
+  to: schema_snapshots\7fd02684-e381-45a7-b623-71c9f752f9ab\20260404T061141.195846Z.yaml
+compatibility:
+  verdict: COMPATIBLE
+  reasons: []
+lineage_blast_radius:
+  upstream:
+  - week3_extractions
+  downstream:
+  - week4_lineage_snapshots
+  downstream_consumers:
+  - week4_lineage_snapshots
+  blast_radius:
+    downstream_count: 1
+    impact_hint: derived from outputs/week4/lineage_snapshots.jsonl
+per_consumer_impact:
+- consumer: week4_lineage_snapshots
+  contamination_depth: 1
+  breaking_fields_matched: []
+  failure_mode: Consumer may fail validation or produce incorrect results if affected
+    fields change without migration.
+- consumer: week7_enforcer
+  contamination_depth: 2
+  breaking_fields_matched: []
+  failure_mode: Consumer may fail validation or produce incorrect results if affected
+    fields change without migration.
+exact_diff: "--- schema_snapshots\\7fd02684-e381-45a7-b623-71c9f752f9ab\\20260402T094730.492585Z.yaml\n\
+  +++ schema_snapshots\\7fd02684-e381-45a7-b623-71c9f752f9ab\\20260404T061141.195846Z.yaml\n\
+  @@ -1,5 +1,5 @@\n snapshot_version: 1.0.0\n-captured_at: 20260402T094730.492585Z\n\
+  +captured_at: 20260404T061141.195846Z\n contract:\n   id: 7fd02684-e381-45a7-b623-71c9f752f9ab\n\
+  \   name: week3_extractions_contract\n@@ -12,62 +12,92 @@\n     logical_type: number\n\
+  \     required: true\n     array_item_type: null\n+    minimum: 0.0\n+    maximum:\
+  \ 1.0\n   - name: cost_usd\n     logical_type: number\n     required: true\n   \
+  \  array_item_type: null\n+    minimum: 0.0\n+    maximum: null\n   - name: created_at\n\
+  \     logical_type: string\n     required: true\n     array_item_type: null\n+ \
+  \   minimum: null\n+    maximum: null\n   - name: doc_id\n     logical_type: string\n\
+  \     required: true\n     array_item_type: null\n+    minimum: null\n+    maximum:\
+  \ null\n   - name: doc_key\n     logical_type: string\n     required: true\n   \
+  \  array_item_type: null\n+    minimum: null\n+    maximum: null\n   - name: extraction_id\n\
+  \     logical_type: string\n     required: true\n     array_item_type: null\n+ \
+  \   minimum: null\n+    maximum: null\n   - name: flags.escalated\n     logical_type:\
+  \ boolean\n     required: true\n     array_item_type: null\n+    minimum: null\n\
+  +    maximum: null\n   - name: flags.flagged_for_review\n     logical_type: boolean\n\
+  \     required: true\n     array_item_type: null\n+    minimum: null\n+    maximum:\
+  \ null\n   - name: labels\n     logical_type: array\n     required: true\n     array_item_type:\
+  \ null\n+    minimum: null\n+    maximum: null\n   - name: page_number\n     logical_type:\
+  \ integer\n     required: true\n     array_item_type: null\n+    minimum: 1\n+ \
+  \   maximum: null\n   - name: processing_time_ms\n     logical_type: number\n  \
+  \   required: true\n     array_item_type: null\n+    minimum: 0.0\n+    maximum:\
+  \ null\n   - name: strategy.name\n     logical_type: string\n     required: true\n\
+  \     array_item_type: null\n+    minimum: null\n+    maximum: null\n   - name:\
+  \ text\n     logical_type: string\n     required: false\n     array_item_type: null\n\
+  +    minimum: null\n+    maximum: null\n   - name: threshold\n     logical_type:\
+  \ number\n     required: true\n     array_item_type: null\n+    minimum: 0.0\n+\
+  \    maximum: 1.0\n   - name: trace_id\n     logical_type: string\n     required:\
+  \ true\n     array_item_type: null\n+    minimum: null\n+    maximum: null\n   quality_rule_fingerprint:\n\
+  \   - type: datetime_iso8601\n     field: created_at"
+migration_checklist:
+- Freeze downstream consumers and announce change window.
+- Add producer-side dual-write (old+new fields) if possible.
+- Backfill historical records for new required fields.
+- Deploy consumer migration with feature flag.
+- Validate using ValidationRunner + AI extensions on staging.
+- Promote to production and monitor violation rates.
+rollback_plan:
+- Re-deploy prior producer version that writes previous schema.
+- Re-run generator to restore prior contracts.
+- Re-validate and confirm violation rates return to baseline.
+- Backfill/replay events from last known good offset if needed.
