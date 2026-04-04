@@ -11,12 +11,14 @@ import {
 } from "@mui/material";
 
 import ExecutiveSummary from "./pages/ExecutiveSummary/ExecutiveSummary";
+import DemoFlow from "./pages/DemoFlow/DemoFlow";
 import InteractiveDataMap from "./pages/InteractiveDataMap/InteractiveDataMap";
 import DetectiveBooth from "./pages/DetectiveBooth/DetectiveBooth";
 import SchemaEvolution from "./pages/SchemaEvolution/SchemaEvolution";
 import AIQualityLab from "./pages/AIQualityLab/AIQualityLab";
 
 const tabs = [
+  { label: "Guided Demo", path: "/demo" },
   { label: "Executive Summary", path: "/executive" },
   { label: "Interactive Data Map", path: "/map" },
   { label: "Detective’s Booth", path: "/detective" },
@@ -61,7 +63,8 @@ export default function App() {
 
       <Container maxWidth="xl" sx={{ py: 3 }}>
         <Routes>
-          <Route path="/" element={<Navigate to="/executive" replace />} />
+          <Route path="/" element={<Navigate to="/demo" replace />} />
+          <Route path="/demo" element={<DemoFlow />} />
           <Route path="/executive" element={<ExecutiveSummary />} />
           <Route path="/map" element={<InteractiveDataMap />} />
           <Route path="/detective" element={<DetectiveBooth />} />
@@ -73,4 +76,3 @@ export default function App() {
     </Box>
   );
 }
-

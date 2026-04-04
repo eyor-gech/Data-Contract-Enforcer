@@ -6,7 +6,13 @@ import {
   executiveLlmSummarySchema,
   healthResponseSchema,
   llmViolationsResponseSchema,
-  schemaDiffResponseSchema
+  schemaDiffResponseSchema,
+  demoAiExtensionsSchema,
+  demoGenerateContractSchema,
+  demoGenerateReportSchema,
+  demoRunAttributionSchema,
+  demoRunValidationSchema,
+  demoSchemaEvolutionSchema
 } from "./schemas";
 import type {
   NormalizedBlameChain,
@@ -74,7 +80,6 @@ export type ExecutiveLlmBrief = {
   narrative: string;
   risks: string[];
   actions: string[];
-  model?: string;
   generatedAt?: string;
 };
 
@@ -93,8 +98,121 @@ export async function getExecutiveLlmSummary(): Promise<ExecutiveLlmBrief> {
     narrative: d.narrative ?? "",
     risks: d.risks ?? [],
     actions: d.actions ?? [],
-    model: d.model,
     generatedAt: d.generated_at
+  };
+}
+
+export type DemoContractResult = {
+  yaml: string;
+  clauseCount: number;
+  confidenceClause?: unknown;
+  confidenceClausePresent: boolean;
+};
+
+export async function postGenerateContract(): Promise<DemoContractResult> {
+  const res = await http.post("/api/generate-contract", {});
+  const parsed = demoGenerateContractSchema.safeParse(res.data);
+  if (!parsed.success) {
+    throw new Error("Unexpected response from /generate-contract");
+  }
+  const d = parsed.data;
+  return {
+    yaml: d.yaml,
+    clauseCount: d.clause_count ?? 0,
+    confidenceClause: d.highlight_confidence_clause?.clause,
+    confidenceClausePresent: d.highlight_confidence_clause?.present ?? false
+  };
+}
+
+export type DemoCheckRow = {
+  name: string;
+  result: "PASS" | "FAIL";
+  severity?: string;
+  recordsFailing?: number;
+  message?: string;
+};
+
+export async function postRunValidation(): Promise<{ checks: DemoCheckRow[] }> {
+  const res = await http.post("/api/run-validation", {});
+  const parsed = demoRunValidationSchema.safeParse(res.data);
+  if (!parsed.success) throw new Error("Unexpected response from /run-validation");
+  const checks = (parsed.data.checks ?? []).map((c) => ({
+    name: c.name,
+    result: (c.result?.toUpperCase() === "PASS" ? "PASS" : "FAIL") as "PASS" | "FAIL",
+    severity: c.severity,
+    recordsFailing: c.records_failing,
+    message: c.message
+  }));
+  return { checks };
+}
+
+export async function postRunAttribution(): Promise<{
+  lineage: string[];
+  commitHash?: string | null;
+  author?: string | null;
+  blastRadius: string[];
+}> {
+  const res = await http.post("/api/run-attribution", {});
+  const parsed = demoRunAttributionSchema.safeParse(res.data);
+  if (!parsed.success) throw new Error("Unexpected response from /run-attribution");
+  return {
+    lineage: parsed.data.lineage ?? [],
+    commitHash: parsed.data.commit_hash ?? null,
+    author: parsed.data.author ?? null,
+    blastRadius: parsed.data.blast_radius ?? []
+  };
+}
+
+export async function postSchemaEvolution(): Promise<{
+  breakingChange: boolean;
+  classification: string;
+  migrationReport: string;
+  keyActions: string[];
+  riskLevel?: string;
+}> {
+  const res = await http.post("/api/schema-evolution", {});
+  const parsed = demoSchemaEvolutionSchema.safeParse(res.data);
+  if (!parsed.success) throw new Error("Unexpected response from /schema-evolution");
+  return {
+    breakingChange: parsed.data.breaking_change ?? false,
+    classification: parsed.data.classification ?? "UNKNOWN",
+    migrationReport: parsed.data.migration_report ?? "",
+    keyActions: parsed.data.key_actions ?? [],
+    riskLevel: parsed.data.risk_level
+  };
+}
+
+export async function postAiExtensions(): Promise<{
+  embeddingDriftScore: number;
+  promptValidation: string;
+  schemaViolationRate: number;
+  explanation?: string | null;
+  recommendedActions: string[];
+}> {
+  const res = await http.post("/api/ai-extensions", { refresh: false });
+  const parsed = demoAiExtensionsSchema.safeParse(res.data);
+  if (!parsed.success) throw new Error("Unexpected response from /ai-extensions");
+  return {
+    embeddingDriftScore: parsed.data.embedding_drift_score ?? 0,
+    promptValidation: parsed.data.prompt_validation ?? "UNKNOWN",
+    schemaViolationRate: parsed.data.schema_violation_rate ?? 0,
+    explanation: parsed.data.explanation ?? null,
+    recommendedActions: parsed.data.recommended_actions ?? []
+  };
+}
+
+export async function postGenerateReport(): Promise<{
+  dataHealthScore: number;
+  topViolations: string[];
+  narrative?: string | null;
+}> {
+  const res = await http.post("/api/generate-report", { refresh: false });
+  const parsed = demoGenerateReportSchema.safeParse(res.data);
+  if (!parsed.success) throw new Error("Unexpected response from /generate-report");
+  return {
+    dataHealthScore: parsed.data.data_health_score ?? 0,
+    topViolations: parsed.data.top_violations ?? [],
+    narrative: parsed.data.narrative ?? null
   };
 }
 

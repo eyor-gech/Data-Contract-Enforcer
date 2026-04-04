@@ -141,9 +141,18 @@ export default function ExecutiveSummary() {
           </Box>
 
           {llmMutation.isError ? (
-            <Typography color="error" variant="body2" sx={{ mt: 1.5 }}>
-              {String((llmMutation.error as any)?.response?.data?.detail ?? (llmMutation.error as any)?.message ?? llmMutation.error)}
-            </Typography>
+            <Box sx={{ mt: 1.5 }}>
+              <Typography color="error" variant="body2">
+                Couldn’t generate the AI brief.
+              </Typography>
+              <Typography variant="caption" color="text.secondary" sx={{ display: "block", mt: 0.5 }}>
+                {String(
+                  (llmMutation.error as any)?.response?.data?.detail ??
+                    (llmMutation.error as any)?.message ??
+                    llmMutation.error
+                )}
+              </Typography>
+            </Box>
           ) : null}
 
           {llmMutation.data ? (
@@ -195,10 +204,11 @@ export default function ExecutiveSummary() {
                 </Grid>
               </Grid>
 
-              <Typography variant="caption" color="text.secondary" sx={{ display: "block", mt: 1.5 }}>
-                {llmMutation.data.model ? `Model: ${llmMutation.data.model}. ` : ""}
-                {llmMutation.data.generatedAt ? `Generated: ${llmMutation.data.generatedAt}.` : ""}
-              </Typography>
+              {llmMutation.data.generatedAt ? (
+                <Typography variant="caption" color="text.secondary" sx={{ display: "block", mt: 1.5 }}>
+                  Generated: {llmMutation.data.generatedAt}
+                </Typography>
+              ) : null}
             </>
           ) : null}
         </CardContent>

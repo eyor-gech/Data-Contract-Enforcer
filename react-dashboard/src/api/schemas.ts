@@ -146,7 +146,74 @@ export const executiveLlmSummarySchema = z
     narrative: z.string().optional(),
     risks: z.array(z.string()).optional(),
     actions: z.array(z.string()).optional(),
-    model: z.string().optional(),
     generated_at: z.string().optional()
+  })
+  .passthrough();
+
+export const demoGenerateContractSchema = z
+  .object({
+    yaml: z.string(),
+    clause_count: z.number().optional(),
+    highlight_confidence_clause: z
+      .object({
+        present: z.boolean().optional(),
+        clause: z.any().optional()
+      })
+      .optional()
+  })
+  .passthrough();
+
+export const demoRunValidationSchema = z
+  .object({
+    checks: z
+      .array(
+        z.object({
+          name: z.string(),
+          result: z.string(),
+          severity: z.string().optional(),
+          records_failing: z.number().optional(),
+          field: z.string().optional(),
+          message: z.string().optional()
+        })
+      )
+      .optional(),
+    summary: z.any().optional()
+  })
+  .passthrough();
+
+export const demoRunAttributionSchema = z
+  .object({
+    lineage: z.array(z.string()).optional(),
+    commit_hash: z.string().nullable().optional(),
+    author: z.string().nullable().optional(),
+    blast_radius: z.array(z.string()).optional()
+  })
+  .passthrough();
+
+export const demoSchemaEvolutionSchema = z
+  .object({
+    breaking_change: z.boolean().optional(),
+    classification: z.string().optional(),
+    migration_report: z.string().optional(),
+    key_actions: z.array(z.string()).optional(),
+    risk_level: z.string().optional()
+  })
+  .passthrough();
+
+export const demoAiExtensionsSchema = z
+  .object({
+    embedding_drift_score: z.number().optional(),
+    prompt_validation: z.string().optional(),
+    schema_violation_rate: z.number().optional(),
+    explanation: z.string().nullable().optional(),
+    recommended_actions: z.array(z.string()).optional()
+  })
+  .passthrough();
+
+export const demoGenerateReportSchema = z
+  .object({
+    data_health_score: z.number().optional(),
+    top_violations: z.array(z.string()).optional(),
+    narrative: z.string().nullable().optional()
   })
   .passthrough();
