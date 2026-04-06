@@ -380,22 +380,40 @@ def _git_head() -> dict[str, str | None]:
 
 
 def _openrouter_json(*, system: str, user: str) -> dict[str, Any] | None:
-    try:
-        from adapter_api.openrouter_client import OpenRouterError, chat_completion  # type: ignore
+    from adapter_api.openrouter_client import OpenRouterError, chat_completion  # type: ignore
 
-        raw = chat_completion(messages=[{"role": "system", "content": system}, {"role": "user", "content": user}])
+    try:
+        raw = chat_completion(
+            messages=[
+                {"role": "system", "content": system},
+                {"role": "user", "content": user},
+            ]
+        )
+
+        print("DEBUG RAW:", raw)  # 👈 critical
+
         content = None
         try:
             content = (((raw.get("choices") or [])[0] or {}).get("message") or {}).get("content")
-        except Exception:
-            content = None
+        except Exception as e:
+            print("CONTENT PARSE ERROR:", e)
+
         if not isinstance(content, str) or not content.strip():
+            print("EMPTY CONTENT FROM MODEL")
             return None
-        return _extract_json_dict(content)
-    except OpenRouterError:
-        return None
-    except Exception:
-        return None
+
+        parsed = _extract_json_dict(content)
+        print("PARSED JSON:", parsed)
+
+        return parsed
+
+    except OpenRouterError as e:
+        print("OPENROUTER ERROR:", str(e))  # THIS IS WHAT YOU NEED
+        raise  # temporarily raise
+
+    except Exception as e:
+        print("UNEXPECTED ERROR:", str(e))
+        raise  
 
 
 @app.post("/generate-contract")

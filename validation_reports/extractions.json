@@ -1,8 +1,8 @@
 {
-  "report_id": "87cf844c-ff2f-4694-b283-fc9771a37a45",
+  "report_id": "7449dd26-ed89-4fa5-ac32-3ebfad605185",
   "contract_id": "7fd02684-e381-45a7-b623-71c9f752f9ab",
-  "snapshot_id": "20260404T104652.060439Z.yaml",
-  "run_timestamp": "2026-04-04T10:46:56.052796Z",
+  "snapshot_id": "20260404T182653.549181Z.yaml",
+  "run_timestamp": "2026-04-04T18:27:39.603365Z",
   "total_checks": 54,
   "passed": 47,
   "failed": 7,
