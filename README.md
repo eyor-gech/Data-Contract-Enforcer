@@ -1,3 +1,4 @@
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/eyor-gech/Data-Contract-Enforcer)
 # Data Contract Enforcer
 
 **Schema Integrity & Lineage Attribution System**
